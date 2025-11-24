@@ -9,7 +9,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 
 export default function VideoAnalyzer() {
     const videoRef = useRef<HTMLVideoElement>(null);
-    const requestRef = useRef<number>();
+    const requestRef = useRef<number | null>(null);
     const [model, setModel] = useState<tmImage.CustomMobileNet | null>(null);
     const [isPlaying, setIsPlaying] = useState(false);
     const [videoSrc, setVideoSrc] = useState<string | null>('/demo_video.mp4');
@@ -100,11 +100,11 @@ export default function VideoAnalyzer() {
     useEffect(() => {
         if (isPlaying && model) {
             requestRef.current = requestAnimationFrame(predict);
-        } else if (requestRef.current) {
+        } else if (requestRef.current !== null) {
             cancelAnimationFrame(requestRef.current);
         }
         return () => {
-            if (requestRef.current) cancelAnimationFrame(requestRef.current);
+            if (requestRef.current !== null) cancelAnimationFrame(requestRef.current);
         };
     }, [isPlaying, model]);
 
@@ -233,10 +233,10 @@ export default function VideoAnalyzer() {
                                             <div className="w-full bg-white/10 rounded-full h-3 overflow-hidden">
                                                 <div
                                                     className={`h-full rounded-full transition-all duration-300 ${isAccident && isHighConf
-                                                            ? 'bg-red-500'
-                                                            : pred.probability > 0.7
-                                                                ? 'bg-green-500'
-                                                                : 'bg-accent-teal'
+                                                        ? 'bg-red-500'
+                                                        : pred.probability > 0.7
+                                                            ? 'bg-green-500'
+                                                            : 'bg-accent-teal'
                                                         }`}
                                                     style={{ width: `${pred.probability * 100}%` }}
                                                 />
