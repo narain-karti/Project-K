@@ -37,7 +37,8 @@ export default function ChatInterface({ onRouteUpdate }: ChatInterfaceProps) {
     };
 
     useEffect(() => {
-    };
+        scrollToBottom();
+    }, [messages]);
 
     return (
         <div className="flex flex-col h-full bg-black/20 backdrop-blur-xl border-r border-white/10">
