@@ -96,7 +96,7 @@ export default function DashboardPage() {
         avgResponseTime: 87,
         uptime: 99.94,
         accidents: 162,
-        lives Saved: 1847
+        livesSaved: 1847
     };
 
     const exportToCSV = () => {
