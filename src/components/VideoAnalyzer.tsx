@@ -7,6 +7,7 @@ import * as cocoSsd from '@tensorflow-models/coco-ssd';
 import { Upload, Play, Pause, AlertTriangle, CheckCircle, X, Activity, Zap, Clock } from 'lucide-react';
 import { useDetection } from '@/context/DetectionContext';
 import { motion, AnimatePresence } from 'framer-motion';
+import { DetectionStorage } from '@/lib/detectionStorage';
 
 interface PerformanceMetrics {
     fps: number;
@@ -182,6 +183,14 @@ export default function VideoAnalyzer() {
                     setShowAccidentAlert(true);
                     setAccidentDetected(true);
                     setTimeout(() => setShowAccidentAlert(false), 5000);
+
+                    // Save accident detection to storage
+                    DetectionStorage.addDetection({
+                        className: accidentPrediction.className,
+                        confidence: accidentPrediction.probability,
+                        location: { lat: 28.6139 + Math.random() * 0.1, lng: 77.2090 + Math.random() * 0.1 }, // Mock location
+                        isAccident: true
+                    });
                 }
                 setHighConfidence(true);
                 setCurrentDetection('Accident');
@@ -195,6 +204,16 @@ export default function VideoAnalyzer() {
                     setHighConfidence(true);
                     setCurrentDetection(topPrediction.className);
                     setConfidenceLevel(topPrediction.probability);
+
+                    // Save  high-confidence normal detection (every 10th frame to avoid spam)
+                    if (frameCount.current % 10 === 0) {
+                        DetectionStorage.addDetection({
+                            className: topPrediction.className,
+                            confidence: topPrediction.probability,
+                            location: { lat: 28.6139 + Math.random() * 0.1, lng: 77.2090 + Math.random() * 0.1 }, // Mock location
+                            isAccident: false
+                        });
+                    }
                 } else {
                     setHighConfidence(false);
                 }
