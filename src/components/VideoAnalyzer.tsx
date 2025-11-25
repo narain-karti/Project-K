@@ -32,8 +32,14 @@ export default function VideoAnalyzer() {
                 setModel(loadedModel);
                 setIsModelLoading(false);
 
-                if (videoSrc) {
-                    setIsPlaying(true);
+                // Auto-start analysis when model loads and video is ready
+                if (videoSrc && videoRef.current) {
+                    // Give the video a moment to start playing
+                    setTimeout(() => {
+                        if (videoRef.current && !videoRef.current.paused) {
+                            setIsPlaying(true);
+                        }
+                    }, 500);
                 }
             } catch (error) {
                 console.error("Failed to load model:", error);
@@ -43,7 +49,7 @@ export default function VideoAnalyzer() {
         };
 
         loadModel();
-    }, []);
+    }, [videoSrc]);
 
     const handleVideoUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
         const file = event.target.files?.[0];
