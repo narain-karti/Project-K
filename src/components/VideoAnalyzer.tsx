@@ -57,6 +57,13 @@ export default function VideoAnalyzer() {
             const url = URL.createObjectURL(file);
             setVideoSrc(url);
             setIsPlaying(true);
+
+            // Auto-play the video after it loads
+            setTimeout(() => {
+                if (videoRef.current) {
+                    videoRef.current.play().catch(err => console.log('Autoplay prevented:', err));
+                }
+            }, 100);
         }
     };
 
