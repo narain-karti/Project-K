@@ -40,6 +40,114 @@ export default function ChatInterface({ onRouteUpdate }: ChatInterfaceProps) {
         scrollToBottom();
     }, [messages]);
 
+    const handleSend = async () => {
+        if (!input.trim() || isLoading) return;
+
+        const apiKey = process.env.NEXT_PUBLIC_GOOGLE_AI_KEY;
+        if (!apiKey) {
+            const errorMessage: Message = {
+                id: Date.now().toString(),
+                role: 'assistant',
+                content: "⚠️ Configuration Error: Google AI API Key is missing. Please restart your development server to load the new environment variables.",
+                timestamp: Date.now()
+            };
+            setMessages(prev => [...prev, errorMessage]);
+            return;
+        }
+
+        const userMessage: Message = {
+            id: Date.now().toString(),
+            role: 'user',
+            content: input,
+            timestamp: Date.now()
+        };
+
+        setMessages(prev => [...prev, userMessage]);
+        setInput('');
+        setIsLoading(true);
+
+        try {
+            // System prompt to extract route info
+            const model = genAI.getGenerativeModel({ model: "gemini-pro" });
+
+            const prompt = `
+                You are a smart routing assistant for K-Maps. 
+                Analyze the user's request: "${input}"
+                
+                Extract the source, destination, and any route preferences (pollution-free, pothole-free, fastest, scenic).
+                If the user asks for a route, return a JSON object with this structure (and ONLY the JSON):
+                {
+                    "type": "route_request",
+                    "source": "extracted source location (default to 'Current Location' if not specified but implied)",
+                    "destination": "extracted destination location",
+                    "preferences": ["pollution-free", "pothole-free", etc],
+                    "response_text": "A friendly, short confirmation message like 'Finding a pollution-free route to [destination]...'"
+                }
+                
+                If it's just general chat or unclear, return:
+                {
+                    "type": "chat",
+                    "response_text": "A helpful response asking for clarification or answering the question"
+                }
+            `;
+
+            const result = await model.generateContent(prompt);
+            const responseText = result.response.text();
+
+            console.log("AI Response Raw:", responseText);
+
+            // Parse JSON response
+            let parsedResponse;
+            try {
+                // Clean up markdown code blocks if present
+                const cleanJson = responseText.replace(/```json/g, '').replace(/```/g, '').trim();
+                // Find the first '{' and last '}' to extract JSON object if there's extra text
+                const firstBrace = cleanJson.indexOf('{');
+                const lastBrace = cleanJson.lastIndexOf('}');
+
+                if (firstBrace !== -1 && lastBrace !== -1) {
+                    const jsonString = cleanJson.substring(firstBrace, lastBrace + 1);
+                    parsedResponse = JSON.parse(jsonString);
+                } else {
+                    throw new Error("No JSON object found");
+                }
+            } catch (e) {
+                console.error("Failed to parse AI response", e);
+                // Fallback: treat the whole response as chat if it's not valid JSON
+                parsedResponse = {
+                    type: 'chat',
+                    response_text: responseText || "I'm having trouble connecting to the routing service. Please try again."
+                };
+            }
+
+            const aiMessage: Message = {
+                id: (Date.now() + 1).toString(),
+                role: 'assistant',
+                content: parsedResponse.response_text,
+                timestamp: Date.now()
+            };
+
+            setMessages(prev => [...prev, aiMessage]);
+
+            if (parsedResponse.type === 'route_request') {
+                console.log("Route request detected:", parsedResponse);
+                onRouteUpdate(parsedResponse);
+            }
+
+        } catch (error: any) {
+            console.error("AI Error:", error);
+            const errorMessage: Message = {
+                id: (Date.now() + 1).toString(),
+                role: 'assistant',
+                content: `Error: ${error.message || "Unknown error occurred"}. Please try again.`,
+                timestamp: Date.now()
+            };
+            setMessages(prev => [...prev, errorMessage]);
+        } finally {
+            setIsLoading(false);
+        }
+    };
+
     return (
         <div className="flex flex-col h-full bg-black/20 backdrop-blur-xl border-r border-white/10">
             {/* Header */}
