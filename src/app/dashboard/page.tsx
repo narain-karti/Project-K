@@ -329,385 +329,403 @@ export default function DashboardPage() {
                                 data={vehicleTypes}
                                 cx="50%"
                                 cy="50%"
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                                {/* AI Model Performance */}
-                                <motion.div
-                                    initial={{ opacity: 0, y: 20 }}
-                                    animate={{ opacity: 1, y: 0 }}
-                                    transition={{ delay: 0.5 }}
-                                    className="glass-card rounded-2xl p-6"
-                                >
-                                    <h3 className="text-xl font-bold mb-6">AI Model Performance</h3>
-                                    <div className="space-y-4">
-                                        {[
-                                            { label: 'Accidents', value: 96.6, color: 'bg-red-500' },
-                                            { label: 'Vehicles', value: 96.1, color: 'bg-blue-500' },
-                                            { label: 'Potholes', value: 91.3, color: 'bg-yellow-500' },
-                                            { label: 'Emergency', value: 98.2, color: 'bg-green-500' }
-                                        ].map((metric, idx) => (
-                                            <div key={idx}>
-                                                <div className="flex justify-between text-sm mb-2">
-                                                    <span>{metric.label}</span>
-                                                    <span className="font-bold">{metric.value}%</span>
-                                                </div>
-                                                <div className="w-full bg-white/10 rounded-full h-2 overflow-hidden">
-                                                    <motion.div
-                                                        initial={{ width: 0 }}
-                                                        animate={{ width: `${metric.value}%` }}
-                                                        transition={{ duration: 1, delay: 0.5 + idx * 0.1 }}
-                                                        className={`h-full ${metric.color}`}
-                                                    />
-                                                </div>
-                                            </div>
-                                        ))}
-                                    </div>
-                                </motion.div>
-
-                                {/* Emergency Response */}
-                                <motion.div
-                                    initial={{ opacity: 0, y: 20 }}
-                                    animate={{ opacity: 1, y: 0 }}
-                                    transition={{ delay: 0.6 }}
-                                    className="glass-card rounded-2xl p-6"
-                                >
-                                    <h3 className="text-xl font-bold mb-6">Emergency Response</h3>
-                                    <div className="space-y-4">
-                                        <div>
-                                            <div className="text-sm text-text-secondary mb-1">Avg Response Time</div>
-                                            <div className="text-4xl font-bold text-green-500">18.4 min</div>
-                                            <div className="text-xs text-text-secondary">vs. 30 min (area)</div>
-                                        </div>
-                                        <div className="grid grid-cols-2 gap-4 pt-4 border-t border-white/10">
-                                            <div>
-                                                <div className="text-xs text-text-secondary mb-1">Active emergencies</div>
-                                                <div className="text-2xl font-bold text-red-500">2 <span className="text-sm">LIVE</span></div>
-                                            </div>
-                                            <div>
-                                                <div className="text-xs text-text-secondary mb-1">Resolved today</div>
-                                                <div className="text-2xl font-bold text-green-500">21</div>
-                                            </div>
-                                        </div>
-                                        <div className="flex justify-between items-center pt-2">
-                                            <span className="text-sm text-text-secondary">Detection accuracy</span>
-                                            <span className="text-lg font-bold">98.2%</span>
-                                        </div>
-                                    </div>
-                                </motion.div>
-
-                                {/* Infrastructure Defects */}
-                                <motion.div
-                                    initial={{ opacity: 0, y: 20 }}
-                                    animate={{ opacity: 1, y: 0 }}
-                                    transition={{ delay: 0.7 }}
-                                    className="glass-card rounded-2xl p-6"
-                                >
-                                    <h3 className="text-xl font-bold mb-6">Infrastructure Defects</h3>
-                                    <div className="space-y-3">
-                                        {[
-                                            { label: 'High severity', count: 345, color: 'text-red-500', dot: 'bg-red-500' },
-                                            { label: 'Medium severity', count: 567, color: 'text-orange-500', dot: 'bg-orange-500' },
-                                            { label: 'Low severity', count: 322, color: 'text-yellow-500', dot: 'bg-yellow-500' }
-                                        ].map((severity, idx) => (
-                                            <div key={idx} className="flex items-center justify-between">
-                                                <div className="flex items-center gap-3">
-                                                    <div className={`w-3 h-3 rounded-full ${severity.dot}`} />
-                                                    <span className="text-sm">{severity.label}</span>
-                                                </div>
-                                                <span className={`text-lg font-bold ${severity.color}`}>{severity.count}</span>
-                                            </div>
-                                        ))}
-                                        <div className="pt-4 border-t border-white/10">
-                                            <div className="flex justify-between items-center">
-                                                <span className="text-sm text-text-secondary">Avg repair time</span>
-                                                <span className="text-lg font-bold">4.2 days</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </motion.div>
-                            </div>
-
-                            {/* System Activity Log */}
-                            <motion.div
-                                initial={{ opacity: 0, y: 20 }}
-                                animate={{ opacity: 1, y: 0 }}
-                                transition={{ delay: 0.8 }}
-                                className="glass-card rounded-2xl p-6"
+                                labelLine={false}
+                                label={({ name, percent }) => `${name} ${(percent * 100).toFixed(0)}%`}
+                                outerRadius={100}
+                                fill="#8884d8"
+                                dataKey="value"
                             >
-                                <div className="flex items-center justify-between mb-6">
-                                    <h3 className="text-xl font-bold">System Activity Log (Real-time)</h3>
-                                    <div className="flex gap-3">
-                                        <select
-                                            value={timeRange}
-                                            onChange={(e) => setTimeRange(e.target.value)}
-                                            className="glass-card px-4 py-2 rounded-lg border border-white/10 bg-black/20 text-sm"
-                                        >
-                                            <option value="all">All Events</option>
-                                            <option value="accident">Accidents</option>
-                                            <option value="emergency">Emergency</option>
-                                            <option value="defect">Defects</option>
-                                        </select>
-                                        <motion.button
-                                            whileHover={{ scale: 1.05 }}
-                                            whileTap={{ scale: 0.95 }}
-                                            onClick={exportToCSV}
-                                            className="glass-card px-4 py-2 rounded-lg border border-white/10 bg-black/20 text-sm hover:border-accent-teal transition-all"
-                                        >
-                                            Export CSV
-                                        </motion.button>
+                                {vehicleTypes.map((entry, index) => (
+                                    <Cell key={`cell-${index}`} fill={entry.color} />
+                                ))}
+                            </Pie>
+                            <Tooltip
+                                contentStyle={{ backgroundColor: '#1a1a1a', border: '1px solid #333', borderRadius: '8px' }}
+                            />
+                        </PieChart>
+                    </ResponsiveContainer>
+                </motion.div>
+
+                {/* Performance Cards - Matching Image Design */}
+                <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                    {/* AI Model Performance */}
+                    <motion.div
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: 0.5 }}
+                        className="glass-card rounded-2xl p-6"
+                    >
+                        <h3 className="text-xl font-bold mb-6">AI Model Performance</h3>
+                        <div className="space-y-4">
+                            {[
+                                { label: 'Accidents', value: 96.6, color: 'bg-red-500' },
+                                { label: 'Vehicles', value: 96.1, color: 'bg-blue-500' },
+                                { label: 'Potholes', value: 91.3, color: 'bg-yellow-500' },
+                                { label: 'Emergency', value: 98.2, color: 'bg-green-500' }
+                            ].map((metric, idx) => (
+                                <div key={idx}>
+                                    <div className="flex justify-between text-sm mb-2">
+                                        <span>{metric.label}</span>
+                                        <span className="font-bold">{metric.value}%</span>
+                                    </div>
+                                    <div className="w-full bg-white/10 rounded-full h-2 overflow-hidden">
+                                        <motion.div
+                                            initial={{ width: 0 }}
+                                            animate={{ width: `${metric.value}%` }}
+                                            transition={{ duration: 1, delay: 0.5 + idx * 0.1 }}
+                                            className={`h-full ${metric.color}`}
+                                        />
                                     </div>
                                 </div>
+                            ))}
+                        </div>
+                    </motion.div>
 
-                                {/* Activity Table */}
-                                <div className="overflow-x-auto">
-                                    <table className="w-full">
-                                        <thead>
-                                            <tr className="border-b border-white/10 text-left text-sm text-text-secondary">
-                                                <th className="pb-3 font-medium">Time</th>
-                                                <th className="pb-3 font-medium">Event Type</th>
-                                                <th className="pb-3 font-medium">Severity</th>
-                                                <th className="pb-3 font-medium">Description</th>
-                                                <th className="pb-3 font-medium">Location</th>
-                                                <th className="pb-3 font-medium text-right">Action</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            {alerts.slice(0, 8).map((alert, idx) => {
-                                                const severityColor = {
-                                                    'Critical': 'text-red-500',
-                                                    'High': 'text-red-500',
-                                                    'Medium': 'text-orange-500',
-                                                    'Low': 'text-yellow-500',
-                                                    'Info': 'text-blue-500'
-                                                }[alert.severity] || 'text-blue-500';
-
-                                                return (
-                                                    <motion.tr
-                                                        key={alert.id}
-                                                        initial={{ opacity: 0, x: -20 }}
-                                                        animate={{ opacity: 1, x: 0 }}
-                                                        transition={{ delay: 0.8 + idx * 0.05 }}
-                                                        className="border-b border-white/5 hover:bg-white/5 transition-colors"
-                                                    >
-                                                        <td className="py-4 text-sm">
-                                                            {new Date(alert.timestamp).toLocaleTimeString('en-US', {
-                                                                hour: '2-digit',
-                                                                minute: '2-digit',
-                                                                second: '2-digit',
-                                                                hour12: false
-                                                            })}
-                                                        </td>
-                                                        <td className="py-4 text-sm">{alert.type}</td>
-                                                        <td className={`py-4 text-sm font-bold ${severityColor}`}>{alert.severity}</td>
-                                                        <td className="py-4 text-sm text-text-secondary max-w-xs truncate">{alert.description}</td>
-                                                        <td className="py-4 text-sm text-accent-teal">{alert.location}</td>
-                                                        <td className="py-4 text-right">
-                                                            <button className="text-sm text-accent-teal hover:text-accent-cyan transition-colors">
-                                                                View →
-                                                            </button>
-                                                        </td>
-                                                    </motion.tr>
-                                                );
-                                            })}
-                                        </h3>
-                                        <ResponsiveContainer width="100%" height={300}>
-                                            <RadarChart cx="50%" cy="50%" outerRadius="80%" data={performanceMetrics}>
-                                                <PolarGrid stroke="#ffffff20" />
-                                                <PolarAngleAxis dataKey="subject" stroke="#888" />
-                                                <PolarRadiusAxis stroke="#888" />
-                                                <Radar name="Performance" dataKey="A" stroke="#34D399" fill="#34D399" fillOpacity={0.6} />
-                                                <Tooltip
-                                                    contentStyle={{ backgroundColor: '#1a1a1a', border: '1px solid #333', borderRadius: '8px' }}
-                                                />
-                                            </RadarChart>
-                                        </ResponsiveContainer>
-                                    </motion.div>
-                                </div>
-
-                                {/* Performance Cards - Matching Image Design */}
-                                <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                                    {/* AI Model Performance */}
-                                    <motion.div
-                                        initial={{ opacity: 0, y: 20 }}
-                                        animate={{ opacity: 1, y: 0 }}
-                                        transition={{ delay: 0.5 }}
-                                        className="glass-card rounded-2xl p-6"
-                                    >
-                                        <h3 className="text-xl font-bold mb-6">AI Model Performance</h3>
-                                        <div className="space-y-4">
-                                            {[
-                                                { label: 'Accidents', value: 96.6, color: 'bg-red-500' },
-                                                { label: 'Vehicles', value: 96.1, color: 'bg-blue-500' },
-                                                { label: 'Potholes', value: 91.3, color: 'bg-yellow-500' },
-                                                { label: 'Emergency', value: 98.2, color: 'bg-green-500' }
-                                            ].map((metric, idx) => (
-                                                <div key={idx}>
-                                                    <div className="flex justify-between text-sm mb-2">
-                                                        <span>{metric.label}</span>
-                                                        <span className="font-bold">{metric.value}%</span>
-                                                    </div>
-                                                    <div className="w-full bg-white/10 rounded-full h-2 overflow-hidden">
-                                                        <motion.div
-                                                            initial={{ width: 0 }}
-                                                            animate={{ width: `${metric.value}%` }}
-                                                            transition={{ duration: 1, delay: 0.5 + idx * 0.1 }}
-                                                            className={`h-full ${metric.color}`}
-                                                        />
-                                                    </div>
-                                                </div>
-                                            ))}
-                                        </div>
-                                    </motion.div>
-
-                                    {/* Emergency Response */}
-                                    <motion.div
-                                        initial={{ opacity: 0, y: 20 }}
-                                        animate={{ opacity: 1, y: 0 }}
-                                        transition={{ delay: 0.6 }}
-                                        className="glass-card rounded-2xl p-6"
-                                    >
-                                        <h3 className="text-xl font-bold mb-6">Emergency Response</h3>
-                                        <div className="space-y-4">
-                                            <div>
-                                                <div className="text-sm text-text-secondary mb-1">Avg Response Time</div>
-                                                <div className="text-4xl font-bold text-green-500">18.4 min</div>
-                                                <div className="text-xs text-text-secondary">vs. 30 min (area)</div>
-                                            </div>
-                                            <div className="grid grid-cols-2 gap-4 pt-4 border-t border-white/10">
-                                                <div>
-                                                    <div className="text-xs text-text-secondary mb-1">Active emergencies</div>
-                                                    <div className="text-2xl font-bold text-red-500">2 <span className="text-sm">LIVE</span></div>
-                                                </div>
-                                                <div>
-                                                    <div className="text-xs text-text-secondary mb-1">Resolved today</div>
-                                                    <div className="text-2xl font-bold text-green-500">21</div>
-                                                </div>
-                                            </div>
-                                            <div className="flex justify-between items-center pt-2">
-                                                <span className="text-sm text-text-secondary">Detection accuracy</span>
-                                                <span className="text-lg font-bold">98.2%</span>
-                                            </div>
-                                        </div>
-                                    </motion.div>
-
-                                    {/* Infrastructure Defects */}
-                                    <motion.div
-                                        initial={{ opacity: 0, y: 20 }}
-                                        animate={{ opacity: 1, y: 0 }}
-                                        transition={{ delay: 0.7 }}
-                                        className="glass-card rounded-2xl p-6"
-                                    >
-                                        <h3 className="text-xl font-bold mb-6">Infrastructure Defects</h3>
-                                        <div className="space-y-3">
-                                            {[
-                                                { label: 'High severity', count: 345, color: 'text-red-500', dot: 'bg-red-500' },
-                                                { label: 'Medium severity', count: 567, color: 'text-orange-500', dot: 'bg-orange-500' },
-                                                { label: 'Low severity', count: 322, color: 'text-yellow-500', dot: 'bg-yellow-500' }
-                                            ].map((severity, idx) => (
-                                                <div key={idx} className="flex items-center justify-between">
-                                                    <div className="flex items-center gap-3">
-                                                        <div className={`w-3 h-3 rounded-full ${severity.dot}`} />
-                                                        <span className="text-sm">{severity.label}</span>
-                                                    </div>
-                                                    <span className={`text-lg font-bold ${severity.color}`}>{severity.count}</span>
-                                                </div>
-                                            ))}
-                                            <div className="pt-4 border-t border-white/10">
-                                                <div className="flex justify-between items-center">
-                                                    <span className="text-sm text-text-secondary">Avg repair time</span>
-                                                    <span className="text-lg font-bold">4.2 days</span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </motion.div>
-                                </div>
-
-                                {/* System Activity Log */}
-                                <motion.div
-                                    initial={{ opacity: 0, y: 20 }}
-                                    animate={{ opacity: 1, y: 0 }}
-                                    transition={{ delay: 0.8 }}
-                                    className="glass-card rounded-2xl p-6"
-                                >
-                                    <div className="flex items-center justify-between mb-6">
-                                        <h3 className="text-xl font-bold">System Activity Log (Real-time)</h3>
-                                        <div className="flex gap-3">
-                                            <select
-                                                value={timeRange}
-                                                onChange={(e) => setTimeRange(e.target.value)}
-                                                className="glass-card px-4 py-2 rounded-lg border border-white/10 bg-black/20 text-sm"
-                                            >
-                                                <option value="all">All Events</option>
-                                                <option value="accident">Accidents</option>
-                                                <option value="emergency">Emergency</option>
-                                                <option value="defect">Defects</option>
-                                            </select>
-                                            <motion.button
-                                                whileHover={{ scale: 1.05 }}
-                                                whileTap={{ scale: 0.95 }}
-                                                onClick={exportToCSV}
-                                                className="glass-card px-4 py-2 rounded-lg border border-white/10 bg-black/20 text-sm hover:border-accent-teal transition-all"
-                                            >
-                                                Export CSV
-                                            </motion.button>
-                                        </div>
-                                    </div>
-
-                                    {/* Activity Table */}
-                                    <div className="overflow-x-auto">
-                                        <table className="w-full">
-                                            <thead>
-                                                <tr className="border-b border-white/10 text-left text-sm text-text-secondary">
-                                                    <th className="pb-3 font-medium">Time</th>
-                                                    <th className="pb-3 font-medium">Event Type</th>
-                                                    <th className="pb-3 font-medium">Severity</th>
-                                                    <th className="pb-3 font-medium">Description</th>
-                                                    <th className="pb-3 font-medium">Location</th>
-                                                    <th className="pb-3 font-medium text-right">Action</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                {alerts.slice(0, 8).map((alert, idx) => {
-                                                    const severityColor = {
-                                                        'Critical': 'text-red-500',
-                                                        'High': 'text-red-500',
-                                                        'Medium': 'text-orange-500',
-                                                        'Low': 'text-yellow-500',
-                                                        'Info': 'text-blue-500'
-                                                    }[alert.severity] || 'text-blue-500';
-
-                                                    return (
-                                                        <motion.tr
-                                                            key={alert.id}
-                                                            initial={{ opacity: 0, x: -20 }}
-                                                            animate={{ opacity: 1, x: 0 }}
-                                                            transition={{ delay: 0.8 + idx * 0.05 }}
-                                                            className="border-b border-white/5 hover:bg-white/5 transition-colors"
-                                                        >
-                                                            <td className="py-4 text-sm">
-                                                                {new Date(alert.timestamp).toLocaleTimeString('en-US', {
-                                                                    hour: '2-digit',
-                                                                    minute: '2-digit',
-                                                                    second: '2-digit',
-                                                                    hour12: false
-                                                                })}
-                                                            </td>
-                                                            <td className="py-4 text-sm">{alert.type}</td>
-                                                            <td className={`py-4 text-sm font-bold ${severityColor}`}>{alert.severity}</td>
-                                                            <td className="py-4 text-sm text-text-secondary max-w-xs truncate">{alert.description}</td>
-                                                            <td className="py-4 text-sm text-accent-teal">{alert.location}</td>
-                                                            <td className="py-4 text-right">
-                                                                <button className="text-sm text-accent-teal hover:text-accent-cyan transition-colors">
-                                                                    View →
-                                                                </button>
-                                                            </td>
-                                                        </motion.tr>
-                                                    );
-                                                })}
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                </motion.div>
+                    {/* Emergency Response */}
+                    <motion.div
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: 0.6 }}
+                        className="glass-card rounded-2xl p-6"
+                    >
+                        <h3 className="text-xl font-bold mb-6">Emergency Response</h3>
+                        <div className="space-y-4">
+                            <div>
+                                <div className="text-sm text-text-secondary mb-1">Avg Response Time</div>
+                                <div className="text-4xl font-bold text-green-500">18.4 min</div>
+                                <div className="text-xs text-text-secondary">vs. 30 min (area)</div>
                             </div>
-                        </main >
-                        );
+                            <div className="grid grid-cols-2 gap-4 pt-4 border-t border-white/10">
+                                <div>
+                                    <div className="text-xs text-text-secondary mb-1">Active emergencies</div>
+                                    <div className="text-2xl font-bold text-red-500">2 <span className="text-sm">LIVE</span></div>
+                                </div>
+                                <div>
+                                    <div className="text-xs text-text-secondary mb-1">Resolved today</div>
+                                    <div className="text-2xl font-bold text-green-500">21</div>
+                                </div>
+                            </div>
+                            <div className="flex justify-between items-center pt-2">
+                                <span className="text-sm text-text-secondary">Detection accuracy</span>
+                                <span className="text-lg font-bold">98.2%</span>
+                            </div>
+                        </div>
+                    </motion.div>
+
+                    {/* Infrastructure Defects */}
+                    <motion.div
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: 0.7 }}
+                        className="glass-card rounded-2xl p-6"
+                    >
+                        <h3 className="text-xl font-bold mb-6">Infrastructure Defects</h3>
+                        <div className="space-y-3">
+                            {[
+                                { label: 'High severity', count: 345, color: 'text-red-500', dot: 'bg-red-500' },
+                                { label: 'Medium severity', count: 567, color: 'text-orange-500', dot: 'bg-orange-500' },
+                                { label: 'Low severity', count: 322, color: 'text-yellow-500', dot: 'bg-yellow-500' }
+                            ].map((severity, idx) => (
+                                <div key={idx} className="flex items-center justify-between">
+                                    <div className="flex items-center gap-3">
+                                        <div className={`w-3 h-3 rounded-full ${severity.dot}`} />
+                                        <span className="text-sm">{severity.label}</span>
+                                    </div>
+                                    <span className={`text-lg font-bold ${severity.color}`}>{severity.count}</span>
+                                </div>
+                            ))}
+                            <div className="pt-4 border-t border-white/10">
+                                <div className="flex justify-between items-center">
+                                    <span className="text-sm text-text-secondary">Avg repair time</span>
+                                    <span className="text-lg font-bold">4.2 days</span>
+                                </div>
+                            </div>
+                        </div>
+                    </motion.div>
+                </div>
+
+                {/* System Activity Log */}
+                <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.8 }}
+                    className="glass-card rounded-2xl p-6"
+                >
+                    <div className="flex items-center justify-between mb-6">
+                        <h3 className="text-xl font-bold">System Activity Log (Real-time)</h3>
+                        <div className="flex gap-3">
+                            <select
+                                value={timeRange}
+                                onChange={(e) => setTimeRange(e.target.value)}
+                                className="glass-card px-4 py-2 rounded-lg border border-white/10 bg-black/20 text-sm"
+                            >
+                                <option value="all">All Events</option>
+                                <option value="accident">Accidents</option>
+                                <option value="emergency">Emergency</option>
+                                <option value="defect">Defects</option>
+                            </select>
+                            <motion.button
+                                whileHover={{ scale: 1.05 }}
+                                whileTap={{ scale: 0.95 }}
+                                onClick={exportToCSV}
+                                className="glass-card px-4 py-2 rounded-lg border border-white/10 bg-black/20 text-sm hover:border-accent-teal transition-all"
+                            >
+                                Export CSV
+                            </motion.button>
+                        </div>
+                    </div>
+
+                    {/* Activity Table */}
+                    <div className="overflow-x-auto">
+                        <table className="w-full">
+                            <thead>
+                                <tr className="border-b border-white/10 text-left text-sm text-text-secondary">
+                                    <th className="pb-3 font-medium">Time</th>
+                                    <th className="pb-3 font-medium">Event Type</th>
+                                    <th className="pb-3 font-medium">Severity</th>
+                                    <th className="pb-3 font-medium">Description</th>
+                                    <th className="pb-3 font-medium">Location</th>
+                                    <th className="pb-3 font-medium text-right">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {alerts.slice(0, 8).map((alert, idx) => {
+                                    const severityColor = {
+                                        'Critical': 'text-red-500',
+                                        'High': 'text-red-500',
+                                        'Medium': 'text-orange-500',
+                                        'Low': 'text-yellow-500',
+                                        'Info': 'text-blue-500'
+                                    }[alert.severity] || 'text-blue-500';
+
+                                    return (
+                                        <motion.tr
+                                            key={alert.id}
+                                            initial={{ opacity: 0, x: -20 }}
+                                            animate={{ opacity: 1, x: 0 }}
+                                            transition={{ delay: 0.8 + idx * 0.05 }}
+                                            className="border-b border-white/5 hover:bg-white/5 transition-colors"
+                                        >
+                                            <td className="py-4 text-sm">
+                                                {new Date(alert.timestamp).toLocaleTimeString('en-US', {
+                                                    hour: '2-digit',
+                                                    minute: '2-digit',
+                                                    second: '2-digit',
+                                                    hour12: false
+                                                })}
+                                            </td>
+                                            <td className="py-4 text-sm">{alert.type}</td>
+                                            <td className={`py-4 text-sm font-bold ${severityColor}`}>{alert.severity}</td>
+                                            <td className="py-4 text-sm text-text-secondary max-w-xs truncate">{alert.description}</td>
+                                            <td className="py-4 text-sm text-accent-teal">{alert.location}</td>
+                                            <td className="py-4 text-right">
+                                                <button className="text-sm text-accent-teal hover:text-accent-cyan transition-colors">
+                                                    View →
+                                                </button>
+                                            </td>
+                                        </motion.tr>
+                                    );
+                                })}
+                            </h3>
+                            <ResponsiveContainer width="100%" height={300}>
+                                <RadarChart cx="50%" cy="50%" outerRadius="80%" data={performanceMetrics}>
+                                    <PolarGrid stroke="#ffffff20" />
+                                    <PolarAngleAxis dataKey="subject" stroke="#888" />
+                                    <PolarRadiusAxis stroke="#888" />
+                                    <Radar name="Performance" dataKey="A" stroke="#34D399" fill="#34D399" fillOpacity={0.6} />
+                                    <Tooltip
+                                        contentStyle={{ backgroundColor: '#1a1a1a', border: '1px solid #333', borderRadius: '8px' }}
+                                    />
+                                </RadarChart>
+                            </ResponsiveContainer>
+                        </motion.div>
+                    </div>
+
+                    {/* Performance Cards - Matching Image Design */}
+                    <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                        {/* AI Model Performance */}
+                        <motion.div
+                            initial={{ opacity: 0, y: 20 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ delay: 0.5 }}
+                            className="glass-card rounded-2xl p-6"
+                        >
+                            <h3 className="text-xl font-bold mb-6">AI Model Performance</h3>
+                            <div className="space-y-4">
+                                {[
+                                    { label: 'Accidents', value: 96.6, color: 'bg-red-500' },
+                                    { label: 'Vehicles', value: 96.1, color: 'bg-blue-500' },
+                                    { label: 'Potholes', value: 91.3, color: 'bg-yellow-500' },
+                                    { label: 'Emergency', value: 98.2, color: 'bg-green-500' }
+                                ].map((metric, idx) => (
+                                    <div key={idx}>
+                                        <div className="flex justify-between text-sm mb-2">
+                                            <span>{metric.label}</span>
+                                            <span className="font-bold">{metric.value}%</span>
+                                        </div>
+                                        <div className="w-full bg-white/10 rounded-full h-2 overflow-hidden">
+                                            <motion.div
+                                                initial={{ width: 0 }}
+                                                animate={{ width: `${metric.value}%` }}
+                                                transition={{ duration: 1, delay: 0.5 + idx * 0.1 }}
+                                                className={`h-full ${metric.color}`}
+                                            />
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
+                        </motion.div>
+
+                        {/* Emergency Response */}
+                        <motion.div
+                            initial={{ opacity: 0, y: 20 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ delay: 0.6 }}
+                            className="glass-card rounded-2xl p-6"
+                        >
+                            <h3 className="text-xl font-bold mb-6">Emergency Response</h3>
+                            <div className="space-y-4">
+                                <div>
+                                    <div className="text-sm text-text-secondary mb-1">Avg Response Time</div>
+                                    <div className="text-4xl font-bold text-green-500">18.4 min</div>
+                                    <div className="text-xs text-text-secondary">vs. 30 min (area)</div>
+                                </div>
+                                <div className="grid grid-cols-2 gap-4 pt-4 border-t border-white/10">
+                                    <div>
+                                        <div className="text-xs text-text-secondary mb-1">Active emergencies</div>
+                                        <div className="text-2xl font-bold text-red-500">2 <span className="text-sm">LIVE</span></div>
+                                    </div>
+                                    <div>
+                                        <div className="text-xs text-text-secondary mb-1">Resolved today</div>
+                                        <div className="text-2xl font-bold text-green-500">21</div>
+                                    </div>
+                                </div>
+                                <div className="flex justify-between items-center pt-2">
+                                    <span className="text-sm text-text-secondary">Detection accuracy</span>
+                                    <span className="text-lg font-bold">98.2%</span>
+                                </div>
+                            </div>
+                        </motion.div>
+
+                        {/* Infrastructure Defects */}
+                        <motion.div
+                            initial={{ opacity: 0, y: 20 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ delay: 0.7 }}
+                            className="glass-card rounded-2xl p-6"
+                        >
+                            <h3 className="text-xl font-bold mb-6">Infrastructure Defects</h3>
+                            <div className="space-y-3">
+                                {[
+                                    { label: 'High severity', count: 345, color: 'text-red-500', dot: 'bg-red-500' },
+                                    { label: 'Medium severity', count: 567, color: 'text-orange-500', dot: 'bg-orange-500' },
+                                    { label: 'Low severity', count: 322, color: 'text-yellow-500', dot: 'bg-yellow-500' }
+                                ].map((severity, idx) => (
+                                    <div key={idx} className="flex items-center justify-between">
+                                        <div className="flex items-center gap-3">
+                                            <div className={`w-3 h-3 rounded-full ${severity.dot}`} />
+                                            <span className="text-sm">{severity.label}</span>
+                                        </div>
+                                        <span className={`text-lg font-bold ${severity.color}`}>{severity.count}</span>
+                                    </div>
+                                ))}
+                                <div className="pt-4 border-t border-white/10">
+                                    <div className="flex justify-between items-center">
+                                        <span className="text-sm text-text-secondary">Avg repair time</span>
+                                        <span className="text-lg font-bold">4.2 days</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </motion.div>
+                    </div>
+
+                    {/* System Activity Log */}
+                    <motion.div
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: 0.8 }}
+                        className="glass-card rounded-2xl p-6"
+                    >
+                        <div className="flex items-center justify-between mb-6">
+                            <h3 className="text-xl font-bold">System Activity Log (Real-time)</h3>
+                            <div className="flex gap-3">
+                                <select
+                                    value={timeRange}
+                                    onChange={(e) => setTimeRange(e.target.value)}
+                                    className="glass-card px-4 py-2 rounded-lg border border-white/10 bg-black/20 text-sm"
+                                >
+                                    <option value="all">All Events</option>
+                                    <option value="accident">Accidents</option>
+                                    <option value="emergency">Emergency</option>
+                                    <option value="defect">Defects</option>
+                                </select>
+                                <motion.button
+                                    whileHover={{ scale: 1.05 }}
+                                    whileTap={{ scale: 0.95 }}
+                                    onClick={exportToCSV}
+                                    className="glass-card px-4 py-2 rounded-lg border border-white/10 bg-black/20 text-sm hover:border-accent-teal transition-all"
+                                >
+                                    Export CSV
+                                </motion.button>
+                            </div>
+                        </div>
+
+                        {/* Activity Table */}
+                        <div className="overflow-x-auto">
+                            <table className="w-full">
+                                <thead>
+                                    <tr className="border-b border-white/10 text-left text-sm text-text-secondary">
+                                        <th className="pb-3 font-medium">Time</th>
+                                        <th className="pb-3 font-medium">Event Type</th>
+                                        <th className="pb-3 font-medium">Severity</th>
+                                        <th className="pb-3 font-medium">Description</th>
+                                        <th className="pb-3 font-medium">Location</th>
+                                        <th className="pb-3 font-medium text-right">Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {alerts.slice(0, 8).map((alert, idx) => {
+                                        const severityColor = {
+                                            'Critical': 'text-red-500',
+                                            'High': 'text-red-500',
+                                            'Medium': 'text-orange-500',
+                                            'Low': 'text-yellow-500',
+                                            'Info': 'text-blue-500'
+                                        }[alert.severity] || 'text-blue-500';
+
+                                        return (
+                                            <motion.tr
+                                                key={alert.id}
+                                                initial={{ opacity: 0, x: -20 }}
+                                                animate={{ opacity: 1, x: 0 }}
+                                                transition={{ delay: 0.8 + idx * 0.05 }}
+                                                className="border-b border-white/5 hover:bg-white/5 transition-colors"
+                                            >
+                                                <td className="py-4 text-sm">
+                                                    {new Date(alert.timestamp).toLocaleTimeString('en-US', {
+                                                        hour: '2-digit',
+                                                        minute: '2-digit',
+                                                        second: '2-digit',
+                                                        hour12: false
+                                                    })}
+                                                </td>
+                                                <td className="py-4 text-sm">{alert.type}</td>
+                                                <td className={`py-4 text-sm font-bold ${severityColor}`}>{alert.severity}</td>
+                                                <td className="py-4 text-sm text-text-secondary max-w-xs truncate">{alert.description}</td>
+                                                <td className="py-4 text-sm text-accent-teal">{alert.location}</td>
+                                                <td className="py-4 text-right">
+                                                    <button className="text-sm text-accent-teal hover:text-accent-cyan transition-colors">
+                                                        View →
+                                                    </button>
+                                                </td>
+                                            </motion.tr>
+                                        );
+                                    })}
+                                </tbody>
+                            </table>
+                        </div>
+                    </motion.div>
+            </div>
+        </main >
+    );
 }
