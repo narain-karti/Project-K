@@ -371,32 +371,6 @@ export default function DashboardPage() {
                             >
                                 {vehicleTypes.map((entry, index) => (
                                     <Cell key={`cell-${index}`} fill={entry.color} />
-                                ))}
-                            </Pie>
-                            <Tooltip
-                                contentStyle={{ backgroundColor: '#1a1a1a', border: '1px solid #333', borderRadius: '8px' }}
-                            />
-                        </PieChart>
-                    </ResponsiveContainer>
-                </motion.div>
-
-                {/* Performance Radar Chart */}
-                <motion.div
-                    initial={{ opacity: 0, scale: 0.95 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    transition={{ delay: 0.3 }}
-                    className="glass-card rounded-2xl p-6"
-                >
-                    <h3 className="text-xl font-bold mb-6 flex items-center gap-2">
-                        <Shield className="w-5 h-5 text-accent-rose" />
-                        System Performance
-                    </h3>
-                    <ResponsiveContainer width="100%" height={300}>
-                        <RadarChart cx="50%" cy="50%" outerRadius="80%" data={performanceMetrics}>
-                            <PolarGrid stroke="#ffffff20" />
-                            <PolarAngleAxis dataKey="subject" stroke="#888" />
-                            <PolarRadiusAxis stroke="#888" />
-                            <Radar name="Performance" dataKey="A" stroke="#34D399" fill="#34D399" fillOpacity={0.6} />
                             <Tooltip
                                 contentStyle={{ backgroundColor: '#1a1a1a', border: '1px solid #333', borderRadius: '8px' }}
                             />
