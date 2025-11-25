@@ -82,17 +82,29 @@ export default function ChatInterface({ onRouteUpdate }: ChatInterfaceProps) {
             const result = await model.generateContent(prompt);
             const responseText = result.response.text();
 
+            console.log("AI Response Raw:", responseText);
+
             // Parse JSON response
             let parsedResponse;
             try {
                 // Clean up markdown code blocks if present
                 const cleanJson = responseText.replace(/```json/g, '').replace(/```/g, '').trim();
-                parsedResponse = JSON.parse(cleanJson);
+                // Find the first '{' and last '}' to extract JSON object if there's extra text
+                const firstBrace = cleanJson.indexOf('{');
+                const lastBrace = cleanJson.lastIndexOf('}');
+
+                if (firstBrace !== -1 && lastBrace !== -1) {
+                    const jsonString = cleanJson.substring(firstBrace, lastBrace + 1);
+                    parsedResponse = JSON.parse(jsonString);
+                } else {
+                    throw new Error("No JSON object found");
+                }
             } catch (e) {
                 console.error("Failed to parse AI response", e);
+                // Fallback: treat the whole response as chat if it's not valid JSON
                 parsedResponse = {
                     type: 'chat',
-                    response_text: "I'm having trouble understanding the route details. Could you please specify the start and end locations?"
+                    response_text: responseText || "I'm having trouble connecting to the routing service. Please try again."
                 };
             }
 
@@ -106,6 +118,7 @@ export default function ChatInterface({ onRouteUpdate }: ChatInterfaceProps) {
             setMessages(prev => [...prev, aiMessage]);
 
             if (parsedResponse.type === 'route_request') {
+                console.log("Route request detected:", parsedResponse);
                 onRouteUpdate(parsedResponse);
             }
 
@@ -147,8 +160,8 @@ export default function ChatInterface({ onRouteUpdate }: ChatInterfaceProps) {
                     >
                         <div
                             className={`max-w-[85%] p-3 rounded-2xl ${msg.role === 'user'
-                                    ? 'bg-accent-violet/20 border border-accent-violet/30 text-white rounded-tr-none'
-                                    : 'bg-white/5 border border-white/10 text-text-secondary rounded-tl-none'
+                                ? 'bg-accent-violet/20 border border-accent-violet/30 text-white rounded-tr-none'
+                                : 'bg-white/5 border border-white/10 text-text-secondary rounded-tl-none'
                                 }`}
                         >
                             <p className="text-sm">{msg.content}</p>
