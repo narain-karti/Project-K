@@ -85,6 +85,11 @@ export default function DashboardPage() {
     const [classFilter, setClassFilter] = useState('all');
     const [confidenceRange, setConfidenceRange] = useState([0, 100]);
     const [showFilters, setShowFilters] = useState(false);
+    const [mounted, setMounted] = useState(false);
+
+    useEffect(() => {
+        setMounted(true);
+    }, []);
 
     const data = useMemo(() => generateDemoData(), []);
     const { timeSeriesData, locationData, vehicleTypes, performanceMetrics, alerts, heatmapData } = data;
@@ -145,8 +150,9 @@ export default function DashboardPage() {
     return (
         <main className="min-h-screen pt-24 px-4 md:px-8 pb-12 bg-gradient-to-br from-black via-purple-900/10 to-black relative overflow-hidden">
             {/* Animated background particles */}
+
             <div className="fixed inset-0 -z-10">
-                {Array.from({ length: 20 }).map((_, i) => (
+                {mounted && Array.from({ length: 20 }).map((_, i) => (
                     <motion.div
                         key={i}
                         className="absolute w-1 h-1 bg-accent-teal rounded-full"
