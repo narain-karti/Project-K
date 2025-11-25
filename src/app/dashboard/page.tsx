@@ -314,40 +314,6 @@ export default function DashboardPage() {
                         </ResponsiveContainer>
                     </motion.div>
 
-                    {/* Vehicle Distribution */}
-                    <motion.div
-                        initial={{ opacity: 0, scale: 0.95 }}
-                        animate={{ opacity: 1, scale: 1 }}
-                        transition={{ delay: 0.5 }}
-                        className="glass-card rounded-2xl p-6"
-                    >
-                        <h3 className="text-lg font-bold mb-6">Vehicle Distribution</h3>
-                        <ResponsiveContainer width="100%" height={280}>
-                            <PieChart>
-                                <Pie
-                                    data={vehicleTypes}
-                                    cx="50%"
-                                    cy="50%"
-                                    labelLine={false}
-                                    label={({ name, value }) => `${name} ${((value / vehicleTypes.reduce((sum, v) => sum + v.value, 0)) * 100).toFixed(0)}%`}
-                                    outerRadius={100}
-                                    fill="#8884d8"
-                                    dataKey="value"
-                                >
-                                    {vehicleTypes.map((entry, index) => (
-                                        <Cell key={`cell-${index}`} fill={entry.color} />
-                                    ))}
-                                </Pie>
-                                <Tooltip
-                                    contentStyle={{ backgroundColor: '#1a1a1a', border: '1px solid #333', borderRadius: '8px' }}
-                                />
-                            </PieChart>
-                        </ResponsiveContainer>
-                    </motion.div>
-                </div>
-
-                {/* Vehicle Types Pie Chart */}
-                <motion.div
                     initial={{ opacity: 0, scale: 0.95 }}
                     animate={{ opacity: 1, scale: 1 }}
                     transition={{ delay: 0.2 }}
