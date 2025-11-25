@@ -168,50 +168,19 @@ export default function DashboardPage() {
                 ))}
             </div>
 
-            <div className="max-w-[1800px] mx-auto space-y-6">
-                {/* Header */}
+            <div className="max-w-7xl mx-auto space-y-8">
+                {/* Header - Centered */}
                 <motion.div
                     initial={{ opacity: 0, y: -20 }}
                     animate={{ opacity: 1, y: 0 }}
-                    className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4"
+                    className="text-center"
                 >
-                    <div>
-                        <h1 className="text-4xl md:text-5xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-accent-teal via-accent-purple to-accent-rose">
-                            City Traffic Control Center
-                        </h1>
-                        <p className="text-text-secondary mt-2">Real-time monitoring and analytics across 1,234 nodes</p>
-                    </div>
-
-                    {/* Export buttons */}
-                    <div className="flex gap-3">
-                        <motion.button
-                            whileHover={{ scale: 1.05 }}
-                            whileTap={{ scale: 0.95 }}
-                            onClick={() => setShowFilters(!showFilters)}
-                            className="glass-card px-6 py-3 rounded-xl flex items-center gap-2 hover:border-accent-teal transition-all"
-                        >
-                            <Filter className="w-5 h-5" />
-                            Filters
-                        </motion.button>
-                        <motion.button
-                            whileHover={{ scale: 1.05 }}
-                            whileTap={{ scale: 0.95 }}
-                            onClick={exportToCSV}
-                            className="glass-card px-6 py-3 rounded-xl flex items-center gap-2 hover:border-accent-teal transition-all"
-                        >
-                            <Download className="w-5 h-5" />
-                            CSV
-                        </motion.button>
-                        <motion.button
-                            whileHover={{ scale: 1.05 }}
-                            whileTap={{ scale: 0.95 }}
-                            onClick={exportToExcel}
-                            className="bg-gradient-to-r from-accent-teal to-accent-cyan px-6 py-3 rounded-xl flex items-center gap-2 text-black font-bold hover:shadow-lg hover:shadow-accent-teal/50 transition-all"
-                        >
-                            <Download className="w-5 h-5" />
-                            Excel
-                        </motion.button>
-                    </div>
+                    <h1 className="text-5xl md:text-6xl font-bold mb-3">
+                        <span className="bg-clip-text text-transparent bg-gradient-to-r from-accent-teal via-accent-purple to-accent-rose">
+                            Project K Control Center
+                        </span>
+                    </h1>
+                    <p className="text-text-secondary text-lg">Real-time traffic intelligence dashboard</p>
                 </motion.div>
 
                 {/* Real-time Alert Banner */}
@@ -240,15 +209,45 @@ export default function DashboardPage() {
                     )}
                 </AnimatePresence>
 
-                {/* Statistics Cards */}
-                <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
+                {/* Top Row: 4 Statistics Cards */}
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
                     {[
-                        { label: 'Total Detections', value: stats.totalDetections, icon: Activity, color: 'from-cyan-500 to-blue-500', trend: '+12.5%', up: true },
-                        { label: 'Active Nodes', value: stats.activeNodes, icon: Wifi, color: 'from-green-500 to-emerald-500', trend: '+3', up: true },
-                        { label: 'Avg Response', value: `${stats.avgResponseTime}s`, icon: Zap, color: 'from-yellow-500 to-orange-500', trend: '-15s', up: true },
-                        { label: 'Uptime', value: `${stats.uptime}%`, icon: Shield, color: 'from-purple-500 to-pink-500', trend: '+0.2%', up: true },
-                        { label: 'Accidents', value: stats.accidents, icon: AlertTriangle, color: 'from-red-500 to-rose-500', trend: '-8', up: true },
-                        { label: 'Lives Saved', value: stats.livesSaved, icon: Users, color: 'from-pink-500 to-rose-500', trend: '+156', up: true }
+                        { 
+                            label: 'Active Nodes', 
+                            value: '847', 
+                            total: '/ 850',
+                            subtitle: '+99.6% uptime', 
+                            icon: Wifi, 
+                            color: 'from-cyan-500 to-blue-500',
+                            subtitleColor: 'text-green-500'
+                        },
+                        { 
+                            label: 'Detections (Last Hour)', 
+                            value: '1234567', 
+                            total: '',
+                            subtitle: '+12.3% vs. avg', 
+                            icon: Activity, 
+                            color: 'from-purple-500 to-pink-500',
+                            subtitleColor: 'text-green-500'
+                        },
+                        { 
+                            label: 'Emergency Incidents (Today)', 
+                            value: '23', 
+                            total: '',
+                            subtitle: '-32% response time', 
+                            icon: AlertTriangle, 
+                            color: 'from-red-500 to-rose-500',
+                            subtitleColor: 'text-green-500'
+                        },
+                        { 
+                            label: 'Bandwidth Savings', 
+                            value: '99.94%', 
+                            total: '',
+                            subtitle: '+2.2 Cr monthly', 
+                            icon: Zap, 
+                            color: 'from-green-500 to-emerald-500',
+                            subtitleColor: 'text-green-500'
+                        }
                     ].map((stat, idx) => {
                         const Icon = stat.icon;
                         return (
@@ -257,84 +256,95 @@ export default function DashboardPage() {
                                 initial={{ opacity: 0, y: 20 }}
                                 animate={{ opacity: 1, y: 0 }}
                                 transition={{ delay: idx * 0.1 }}
-                                whileHover={{ scale: 1.05 }}
+                                whileHover={{ scale: 1.02 }}
                                 className="glass-card rounded-2xl p-6 relative overflow-hidden group"
                             >
                                 <div className={`absolute inset-0 bg-gradient-to-br ${stat.color} opacity-0 group-hover:opacity-10 transition-opacity`} />
-                                <Icon className={`w-8 h-8 mb-3 bg-gradient-to-br ${stat.color} bg-clip-text text-transparent`} />
+                                <div className="flex items-start justify-between mb-4">
+                                    <span className="text-sm text-text-secondary">{stat.label}</span>
+                                    <Icon className={`w-5 h-5 bg-gradient-to-br ${stat.color} bg-clip-text text-transparent`} />
+                                </div>
                                 <div className="text-3xl font-bold mb-1">
-                                    <AnimatedCounter end={typeof stat.value === 'number' ? stat.value : parseFloat(stat.value)} />
-                                    {typeof stat.value === 'string' && stat.value.replace(/[0-9.]/g, '')}
+                                    {stat.value}
+                                    {stat.total && <span className="text-lg text-text-secondary">{stat.total}</span>}
                                 </div>
-                                <div className="text-sm text-text-secondary mb-2">{stat.label}</div>
-                                <div className={`text-xs flex items-center gap-1 ${stat.up ? 'text-green-500' : 'text-red-500'}`}>
-                                    {stat.up ? <ArrowUp className="w-3 h-3" /> : <ArrowDown className="w-3 h-3" />}
-                                    {stat.trend}
-                                </div>
+                                <div className={`text-xs ${stat.subtitleColor}`}>{stat.subtitle}</div>
                             </motion.div>
                         );
                     })}
                 </div>
 
-                {/* Main Charts Grid */}
+                {/* Charts Row: 2 Charts Side by Side */}
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                    {/* Time Series Chart */}
+                    {/* Detection Timeline */}
                     <motion.div
                         initial={{ opacity: 0, scale: 0.95 }}
                         animate={{ opacity: 1, scale: 1 }}
+                        transition={{ delay: 0.4 }}
                         className="glass-card rounded-2xl p-6"
                     >
-                        <h3 className="text-xl font-bold mb-6 flex items-center gap-2">
-                            <Activity className="w-5 h-5 text-accent-teal" />
-                            24-Hour Detection Timeline
-                        </h3>
-                        <ResponsiveContainer width="100%" height={300}>
+                        <h3 className="text-lg font-bold mb-6">Detection Timeline (Last 24h)</h3>
+                        <ResponsiveContainer width="100%" height={280}>
                             <AreaChart data={timeSeriesData}>
                                 <defs>
-                                    <linearGradient id="colorDetections" x1="0" y1="0" x2="0" y2="1">
-                                        <stop offset="5%" stopColor="#00D9FF" stopOpacity={0.8} />
-                                        <stop offset="95%" stopColor="#00D9FF" stopOpacity={0} />
-                                    </linearGradient>
                                     <linearGradient id="colorAccidents" x1="0" y1="0" x2="0" y2="1">
-                                        <stop offset="5%" stopColor="#FF5E94" stopOpacity={0.8} />
-                                        <stop offset="95%" stopColor="#FF5E94" stopOpacity={0} />
+                                        <stop offset="5%" stopColor="#FF5E94" stopOpacity={0.8}/>
+                                        <stop offset="95%" stopColor="#FF5E94" stopOpacity={0}/>
+                                    </linearGradient>
+                                    <linearGradient id="colorIncidents" x1="0" y1="0" x2="0" y2="1">
+                                        <stop offset="5%" stopColor="#FFD93D" stopOpacity={0.8}/>
+                                        <stop offset="95%" stopColor="#FFD93D" stopOpacity={0}/>
+                                    </linearGradient>
+                                    <linearGradient id="colorVehicles" x1="0" y1="0" x2="0" y2="1">
+                                        <stop offset="5%" stopColor="#00D9FF" stopOpacity={0.8}/>
+                                        <stop offset="95%" stopColor="#00D9FF" stopOpacity={0}/>
                                     </linearGradient>
                                 </defs>
                                 <CartesianGrid strokeDasharray="3 3" stroke="#ffffff10" />
-                                <XAxis dataKey="time" stroke="#888" />
-                                <YAxis stroke="#888" />
-                                <Tooltip
+                                <XAxis dataKey="time" stroke="#888" tick={{ fontSize: 12 }} />
+                                <YAxis stroke="#888" tick={{ fontSize: 12 }} />
+                                <Tooltip 
                                     contentStyle={{ backgroundColor: '#1a1a1a', border: '1px solid #333', borderRadius: '8px' }}
                                 />
-                                <Area type="monotone" dataKey="detections" stroke="#00D9FF" fillOpacity={1} fill="url(#colorDetections)" />
-                                <Area type="monotone" dataKey="accidents" stroke="#FF5E94" fillOpacity={1} fill="url(#colorAccidents)" />
+                                <Legend wrapperStyle={{ fontSize: '12px' }} />
+                                <Area type="monotone" dataKey="accidents" stroke="#FF5E94" fillOpacity={1} fill="url(#colorAccidents)" name="Accidents" />
+                                <Area type="monotone" dataKey="detections" stroke="#FFD93D" fillOpacity={1} fill="url(#colorIncidents)" name="Incidents" />
+                                <Area type="monotone" dataKey="trafficDensity" stroke="#00D9FF" fillOpacity={1} fill="url(#colorVehicles)" name="Vehicles" />
                             </AreaChart>
                         </ResponsiveContainer>
                     </motion.div>
 
-                    {/* Location Bar Chart */}
+                    {/* Vehicle Distribution */}
                     <motion.div
                         initial={{ opacity: 0, scale: 0.95 }}
                         animate={{ opacity: 1, scale: 1 }}
-                        transition={{ delay: 0.1 }}
+                        transition={{ delay: 0.5 }}
                         className="glass-card rounded-2xl p-6"
                     >
-                        <h3 className="text-xl font-bold mb-6 flex items-center gap-2">
-                            <MapPin className="w-5 h-5 text-accent-purple" />
-                            Accidents by Zone
-                        </h3>
-                        <ResponsiveContainer width="100%" height={300}>
-                            <BarChart data={locationData}>
-                                <CartesianGrid strokeDasharray="3 3" stroke="#ffffff10" />
-                                <XAxis dataKey="zone" stroke="#888" />
-                                <YAxis stroke="#888" />
-                                <Tooltip
+                        <h3 className="text-lg font-bold mb-6">Vehicle Distribution</h3>
+                        <ResponsiveContainer width="100%" height={280}>
+                            <PieChart>
+                                <Pie
+                                    data={vehicleTypes}
+                                    cx="50%"
+                                    cy="50%"
+                                    labelLine={false}
+                                    label={({ name, value }) => `${name} ${((value / vehicleTypes.reduce((sum, v) => sum + v.value, 0)) * 100).toFixed(0)}%`}
+                                    outerRadius={100}
+                                    fill="#8884d8"
+                                    dataKey="value"
+                                >
+                                    {vehicleTypes.map((entry, index) => (
+                                        <Cell key={`cell-${index}`} fill={entry.color} />
+                                    ))}
+                                </Pie>
+                                <Tooltip 
                                     contentStyle={{ backgroundColor: '#1a1a1a', border: '1px solid #333', borderRadius: '8px' }}
                                 />
-                                <Bar dataKey="accidents" fill="#A78BFA" radius={[8, 8, 0, 0]} />
-                            </BarChart>
+                            </PieChart>
                         </ResponsiveContainer>
                     </motion.div>
+                </div>
 
                     {/* Vehicle Types Pie Chart */}
                     <motion.div
@@ -597,6 +607,6 @@ export default function DashboardPage() {
                     background: rgba(0, 217, 255, 0.8);
                 }
             `}</style>
-        </main>
+        </main >
     );
 }
