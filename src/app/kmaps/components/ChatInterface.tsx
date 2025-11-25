@@ -68,7 +68,7 @@ export default function ChatInterface({ onRouteUpdate }: ChatInterfaceProps) {
 
         try {
             // System prompt to extract route info
-            const model = genAI.getGenerativeModel({ model: "gemini-pro" });
+            const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
 
             const prompt = `
                 You are a smart routing assistant for K-Maps. 
