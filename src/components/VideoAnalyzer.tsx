@@ -395,21 +395,6 @@ export default function VideoAnalyzer() {
                             </div>
                         </div>
 
-                        {/* Detected Objects */}
-                        {detectedObjects.length > 0 && (
-                            <div>
-                                <h3 className="text-sm font-bold mb-2">Detected Objects ({detectedObjects.length})</h3>
-                                <div className="space-y-1 max-h-32 overflow-y-auto text-xs">
-                                    {detectedObjects.map((obj, idx) => (
-                                        <div key={idx} className="flex justify-between items-center py-1 px-2 bg-white/5 rounded">
-                                            <span className="capitalize">{obj.class}</span>
-                                            <span className="font-mono text-accent-teal">{Math.round(obj.score * 100)}%</span>
-                                        </div>
-                                    ))}
-                                </div>
-                            </div>
-                        )}
-
                         {modelError && (
                             <div className="bg-red-500/10 border border-red-500/30 rounded-lg p-4">
                                 <p className="text-red-500 text-xs">{modelError}</p>
