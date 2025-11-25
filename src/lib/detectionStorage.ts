@@ -51,17 +51,25 @@ export class DetectionStorage {
         if (filters.className) {
             records = records.filter(r => r.className === filters.className);
         }
-        if (filters.minConfidence !== undefined) {
-            records = records.filter(r => r.confidence >= filters.minConfidence);
+
+        const minConf = filters.minConfidence;
+        if (minConf !== undefined) {
+            records = records.filter(r => r.confidence >= minConf);
         }
-        if (filters.maxConfidence !== undefined) {
-            records = records.filter(r => r.confidence <= filters.maxConfidence);
+
+        const maxConf = filters.maxConfidence;
+        if (maxConf !== undefined) {
+            records = records.filter(r => r.confidence <= maxConf);
         }
-        if (filters.startTime) {
-            records = records.filter(r => r.timestamp >= filters.startTime);
+
+        const start = filters.startTime;
+        if (start) {
+            records = records.filter(r => r.timestamp >= start);
         }
-        if (filters.endTime) {
-            records = records.filter(r => r.timestamp <= filters.endTime);
+
+        const end = filters.endTime;
+        if (end) {
+            records = records.filter(r => r.timestamp <= end);
         }
 
         return records;
