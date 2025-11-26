@@ -127,11 +127,21 @@ export default function ChatInterface({ onRouteUpdate }: ChatInterfaceProps) {
                 timestamp: Date.now()
             };
 
+            console.log("📨 Adding AI message to chat:", aiMessage);
             setMessages(prev => [...prev, aiMessage]);
 
+            console.log("🔍 Checking parsedResponse.type:", parsedResponse.type);
             if (parsedResponse.type === 'route_request') {
-                console.log("Route request detected:", parsedResponse);
+                console.log("✅ ROUTE REQUEST DETECTED! Calling onRouteUpdate with:", parsedResponse);
+                console.log("🗺️ Route details:", {
+                    source: parsedResponse.source,
+                    destination: parsedResponse.destination,
+                    preferences: parsedResponse.preferences
+                });
                 onRouteUpdate(parsedResponse);
+                console.log("✅ onRouteUpdate called successfully!");
+            } else {
+                console.log("ℹ️ Not a route request, just chat. Type:", parsedResponse.type);
             }
 
         } catch (error: any) {
