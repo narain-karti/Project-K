@@ -108,15 +108,32 @@ interface MapViewProps {
 }
 
 export default function MapView({ routeRequest }: MapViewProps) {
-    const { isLoaded } = useJsApiLoader({
+    const { isLoaded, loadError } = useJsApiLoader({
         id: 'google-map-script',
-        googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_KEY || ''
+        googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_KEY || '',
+        libraries: ['places', 'geometry']
     });
 
     const [map, setMap] = useState<google.maps.Map | null>(null);
     const [directions, setDirections] = useState<google.maps.DirectionsResult | null>(null);
     const [accidentAlert, setAccidentAlert] = useState<{ show: boolean, location: google.maps.LatLng | null }>({ show: false, location: null });
     const [currentRouteIndex, setCurrentRouteIndex] = useState(0);
+
+    // Log any loading errors
+    useEffect(() => {
+        if (loadError) {
+            console.error('Google Maps API loading error:', loadError);
+        }
+    }, [loadError]);
+
+    // Check if API key is present
+    useEffect(() => {
+        const apiKey = process.env.NEXT_PUBLIC_GOOGLE_MAPS_KEY;
+        console.log('Google Maps API Key present:', !!apiKey);
+        if (!apiKey) {
+            console.error('NEXT_PUBLIC_GOOGLE_MAPS_KEY is not set in environment variables');
+        }
+    }, []);
 
     const onLoad = useCallback(function callback(map: google.maps.Map) {
         setMap(map);
@@ -171,6 +188,22 @@ export default function MapView({ routeRequest }: MapViewProps) {
     const handleContinue = () => {
         setAccidentAlert({ ...accidentAlert, show: false });
     };
+
+    if (loadError) {
+        return (
+            <div className="w-full h-full flex flex-col items-center justify-center bg-black/20 backdrop-blur-xl p-8 text-center">
+                <div className="text-red-500 text-xl mb-4">⚠️ Maps Loading Error</div>
+                <p className="text-text-secondary mb-2">Google Maps failed to load.</p>
+                <p className="text-sm text-text-secondary mb-4">Please check:</p>
+                <ul className="text-left text-sm text-text-secondary space-y-1">
+                    <li>✓ API key is valid</li>
+                    <li>✓ Billing is enabled on Google Cloud</li>
+                    <li>✓ Maps JavaScript API is enabled</li>
+                    <li>✓ Directions API is enabled</li>
+                </ul>
+            </div>
+        );
+    }
 
     if (!isLoaded) {
         return (
