@@ -68,90 +68,59 @@ function RoutingMachine({ routeRequest, onRouteLoaded }: { routeRequest: any, on
         // Get coordinates and create route
         console.log('🔄 Geocoding source and destination...');
         Promise.all([
-            geocode(routeRequest.source),
-            geocode(routeRequest.destination)
-        ]).then(async ([start, end]) => {
-            console.log('🎯 Geocoding complete. Creating route from', start, 'to', end);
-
-            try {
-                // Import routing machine dynamically
-                console.log('📦 Importing leaflet-routing-machine...');
-                const LRM = await import('leaflet-routing-machine');
-                console.log('✅ leaflet-routing-machine loaded:', LRM);
-
-                // Remove previous routing control
-                if (routingControl) {
-                    console.log('🧹 Removing previous routing control');
-                    map.removeControl(routingControl);
-                }
-
-                console.log('🛣️ Creating routing control...');
-
-                // Try to access the control function from the module
-                // Different build systems export it differently
-                const RoutingControl = (LRM as any).default || LRM;
-                console.log('RoutingControl:', RoutingControl);
-
-                const control = RoutingControl.control({
-                    waypoints: [
-                        L.latLng(start[0], start[1]),
-                        L.latLng(end[0], end[1])
-                    ],
-                    routeWhileDragging: false,
-                    addWaypoints: false,
-                    lineOptions: {
-                        styles: [{
-                            color: routeRequest?.preferences?.includes('pollution-free') ? '#34D399' : '#00D9FF',
-                            opacity: 0.8,
-                            weight: 5
-                        }],
-                        extendToWaypoints: true,
-                        missingRouteTolerance: 0
-                    },
-                    show: false,
-                    createMarker: () => null,
+            lineOptions: {
+                styles: [{
+                    color: routeRequest?.preferences?.includes('pollution-free') ? '#34D399' : '#00D9FF',
+                    opacity: 0.8,
+                    weight: 5
+                }],
+                extendToWaypoints: true,
+                missingRouteTolerance: 0
+            },
+            show: false,
+            createMarker: () => null,
                 }).addTo(map);
 
-                console.log('✅ Routing control added to map');
+    console.log('✅ Routing control added to map');
 
-                control.on('routesfound', function (e: any) {
-                    console.log('🎉🎉🎉 Route found!', e.routes[0]);
-                    const route = e.routes[0];
-                    onRouteLoaded(route);
-                });
+    control.on('routesfound', function (e: any) {
+        console.log('🎉🎉🎉 Route found!', e.routes[0]);
+        const route = e.routes[0];
+        onRouteLoaded(route);
+    });
 
-                control.on('routingerror', function (e: any) {
-                    console.error('❌❌❌ Routing error:', e);
-                });
+    control.on('routingerror', function (e: any) {
+        console.error('❌❌❌ Routing error:', e);
+    });
 
-                setRoutingControl(control);
+    setRoutingControl(control);
 
-                // Fit bounds
-                console.log('🔍 Fitting map bounds');
-                map.fitBounds([
-                    [start[0], start[1]],
-                    [end[0], end[1]]
-                ]);
-            } catch (err) {
-                console.error('💥 Error creating route:', err);
-            }
-        }).catch(err => {
-            console.error('💥 Geocoding failed:', err);
-        });
+    // Fit bounds
+    console.log('🔍 Fitting map bounds');
+    map.fitBounds([
+        [start[0], start[1]],
+        [end[0], end[1]]
+    ]);
+} catch (err) {
+    console.error('💥 Error creating route:', err);
+}
+        }).catch (err => {
+    console.error('💥 Geocoding failed:', err);
+});
 
-        return () => {
-            if (routingControl && map) {
-                try {
-                    console.log('🧹 Cleaning up routing control');
-                    map.removeControl(routingControl);
-                } catch (e) {
-                    console.error('❌ Error removing control:', e);
-                }
-            }
-        };
+return () => {
+    if (routingControl && map) {
+        try {
+            console.log('🧹 Cleaning up routing control');
+            map.removeControl(routingControl);
+        } catch (e) {
+            console.error('❌ Error removing control:', e);
+        }
+    }
+};
     }, [map, routeRequest]);
 
-    return null;
+return null;
 }
 
 export default function LeafletMapClient({ routeRequest, onRouteLoaded, accidentLocation }: LeafletMapClientProps) {
