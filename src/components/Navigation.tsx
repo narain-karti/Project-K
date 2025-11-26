@@ -10,6 +10,7 @@ const navLinks = [
   { href: '/', label: 'Home' },
   { href: '/demo', label: 'Live Demo' },
   { href: '/dashboard', label: 'Dashboard' },
+  { href: '/kmaps', label: 'K Maps' },
   { href: '/technology', label: 'Technology' },
   { href: '/impact', label: 'Impact' },
   { href: '/business', label: 'Business' },
@@ -61,8 +62,8 @@ export default function Navigation() {
                   key={link.href}
                   href={link.href}
                   className={`text-base font-medium transition-all duration-200 interactive relative group ${pathname === link.href
-                      ? 'text-accent-cyan'
-                      : 'text-text-secondary hover:text-text-primary'
+                    ? 'text-accent-cyan'
+                    : 'text-text-secondary hover:text-text-primary'
                     }`}
                 >
                   {link.label}
@@ -134,8 +135,8 @@ export default function Navigation() {
                       href={link.href}
                       onClick={() => setMobileMenuOpen(false)}
                       className={`block text-lg font-medium transition-all duration-200 interactive ${pathname === link.href
-                          ? 'text-accent-cyan'
-                          : 'text-text-secondary hover:text-text-primary'
+                        ? 'text-accent-cyan'
+                        : 'text-text-secondary hover:text-text-primary'
                         }`}
                     >
                       {link.label}
