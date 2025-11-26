@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { Outfit } from "next/font/google";
 import "./globals.css";
+import "leaflet/dist/leaflet.css";
+import "leaflet-routing-machine/dist/leaflet-routing-machine.css";
 import CustomCursor from "@/components/CustomCursor";
 import Navigation from "@/components/Navigation";
 import { DetectionProvider } from "@/context/DetectionContext";

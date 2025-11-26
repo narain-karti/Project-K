@@ -77,7 +77,6 @@ function RoutingMachine({ routeRequest, onRouteLoaded }: { routeRequest: any, on
                 // Import routing machine - this extends the L global with L.Routing
                 console.log('📦 Importing leaflet-routing-machine...');
                 await import('leaflet-routing-machine');
-                await import('leaflet-routing-machine/dist/leaflet-routing-machine.css');
                 console.log('✅ leaflet-routing-machine loaded');
 
                 // Remove previous routing control
