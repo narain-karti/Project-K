@@ -159,15 +159,15 @@ export default function ChatInterface({ onRouteUpdate }: ChatInterfaceProps) {
     };
 
     return (
-        <div className="flex flex-col h-full bg-black/20 backdrop-blur-xl border-r border-white/10">
+        <div className="flex flex-col h-full bg-gradient-to-br from-black/30 via-black/20 to-black/30 backdrop-blur-2xl border-r border-white/20 shadow-2xl">
             {/* Header */}
-            <div className="p-4 border-b border-white/10 flex items-center gap-3">
-                <div className="w-10 h-10 rounded-full bg-gradient-to-br from-accent-cyan to-accent-violet flex items-center justify-center">
+            <div className="p-4 border-b border-white/20 bg-gradient-to-r from-white/5 to-transparent flex items-center gap-3 backdrop-blur-sm">
+                <div className="w-10 h-10 rounded-full bg-gradient-to-br from-accent-cyan to-accent-violet flex items-center justify-center shadow-lg shadow-accent-cyan/30 ring-2 ring-white/10">
                     <Bot className="w-6 h-6 text-white" />
                 </div>
                 <div>
-                    <h2 className="font-bold text-lg">K-Maps Assistant</h2>
-                    <p className="text-xs text-text-secondary">AI-Powered Routing</p>
+                    <h2 className="font-bold text-lg text-white drop-shadow-lg">K-Maps Assistant</h2>
+                    <p className="text-xs text-accent-cyan/80">AI-Powered Routing</p>
                 </div>
             </div>
 
@@ -181,12 +181,12 @@ export default function ChatInterface({ onRouteUpdate }: ChatInterfaceProps) {
                         className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}
                     >
                         <div
-                            className={`max-w-[85%] p-3 rounded-2xl ${msg.role === 'user'
-                                ? 'bg-accent-violet/20 border border-accent-violet/30 text-white rounded-tr-none'
-                                : 'bg-white/5 border border-white/10 text-text-secondary rounded-tl-none'
+                            className={`max-w-[85%] p-3 rounded-2xl backdrop-blur-md shadow-lg transition-all hover:scale-[1.02] ${msg.role === 'user'
+                                ? 'bg-gradient-to-br from-accent-violet/25 to-accent-violet/15 border border-accent-violet/40 text-white rounded-tr-none shadow-accent-violet/20'
+                                : 'bg-gradient-to-br from-white/10 to-white/5 border border-white/20 text-white rounded-tl-none shadow-black/20'
                                 }`}
                         >
-                            <p className="text-sm">{msg.content}</p>
+                            <p className="text-sm leading-relaxed font-medium">{msg.content}</p>
                             <span className="text-[10px] opacity-50 mt-1 block">
                                 {new Date(msg.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                             </span>
@@ -199,7 +199,7 @@ export default function ChatInterface({ onRouteUpdate }: ChatInterfaceProps) {
                         animate={{ opacity: 1 }}
                         className="flex justify-start"
                     >
-                        <div className="bg-white/5 border border-white/10 p-3 rounded-2xl rounded-tl-none flex gap-1">
+                        <div className="bg-gradient-to-br from-white/10 to-white/5 backdrop-blur-md border border-white/20 p-3 rounded-2xl rounded-tl-none flex gap-1 shadow-lg">
                             <span className="w-2 h-2 bg-accent-cyan/50 rounded-full animate-bounce" style={{ animationDelay: '0ms' }} />
                             <span className="w-2 h-2 bg-accent-cyan/50 rounded-full animate-bounce" style={{ animationDelay: '150ms' }} />
                             <span className="w-2 h-2 bg-accent-cyan/50 rounded-full animate-bounce" style={{ animationDelay: '300ms' }} />
@@ -210,7 +210,7 @@ export default function ChatInterface({ onRouteUpdate }: ChatInterfaceProps) {
             </div>
 
             {/* Input */}
-            <div className="p-4 border-t border-white/10 bg-black/20">
+            <div className="p-4 border-t border-white/20 bg-gradient-to-t from-black/30 to-transparent backdrop-blur-md">
                 <div className="flex gap-2">
                     <input
                         type="text"
@@ -218,12 +218,12 @@ export default function ChatInterface({ onRouteUpdate }: ChatInterfaceProps) {
                         onChange={(e) => setInput(e.target.value)}
                         onKeyDown={(e) => e.key === 'Enter' && handleSend()}
                         placeholder="Type your route request..."
-                        className="flex-1 bg-white/5 border border-white/10 rounded-xl px-4 py-2 text-sm focus:outline-none focus:border-accent-cyan/50 transition-colors"
+                        className="flex-1 bg-gradient-to-br from-white/10 to-white/5 backdrop-blur-sm border border-white/20 rounded-xl px-4 py-3 text-sm text-white placeholder:text-white/50 focus:outline-none focus:border-accent-cyan focus:ring-2 focus:ring-accent-cyan/20 transition-all shadow-inner"
                     />
                     <button
                         onClick={handleSend}
                         disabled={isLoading || !input.trim()}
-                        className="p-2 bg-accent-cyan/20 hover:bg-accent-cyan/30 text-accent-cyan rounded-xl transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                        className="p-3 bg-gradient-to-br from-accent-cyan/25 to-accent-cyan/15 hover:from-accent-cyan/35 hover:to-accent-cyan/25 text-accent-cyan rounded-xl transition-all disabled:opacity-50 disabled:cursor-not-allowed backdrop-blur-sm border border-accent-cyan/30 shadow-lg shadow-accent-cyan/10 hover:shadow-accent-cyan/20 hover:scale-105 active:scale-95"
                     >
                         <Send className="w-5 h-5" />
                     </button>

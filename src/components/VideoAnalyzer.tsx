@@ -32,6 +32,7 @@ export default function VideoAnalyzer() {
     const [modelError, setModelError] = useState<string | null>(null);
     const [showAccidentAlert, setShowAccidentAlert] = useState(false);
     const [accidentDetected, setAccidentDetected] = useState(false);
+    const lastNotificationTime = useRef<number>(0); // Track last notification time for cooldown
     const [metrics, setMetrics] = useState<PerformanceMetrics>({
         fps: 0,
         latency: 0,
@@ -172,17 +173,31 @@ export default function VideoAnalyzer() {
                 lastFrameTime.current = currentTime;
             }
 
-            // Check for accident detection
+            // Check for accident detection with smart cooldown
             const accidentPrediction = tmPrediction.find(p =>
                 p.className.toLowerCase().includes('accident')
             );
 
             if (accidentPrediction && accidentPrediction.probability > 0.7) {
-                if (!accidentDetected) {
+                const currentTime = Date.now();
+                const timeSinceLastNotification = currentTime - lastNotificationTime.current;
+
+                // Cooldown logic: Show notification only if:
+                // 1. First time detecting OR
+                // 2. At least 4 seconds passed since last notification (2.5s display + 1.5s cooldown)
+                const COOLDOWN_PERIOD = 4000; // 4 seconds total (2.5s show + 1.5s wait)
+
+                if (!showAccidentAlert && timeSinceLastNotification > COOLDOWN_PERIOD) {
                     setShowAccidentAlert(true);
-                    setAccidentDetected(true);
-                    setTimeout(() => setShowAccidentAlert(false), 5000);
+                    lastNotificationTime.current = currentTime;
+
+                    // Auto-hide after 2.5 seconds with fade animation
+                    setTimeout(() => {
+                        setShowAccidentAlert(false);
+                    }, 2500);
                 }
+
+                setAccidentDetected(true);
                 setHighConfidence(true);
                 setCurrentDetection('Accident');
                 setConfidenceLevel(accidentPrediction.probability);
