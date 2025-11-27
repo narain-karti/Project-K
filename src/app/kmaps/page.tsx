@@ -14,7 +14,7 @@ export default function KMapsPage() {
     };
 
     return (
-        <main className="h-screen w-full bg-black overflow-hidden flex flex-col md:flex-row pt-20 relative">
+        <main className="h-screen w-full bg-black overflow-hidden flex flex-col md:flex-row pt-16 relative">
             {/* Ambient Glow Background */}
             <div className="absolute top-1/2 left-[200px] w-[500px] h-[500px] bg-gradient-to-br from-accent-cyan/20 via-accent-violet/20 to-transparent rounded-full blur-[100px] pointer-events-none animate-pulse" />
 
@@ -35,7 +35,7 @@ export default function KMapsPage() {
                         ease: "easeInOut"
                     }
                 }}
-                className="w-full md:w-[420px] h-[40vh] md:h-[calc(100vh-120px)] md:my-auto md:ml-8 md:mr-6 shrink-0 z-10 relative"
+                className="w-full md:w-[420px] h-[calc(100vh-80px)] md:ml-6 md:mr-6 md:mt-6 md:mb-6 shrink-0 z-10 relative"
                 style={{
                     filter: 'drop-shadow(0 0 40px rgba(0, 217, 255, 0.3)) drop-shadow(0 0 80px rgba(138, 97, 255, 0.2))'
                 }}
