@@ -95,42 +95,27 @@ initial = {{ scaleX: 0 }}
       className="fixed inset-0 z-40 md:hidden"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
-      exit={{ opacity: 0 }}
+      key={link.href}
+      initial={{ x: -20, opacity: 0 }}
+      animate={{ x: 0, opacity: 1 }}
+      transition={{ delay: index * 0.05 }}
     >
-      <div
-        className="absolute inset-0 bg-black/50 backdrop-blur-sm"
+      <Link
+        href={link.href}
         onClick={() => setMobileMenuOpen(false)}
-      />
-      <motion.div
-        className="absolute top-20 right-6 left-6 glass-card rounded-2xl p-6 shadow-2xl backdrop-blur-2xl"
-        initial={{ y: -20, opacity: 0 }}
-        animate={{ y: 0, opacity: 1 }}
-        exit={{ y: -20, opacity: 0 }}
-        transition={{ type: 'spring', stiffness: 300, damping: 30 }}
+        className={`block text-lg font-medium transition-all duration-200 interactive ${pathname === link.href
+          ? 'text-accent-cyan'
+          : 'text-text-secondary hover:text-text-primary'
+          }`}
       >
-        <div className="flex flex-col gap-4">
-          {navLinks.map((link, index) => (
-            <motion.div
-              key={link.href}
-              initial={{ x: -20, opacity: 0 }}
-              animate={{ x: 0, opacity: 1 }}
-              transition={{ delay: index * 0.05 }}
-            >
-              <Link
-                href={link.href}
-                onClick={() => setMobileMenuOpen(false)}
-                className={`block text-lg font-medium transition-all duration-200 interactive ${pathname === link.href
-                  ? 'text-accent-cyan'
-                  : 'text-text-secondary hover:text-text-primary'
-                  }`}
-              >
-                {link.label}
-              </Link>
-            </motion.div>
-          ))}
-        </div>
-      </motion.div>
+        {link.label}
+      </Link>
     </motion.div>
+  ))
+}
+        </div >
+      </motion.div >
+    </motion.div >
   )
 }
       </AnimatePresence >
