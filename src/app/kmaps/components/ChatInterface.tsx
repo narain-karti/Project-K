@@ -159,7 +159,7 @@ export default function ChatInterface({ onRouteUpdate }: ChatInterfaceProps) {
     };
 
     return (
-        <div className="flex flex-col h-full bg-gradient-to-br from-black/30 via-black/20 to-black/30 backdrop-blur-2xl border-r border-white/20 shadow-2xl">
+        <div className="flex flex-col h-full bg-gradient-to-br from-black/30 via-black/20 to-black/30 backdrop-blur-2xl shadow-2xl">
             {/* Header */}
             <div className="p-4 border-b border-white/20 bg-gradient-to-r from-white/5 to-transparent flex items-center gap-3 backdrop-blur-sm">
                 <div className="w-10 h-10 rounded-full bg-gradient-to-br from-accent-cyan to-accent-violet flex items-center justify-center shadow-lg shadow-accent-cyan/30 ring-2 ring-white/10">

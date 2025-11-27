@@ -14,14 +14,35 @@ export default function KMapsPage() {
     };
 
     return (
-        <main className="h-screen w-full bg-black overflow-hidden flex flex-col md:flex-row pt-20">
-            {/* Left Side - Chat Interface */}
+        <main className="h-screen w-full bg-black overflow-hidden flex flex-col md:flex-row pt-20 relative">
+            {/* Ambient Glow Background */}
+            <div className="absolute top-1/2 left-[200px] w-[500px] h-[500px] bg-gradient-to-br from-accent-cyan/20 via-accent-violet/20 to-transparent rounded-full blur-[100px] pointer-events-none animate-pulse" />
+
+            {/* Left Side - Floating Chat Interface */}
             <motion.div
                 initial={{ x: -50, opacity: 0 }}
-                animate={{ x: 0, opacity: 1 }}
-                className="w-full md:w-[400px] h-[40vh] md:h-full shrink-0 z-10"
+                animate={{
+                    x: 0,
+                    opacity: 1,
+                    y: [0, -10, 0], // Floating animation
+                }}
+                transition={{
+                    opacity: { duration: 0.5 },
+                    x: { duration: 0.5 },
+                    y: {
+                        duration: 4,
+                        repeat: Infinity,
+                        ease: "easeInOut"
+                    }
+                }}
+                className="w-full md:w-[420px] h-[40vh] md:h-[calc(100vh-120px)] md:my-auto md:ml-8 md:mr-6 shrink-0 z-10 relative"
+                style={{
+                    filter: 'drop-shadow(0 0 40px rgba(0, 217, 255, 0.3)) drop-shadow(0 0 80px rgba(138, 97, 255, 0.2))'
+                }}
             >
-                <ChatInterface onRouteUpdate={handleRouteUpdate} />
+                <div className="h-full rounded-2xl md:rounded-3xl overflow-hidden ring-1 ring-white/10">
+                    <ChatInterface onRouteUpdate={handleRouteUpdate} />
+                </div>
             </motion.div>
 
             {/* Right Side - Map View */}
