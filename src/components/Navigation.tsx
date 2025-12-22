@@ -50,17 +50,9 @@ export default function Navigation() {
         <nav className="container mx-auto px-6 py-4">
           <div className="flex items-center justify-between">
             {/* Logo and Title with Animations */}
-            <Link href="/" className="flex items-center gap-3 group">
+            <Link href="/" className="flex items-center gap-4 group">
               <motion.div
-                className="relative w-12 h-12"
-                animate={{
-                  y: [0, -8, 0],
-                }}
-                transition={{
-                  duration: 3,
-                  repeat: Infinity,
-                  ease: "easeInOut"
-                }}
+                className="relative w-16 h-16"
                 whileHover={{
                   scale: 1.1,
                   rotate: [0, -5, 5, -5, 0],
@@ -70,8 +62,8 @@ export default function Navigation() {
                 <Image
                   src="/logo.png"
                   alt="Project K Logo"
-                  width={48}
-                  height={48}
+                  width={64}
+                  height={64}
                   className="object-contain drop-shadow-[0_0_15px_rgba(45,212,191,0.6)]"
                 />
               </motion.div>
@@ -88,7 +80,7 @@ export default function Navigation() {
                 }}
               >
                 <motion.span
-                  className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-accent-teal via-accent-purple to-accent-teal bg-[length:200%_auto]"
+                  className="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-accent-teal via-accent-purple to-accent-teal bg-[length:200%_auto]"
                   animate={{
                     backgroundPosition: ['0% center', '200% center'],
                   }}
@@ -105,8 +97,6 @@ export default function Navigation() {
                 >
                   PROJECT K
                 </motion.span>
-                <span className="text-[10px] text-accent-cyan/60 uppercase tracking-widest font-medium">Hybrid Intelligence</span>
-              </motion.div>
             </Link>
 
             {/* Desktop Navigation */}
