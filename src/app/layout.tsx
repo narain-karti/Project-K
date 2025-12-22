@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Outfit } from "next/font/google";
+import { Inter } from "next/font/google";
 import "./globals.css";
 import "leaflet/dist/leaflet.css";
 import "leaflet-routing-machine/dist/leaflet-routing-machine.css";
@@ -8,7 +8,7 @@ import Navigation from "@/components/Navigation";
 import InteractiveBackground from "@/components/InteractiveBackground";
 import { DetectionProvider } from "@/context/DetectionContext";
 
-const outfit = Outfit({ subsets: ["latin"], variable: "--font-outfit" });
+const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
 
 export const metadata: Metadata = {
   title: "Project K | Hybrid Traffic Intelligence",
@@ -22,7 +22,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${outfit.variable} antialiased`}>
+      <body className={`${inter.variable} antialiased font-sans`}>
         <DetectionProvider>
           <InteractiveBackground />
           <CustomCursor />
