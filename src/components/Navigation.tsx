@@ -5,6 +5,7 @@ import { usePathname } from 'next/navigation';
 import { useState, useEffect } from 'react';
 import { Menu, X } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
+import Image from 'next/image';
 
 const navLinks = [
   { href: '/', label: 'Home' },
@@ -48,11 +49,64 @@ export default function Navigation() {
       >
         <nav className="container mx-auto px-6 py-4">
           <div className="flex items-center justify-between">
-            {/* Logo */}
-            <Link href="/" className="text-2xl font-bold interactive group">
-              <span className="bg-clip-text text-transparent bg-gradient-to-r from-accent-cyan to-accent-rose group-hover:from-accent-violet group-hover:to-accent-amber transition-all duration-300">
-                Project K
-              </span>
+            {/* Logo and Title with Animations */}
+            <Link href="/" className="flex items-center gap-3 group">
+              <motion.div
+                className="relative w-12 h-12"
+                animate={{
+                  y: [0, -8, 0],
+                }}
+                transition={{
+                  duration: 3,
+                  repeat: Infinity,
+                  ease: "easeInOut"
+                }}
+                whileHover={{
+                  scale: 1.1,
+                  rotate: [0, -5, 5, -5, 0],
+                  transition: { duration: 0.5 }
+                }}
+              >
+                <Image
+                  src="/logo.png"
+                  alt="Project K Logo"
+                  width={48}
+                  height={48}
+                  className="object-contain drop-shadow-[0_0_15px_rgba(45,212,191,0.6)]"
+                />
+              </motion.div>
+              <motion.div
+                className="flex flex-col"
+                animate={{
+                  y: [0, -6, 0],
+                }}
+                transition={{
+                  duration: 3,
+                  repeat: Infinity,
+                  ease: "easeInOut",
+                  delay: 0.2
+                }}
+              >
+                <motion.span
+                  className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-accent-teal via-accent-purple to-accent-teal bg-[length:200%_auto]"
+                  animate={{
+                    backgroundPosition: ['0% center', '200% center'],
+                  }}
+                  transition={{
+                    duration: 3,
+                    repeat: Infinity,
+                    ease: "linear"
+                  }}
+                  whileHover={{
+                    scale: 1.05,
+                    textShadow: "0 0 20px rgba(45,212,191,0.8)",
+                    transition: { duration: 0.3 }
+                  }}
+                >
+                  PROJECT K
+                </motion.span>
+                <span className="text-[10px] text-accent-cyan/60 uppercase tracking-widest font-medium">Hybrid Intelligence</span>
+              </motion.div>
             </Link>
 
             {/* Desktop Navigation */}
