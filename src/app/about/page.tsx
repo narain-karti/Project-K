@@ -201,7 +201,7 @@ export default function AboutPage() {
                                             onClick={() => setOpenFaq(openFaq === index ? null : index)}
                                             className="w-full text-left p-6 flex items-center justify-between interactive hover:bg-white/5 transition-colors"
                                         >
-                                            <span className="font-semibold pr-4">{faq.q}</span>
+                                            <span className="font-semibold pr-4 break-words">{faq.q}</span>
                                             <ChevronDown
                                                 className={`w-5 h-5 text-accent-teal transition-transform flex-shrink-0 ${openFaq === index ? 'rotate-180' : ''
                                                     }`}

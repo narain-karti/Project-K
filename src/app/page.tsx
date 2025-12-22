@@ -196,7 +196,7 @@ export default function Home() {
                     <div className="w-12 h-12 rounded-full bg-red-500/20 flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform duration-300">
                       <Clock className="w-6 h-6 text-red-500" />
                     </div>
-                    <h3 className="text-xl font-bold group-hover:text-white transition-colors duration-300">Accidents Go Undetected for Minutes</h3>
+                    <h3 className="text-xl font-bold group-hover:text-white transition-colors duration-300 break-words">Accidents Go Undetected for Minutes</h3>
                   </div>
                   <p className="text-text-secondary mb-3 text-sm group-hover:text-gray-300 transition-colors duration-300">
                     India currently detects most road accidents 5–15 minutes late, relying on human reporting or chance observation. In emergencies, these minutes cost lives.
@@ -218,7 +218,7 @@ export default function Home() {
                     <div className="w-12 h-12 rounded-full bg-orange-500/20 flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform duration-300">
                       <Activity className="w-6 h-6 text-orange-500" />
                     </div>
-                    <h3 className="text-xl font-bold group-hover:text-white transition-colors duration-300">Ambulances Get Stuck in Traffic</h3>
+                    <h3 className="text-xl font-bold group-hover:text-white transition-colors duration-300 break-words">Ambulances Get Stuck in Traffic</h3>
                   </div>
                   <p className="text-text-secondary mb-3 text-sm group-hover:text-gray-300 transition-colors duration-300">
                     Emergency vehicles fight the same congestion as everyone else, leading to 20–45 minute delays in cities and even longer in peri-urban areas.
@@ -240,7 +240,7 @@ export default function Home() {
                     <div className="w-12 h-12 rounded-full bg-yellow-500/20 flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform duration-300">
                       <Zap className="w-6 h-6 text-yellow-500" />
                     </div>
-                    <h3 className="text-xl font-bold group-hover:text-white transition-colors duration-300">Traffic Signals Are Blind & Fixed</h3>
+                    <h3 className="text-xl font-bold group-hover:text-white transition-colors duration-300 break-words">Traffic Signals Are Blind & Fixed</h3>
                   </div>
                   <p className="text-text-secondary mb-3 text-sm group-hover:text-gray-300 transition-colors duration-300">
                     Most intersections run on rigid 30–30 second timers, ignoring real-time traffic, rush hours, or emergencies.
@@ -262,7 +262,7 @@ export default function Home() {
                     <div className="w-12 h-12 rounded-full bg-purple-500/20 flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform duration-300">
                       <AlertTriangle className="w-6 h-6 text-purple-500" />
                     </div>
-                    <h3 className="text-xl font-bold group-hover:text-white transition-colors duration-300">Potholes & Waterlogging Go Unreported</h3>
+                    <h3 className="text-xl font-bold group-hover:text-white transition-colors duration-300 break-words">Potholes & Waterlogging Go Unreported</h3>
                   </div>
                   <p className="text-text-secondary mb-3 text-sm group-hover:text-gray-300 transition-colors duration-300">
                     Cities depend on slow citizen complaints or manual surveys. Potholes can take 1–3 weeks to be flagged and fixed, causing crashes and congestion.
@@ -284,7 +284,7 @@ export default function Home() {
                     <div className="w-12 h-12 rounded-full bg-blue-500/20 flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform duration-300">
                       <Wifi className="w-6 h-6 text-blue-500" />
                     </div>
-                    <h3 className="text-xl font-bold group-hover:text-white transition-colors duration-300">Cameras Only Record, They Don't Respond</h3>
+                    <h3 className="text-xl font-bold group-hover:text-white transition-colors duration-300 break-words">Cameras Only Record, They Don't Respond</h3>
                   </div>
                   <p className="text-text-secondary mb-3 text-sm group-hover:text-gray-300 transition-colors duration-300">
                     India has installed more than 13 lakh traffic cameras, but 99% are passive, with no intelligence or automated action.
@@ -306,7 +306,7 @@ export default function Home() {
                     <div className="w-12 h-12 rounded-full bg-rose-500/20 flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform duration-300">
                       <Shield className="w-6 h-6 text-rose-500" />
                     </div>
-                    <h3 className="text-xl font-bold group-hover:text-white transition-colors duration-300">One Cloud Failure Can Paralyze a City</h3>
+                    <h3 className="text-xl font-bold group-hover:text-white transition-colors duration-300 break-words">One Cloud Failure Can Paralyze a City</h3>
                   </div>
                   <p className="text-text-secondary mb-3 text-sm group-hover:text-gray-300 transition-colors duration-300">
                     Pure cloud-based traffic systems fail when the network fails — leading to city-wide gridlocks and massive cascading delays.
