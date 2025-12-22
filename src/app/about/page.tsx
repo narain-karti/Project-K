@@ -43,7 +43,7 @@ export default function AboutPage() {
                 <section className="mb-16">
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                         <motion.div
-                            className="glass-card rounded-2xl p-8 group hover:bg-white/10 transition-colors duration-300"
+                            className="glass-card rounded-2xl p-8 group hover:bg-white/10 transition-colors duration-300 hover:shadow-[0_0_40px_rgba(45,212,191,0.4)] hover:border-accent-teal/40 group-hover:bg-gradient-to-br group-hover:from-accent-teal/10 group-hover:to-transparent"
                             initial={{ opacity: 0, x: -30 }}
                             whileInView={{ opacity: 1, x: 0 }}
                             transition={{ duration: 0.6 }}
@@ -59,7 +59,7 @@ export default function AboutPage() {
                         </motion.div>
 
                         <motion.div
-                            className="glass-card rounded-2xl p-8 group hover:bg-white/10 transition-colors duration-300"
+                            className="glass-card rounded-2xl p-8 group hover:bg-white/10 transition-colors duration-300 hover:shadow-[0_0_40px_rgba(168,85,247,0.4)] hover:border-accent-purple/40 group-hover:bg-gradient-to-br group-hover:from-accent-purple/10 group-hover:to-transparent"
                             initial={{ opacity: 0, x: 30 }}
                             whileInView={{ opacity: 1, x: 0 }}
                             transition={{ duration: 0.6 }}
@@ -79,7 +79,7 @@ export default function AboutPage() {
                 {/* Why Now */}
                 <section className="mb-16">
                     <motion.div
-                        className="glass-card rounded-2xl p-8 group hover:bg-white/10 transition-colors duration-300"
+                        className="glass-card rounded-2xl p-8 group hover:bg-white/10 transition-colors duration-300 hover:shadow-[0_0_40px_rgba(45,212,191,0.4)] hover:border-accent-teal/40 group-hover:bg-gradient-to-br group-hover:from-accent-teal/10 group-hover:to-transparent"
                         initial={{ opacity: 0, y: 30 }}
                         whileInView={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.6 }}

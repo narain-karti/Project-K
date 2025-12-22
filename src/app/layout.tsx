@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Plus_Jakarta_Sans } from "next/font/google";
+import { Space_Grotesk } from "next/font/google";
 import "./globals.css";
 import "leaflet/dist/leaflet.css";
 import "leaflet-routing-machine/dist/leaflet-routing-machine.css";
@@ -8,7 +8,7 @@ import Navigation from "@/components/Navigation";
 import InteractiveBackground from "@/components/InteractiveBackground";
 import { DetectionProvider } from "@/context/DetectionContext";
 
-const jakarta = Plus_Jakarta_Sans({ subsets: ["latin"], variable: "--font-jakarta" });
+const space = Space_Grotesk({ subsets: ["latin"], variable: "--font-space" });
 
 export const metadata: Metadata = {
   title: "Project K | Hybrid Traffic Intelligence",
@@ -22,7 +22,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${jakarta.variable} antialiased font-sans`}>
+      <body className={`${space.variable} antialiased font-sans`}>
         <DetectionProvider>
           <InteractiveBackground />
           <CustomCursor />

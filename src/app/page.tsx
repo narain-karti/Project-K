@@ -183,7 +183,7 @@ export default function Home() {
           >
             {/* Card 1 */}
             <motion.div
-              className="glass-card rounded-2xl p-6 group hover:bg-white/10 transition-colors duration-300"
+              className="glass-card rounded-2xl p-6 group hover:bg-white/10 transition-colors duration-300 hover:shadow-[0_0_40px_rgba(239,68,68,0.4)] hover:border-red-500/40 group-hover:bg-gradient-to-br group-hover:from-red-500/10 group-hover:to-transparent"
               variants={{
                 hidden: { opacity: 0, y: 30 },
                 visible: { opacity: 1, y: 0, transition: { duration: 0.5 } }
@@ -205,7 +205,7 @@ export default function Home() {
 
             {/* Card 2 */}
             <motion.div
-              className="glass-card rounded-2xl p-6 group hover:bg-white/10 transition-colors duration-300"
+              className="glass-card rounded-2xl p-6 group hover:bg-white/10 transition-colors duration-300 hover:shadow-[0_0_40px_rgba(249,115,22,0.4)] hover:border-orange-500/40 group-hover:bg-gradient-to-br group-hover:from-orange-500/10 group-hover:to-transparent"
               variants={{
                 hidden: { opacity: 0, y: 30 },
                 visible: { opacity: 1, y: 0, transition: { duration: 0.5 } }
@@ -227,7 +227,7 @@ export default function Home() {
 
             {/* Card 3 */}
             <motion.div
-              className="glass-card rounded-2xl p-6 group hover:bg-white/10 transition-colors duration-300"
+              className="glass-card rounded-2xl p-6 group hover:bg-white/10 transition-colors duration-300 hover:shadow-[0_0_40px_rgba(234,179,8,0.4)] hover:border-yellow-500/40 group-hover:bg-gradient-to-br group-hover:from-yellow-500/10 group-hover:to-transparent"
               variants={{
                 hidden: { opacity: 0, y: 30 },
                 visible: { opacity: 1, y: 0, transition: { duration: 0.5 } }
@@ -249,7 +249,7 @@ export default function Home() {
 
             {/* Card 4 */}
             <motion.div
-              className="glass-card rounded-2xl p-6 group hover:bg-white/10 transition-colors duration-300"
+              className="glass-card rounded-2xl p-6 group hover:bg-white/10 transition-colors duration-300 hover:shadow-[0_0_40px_rgba(168,85,247,0.4)] hover:border-purple-500/40 group-hover:bg-gradient-to-br group-hover:from-purple-500/10 group-hover:to-transparent"
               variants={{
                 hidden: { opacity: 0, y: 30 },
                 visible: { opacity: 1, y: 0, transition: { duration: 0.5 } }
@@ -271,7 +271,7 @@ export default function Home() {
 
             {/* Card 5 */}
             <motion.div
-              className="glass-card rounded-2xl p-6 group hover:bg-white/10 transition-colors duration-300"
+              className="glass-card rounded-2xl p-6 group hover:bg-white/10 transition-colors duration-300 hover:shadow-[0_0_40px_rgba(59,130,246,0.4)] hover:border-blue-500/40 group-hover:bg-gradient-to-br group-hover:from-blue-500/10 group-hover:to-transparent"
               variants={{
                 hidden: { opacity: 0, y: 30 },
                 visible: { opacity: 1, y: 0, transition: { duration: 0.5 } }
@@ -293,7 +293,7 @@ export default function Home() {
 
             {/* Card 6 */}
             <motion.div
-              className="glass-card rounded-2xl p-6 group hover:bg-white/10 transition-colors duration-300"
+              className="glass-card rounded-2xl p-6 group hover:bg-white/10 transition-colors duration-300 hover:shadow-[0_0_40px_rgba(244,63,94,0.4)] hover:border-rose-500/40 group-hover:bg-gradient-to-br group-hover:from-rose-500/10 group-hover:to-transparent"
               variants={{
                 hidden: { opacity: 0, y: 30 },
                 visible: { opacity: 1, y: 0, transition: { duration: 0.5 } }
@@ -315,7 +315,7 @@ export default function Home() {
 
             {/* Card 7 */}
             <motion.div
-              className="glass-card rounded-2xl p-6 group hover:bg-white/10 transition-colors duration-300"
+              className="glass-card rounded-2xl p-6 group hover:bg-white/10 transition-colors duration-300 hover:shadow-[0_0_40px_rgba(45,212,191,0.4)] hover:border-accent-teal/40 group-hover:bg-gradient-to-br group-hover:from-accent-teal/10 group-hover:to-transparent"
               variants={{
                 hidden: { opacity: 0, y: 30 },
                 visible: { opacity: 1, y: 0, transition: { duration: 0.5 } }
@@ -337,7 +337,7 @@ export default function Home() {
 
             {/* Card 8 */}
             <motion.div
-              className="glass-card rounded-2xl p-6 group hover:bg-white/10 transition-colors duration-300"
+              className="glass-card rounded-2xl p-6 group hover:bg-white/10 transition-colors duration-300 hover:shadow-[0_0_40px_rgba(245,158,11,0.4)] hover:border-amber-500/40 group-hover:bg-gradient-to-br group-hover:from-amber-500/10 group-hover:to-transparent"
               variants={{
                 hidden: { opacity: 0, y: 30 },
                 visible: { opacity: 1, y: 0, transition: { duration: 0.5 } }
@@ -441,7 +441,7 @@ export default function Home() {
             }}
           >
             <motion.div
-              className="glass-card rounded-2xl p-8 group hover:bg-white/10 transition-colors duration-300"
+              className="glass-card rounded-2xl p-8 group hover:bg-white/10 transition-colors duration-300 hover:shadow-[0_0_40px_rgba(45,212,191,0.4)] hover:border-accent-teal/40 group-hover:bg-gradient-to-br group-hover:from-accent-teal/10 group-hover:to-transparent"
               variants={{
                 hidden: { opacity: 0, y: 30 },
                 visible: { opacity: 1, y: 0, transition: { duration: 0.5 } }
@@ -459,7 +459,7 @@ export default function Home() {
             </motion.div>
 
             <motion.div
-              className="glass-card rounded-2xl p-8 group hover:bg-white/10 transition-colors duration-300"
+              className="glass-card rounded-2xl p-8 group hover:bg-white/10 transition-colors duration-300 hover:shadow-[0_0_40px_rgba(249,115,22,0.4)] hover:border-accent-orange/40 group-hover:bg-gradient-to-br group-hover:from-accent-orange/10 group-hover:to-transparent"
               variants={{
                 hidden: { opacity: 0, y: 30 },
                 visible: { opacity: 1, y: 0, transition: { duration: 0.5 } }
@@ -475,7 +475,7 @@ export default function Home() {
             </motion.div>
 
             <motion.div
-              className="glass-card rounded-2xl p-8 group hover:bg-white/10 transition-colors duration-300"
+              className="glass-card rounded-2xl p-8 group hover:bg-white/10 transition-colors duration-300 hover:shadow-[0_0_40px_rgba(168,85,247,0.4)] hover:border-accent-purple/40 group-hover:bg-gradient-to-br group-hover:from-accent-purple/10 group-hover:to-transparent"
               variants={{
                 hidden: { opacity: 0, y: 30 },
                 visible: { opacity: 1, y: 0, transition: { duration: 0.5 } }
@@ -493,7 +493,7 @@ export default function Home() {
             </motion.div>
 
             <motion.div
-              className="glass-card rounded-2xl p-8 group hover:bg-white/10 transition-colors duration-300"
+              className="glass-card rounded-2xl p-8 group hover:bg-white/10 transition-colors duration-300 hover:shadow-[0_0_40px_rgba(34,197,94,0.4)] hover:border-green-500/40 group-hover:bg-gradient-to-br group-hover:from-green-500/10 group-hover:to-transparent"
               variants={{
                 hidden: { opacity: 0, y: 30 },
                 visible: { opacity: 1, y: 0, transition: { duration: 0.5 } }
@@ -542,7 +542,7 @@ export default function Home() {
             }}
           >
             <motion.div
-              className="glass-card rounded-2xl p-8 group hover:bg-white/10 transition-colors duration-300"
+              className="glass-card rounded-2xl p-8 group hover:bg-white/10 transition-colors duration-300 hover:shadow-[0_0_40px_rgba(45,212,191,0.4)] hover:border-accent-teal/40 group-hover:bg-gradient-to-br group-hover:from-accent-teal/10 group-hover:to-transparent"
               variants={{
                 hidden: { opacity: 0, y: 30 },
                 visible: { opacity: 1, y: 0, transition: { duration: 0.5 } }
@@ -582,7 +582,7 @@ export default function Home() {
             </motion.div>
 
             <motion.div
-              className="glass-card rounded-2xl p-8 group hover:bg-white/10 transition-colors duration-300"
+              className="glass-card rounded-2xl p-8 group hover:bg-white/10 transition-colors duration-300 hover:shadow-[0_0_40px_rgba(168,85,247,0.4)] hover:border-accent-purple/40 group-hover:bg-gradient-to-br group-hover:from-accent-purple/10 group-hover:to-transparent"
               variants={{
                 hidden: { opacity: 0, y: 30 },
                 visible: { opacity: 1, y: 0, transition: { duration: 0.5 } }
