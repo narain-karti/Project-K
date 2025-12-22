@@ -145,9 +145,9 @@ function GoogleMapClient({ incidents, focusedLocation, routeRequest }: GoogleMap
                     position={{ lat: incident.location[0], lng: incident.location[1] }}
                     onClick={() => setSelectedIncident(incident)}
                     icon={{
-                        url: incident.type === 'accident'
+                        url: incident.type === 'ACCIDENT'
                             ? 'https://maps.google.com/mapfiles/ms/icons/red-dot.png'
-                            : incident.type === 'pothole'
+                            : incident.type === 'POTHOLE'
                                 ? 'https://maps.google.com/mapfiles/ms/icons/orange-dot.png'
                                 : 'https://maps.google.com/mapfiles/ms/icons/blue-dot.png'
                     }}
@@ -162,9 +162,10 @@ function GoogleMapClient({ incidents, focusedLocation, routeRequest }: GoogleMap
                 >
                     <div className="p-2 min-w-[200px] text-black">
                         <div className="flex items-center gap-2 mb-2">
-                            {selectedIncident.type === 'accident' && <AlertTriangle className="text-red-600 w-5 h-5" />}
-                            {selectedIncident.type === 'pothole' && <AlertTriangle className="text-orange-500 w-5 h-5" />}
-                            {selectedIncident.type === 'congestion' && <Activity className="text-yellow-500 w-5 h-5" />}
+                            {selectedIncident.type === 'ACCIDENT' && <AlertTriangle className="text-red-600 w-5 h-5" />}
+                            {selectedIncident.type === 'POTHOLE' && <AlertTriangle className="text-orange-500 w-5 h-5" />}
+                            {selectedIncident.type === 'AMBULANCE' && <Activity className="text-red-500 w-5 h-5" />}
+                            {selectedIncident.type === 'WATERLOG' && <CloudRain className="text-blue-500 w-5 h-5" />}
                             <h3 className="font-bold capitalize">{selectedIncident.type} Detected</h3>
                         </div>
                         <p className="text-sm text-gray-700 mb-2">{new Date(selectedIncident.timestamp).toLocaleTimeString()}</p>
