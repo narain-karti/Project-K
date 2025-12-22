@@ -44,7 +44,7 @@
   }
 
   /* Font Family Override */
-  --font-sans: var(--font-inter),
+  --font-sans: var(--font-jakarta),
   ui-sans-serif,
   system-ui,
   sans-serif,
