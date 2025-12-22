@@ -34,9 +34,9 @@ export default function FilterPanel({ filters, setFilters }: FilterPanelProps) {
                         <button
                             key={type.id}
                             onClick={() => toggleType(type.id)}
-                            className={`w-full flex items-center justify-between p-2 rounded-lg 
-                                transition-all duration-200 
-                                ${filters.types[type.id] ? 'bg-white/10' : 'bg-transparent text-white/40'}
+                            className={`w-full flex items-center justify-between p-3 rounded-lg 
+                                transition-all duration-200 hover:bg-white/5
+                                ${filters.types[type.id] ? 'bg-white/10 shadow-lg' : 'bg-transparent text-white/40'}
                             `}
                         >
                             <div className="flex items-center gap-3">

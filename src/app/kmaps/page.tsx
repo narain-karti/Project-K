@@ -89,14 +89,14 @@ export default function KMapsPage() {
                     </div>
 
                     {/* Main Interface Layout */}
-                    <div className="flex flex-col md:flex-row gap-4 h-full mt-4 overflow-hidden pointer-events-none">
+                    <div className="flex flex-col md:flex-row gap-6 h-full mt-6 overflow-hidden pointer-events-none">
 
                         {/* LEFT: Filters & Legend (Mobile: Top, Desktop: Left) */}
-                        <div className="w-full md:w-80 shrink-0 pointer-events-auto flex flex-col gap-4 max-h-[40vh] md:max-h-full overflow-y-auto custom-scrollbar">
+                        <div className="w-full md:w-80 shrink-0 pointer-events-auto flex flex-col gap-6 max-h-[45vh] md:max-h-[calc(100vh-200px)] overflow-y-auto custom-scrollbar">
                             <FilterPanel filters={filters} setFilters={setFilters} />
 
                             {/* Chat Interface */}
-                            <div className="md:h-96 min-h-[300px] rounded-2xl overflow-hidden glass-card shrink-0 hover:shadow-[0_0_40px_rgba(45,212,191,0.3)] hover:border-accent-teal/30 transition-all duration-300">
+                            <div className="md:h-96 min-h-[300px] rounded-2xl overflow-hidden glass-card shrink-0">
                                 <ChatInterface
                                     onRouteUpdate={handleRouteUpdate}
                                     filters={filters}
@@ -108,7 +108,7 @@ export default function KMapsPage() {
                         <div className="flex-1 min-w-0 hidden md:block" />
 
                         {/* RIGHT: Feed & Intelligence (Mobile: Bottom, Desktop: Right) */}
-                        <div className="w-full md:w-96 shrink-0 pointer-events-auto flex flex-col gap-4 max-h-[40vh] md:max-h-full overflow-y-auto custom-scrollbar mt-auto md:mt-0">
+                        <div className="w-full md:w-96 shrink-0 pointer-events-auto flex flex-col gap-6 max-h-[45vh] md:max-h-[calc(100vh-200px)] overflow-y-auto custom-scrollbar mt-auto md:mt-0">
                             <div className="hidden md:block">
                                 <IntelligencePanel incidents={allIncidents} />
                             </div>
