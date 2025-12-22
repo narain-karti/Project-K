@@ -1,0 +1,723 @@
+'use client';
+
+import { useRef, useEffect, useCallback } from 'react';
+import type {
+    Vehicle,
+    Direction,
+    SimulationConfig,
+    IntersectionState,
+    VehicleType,
+    TrafficLightState,
+} from './types';
+import { makeTrafficDecision } from './trafficAI';
+
+interface Props {
+    config: SimulationConfig;
+    onMetricsUpdate: (metrics: any) => void;
+    onDecisionUpdate: (decision: any) => void;
+}
+
+// ============================================
+// SIMULATION CONSTANTS
+// ============================================
+const CANVAS_WIDTH = 800;
+const CANVAS_HEIGHT = 600;
+const ROAD_WIDTH = 100;
+const LANE_WIDTH = 45;
+const INTERSECTION_CENTER_X = CANVAS_WIDTH / 2;
+const INTERSECTION_CENTER_Y = CANVAS_HEIGHT / 2;
+
+// Vehicle physics - optimized for higher throughput
+const VEHICLE_LENGTH = 20;
+const VEHICLE_WIDTH = 14;
+const SAFE_DISTANCE = 28; // Min gap between vehicles (reduced for tighter queues)
+const MAX_SPEED = 4.5; // Faster vehicles
+const ACCELERATION = 0.25; // Quicker acceleration
+const DECELERATION = 0.35; // Quicker braking
+const STOP_LINE_OFFSET = ROAD_WIDTH / 2 + 12; // Distance from center to stop line
+
+// Colors
+const COLORS = {
+    road: '#1a1a2e',
+    roadMarkings: '#fbbf24',
+    stopLine: '#ef4444',
+    car: ['#3b82f6', '#8b5cf6', '#06b6d4', '#10b981', '#f59e0b'],
+    ambulance: '#ef4444',
+    truck: '#f97316',
+    greenLight: '#22c55e',
+    yellowLight: '#fbbf24',
+    redLight: '#ef4444',
+};
+
+// ============================================
+// TRAFFIC SIMULATION COMPONENT
+// ============================================
+export default function TrafficSimulation({ config, onMetricsUpdate, onDecisionUpdate }: Props) {
+    const canvasRef = useRef<HTMLCanvasElement>(null);
+    const vehiclesRef = useRef<Vehicle[]>([]);
+    const lightsRef = useRef<{ [key in Direction]: { state: TrafficLightState; timer: number; duration: number } }>({
+        north: { state: 'red', timer: 0, duration: 15 },
+        south: { state: 'red', timer: 0, duration: 15 },
+        east: { state: 'green', timer: 15, duration: 15 },
+        west: { state: 'red', timer: 0, duration: 15 },
+    });
+    const animationRef = useRef<number>();
+    const lastTimeRef = useRef<number>(Date.now());
+    const lastSpawnTimeRef = useRef<number>(Date.now());
+    const vehicleIdCounter = useRef<number>(0);
+
+    // Metrics tracking
+    const metricsRef = useRef({
+        totalWaitTime: 0,
+        totalVehicles: 0,
+        ambulanceCount: 0,
+        ambulanceTotalTime: 0,
+        startTime: Date.now(),
+    });
+
+    // ============================================
+    // VEHICLE SPAWNING
+    // ============================================
+    const spawnVehicle = useCallback(() => {
+        if (!config.isRunning) return;
+
+        const now = Date.now();
+        const spawnInterval = (60 / config.trafficIntensity) * 1000;
+
+        if (now - lastSpawnTimeRef.current < spawnInterval) return;
+        lastSpawnTimeRef.current = now;
+
+        // Random vehicle type
+        const isAmbulance = Math.random() * 100 < config.ambulanceFrequency;
+        const type: VehicleType = isAmbulance ? 'ambulance' : Math.random() > 0.85 ? 'truck' : 'car';
+
+        // Random direction
+        const directions: Direction[] = ['north', 'south', 'east', 'west'];
+        const direction = directions[Math.floor(Math.random() * directions.length)];
+
+        // Calculate spawn position based on direction (in the correct lane)
+        let x = 0, y = 0;
+        const laneOffset = LANE_WIDTH / 2 + 5;
+
+        switch (direction) {
+            case 'north': // Coming from bottom, going up
+                x = INTERSECTION_CENTER_X + laneOffset;
+                y = CANVAS_HEIGHT + VEHICLE_LENGTH;
+                break;
+            case 'south': // Coming from top, going down
+                x = INTERSECTION_CENTER_X - laneOffset;
+                y = -VEHICLE_LENGTH;
+                break;
+            case 'east': // Coming from left, going right
+                x = -VEHICLE_LENGTH;
+                y = INTERSECTION_CENTER_Y + laneOffset;
+                break;
+            case 'west': // Coming from right, going left
+                x = CANVAS_WIDTH + VEHICLE_LENGTH;
+                y = INTERSECTION_CENTER_Y - laneOffset;
+                break;
+        }
+
+        // Check if spawn position is clear
+        const spawnBlocked = vehiclesRef.current.some(v => {
+            if (v.direction !== direction) return false;
+            const dist = Math.hypot(v.position.x - x, v.position.y - y);
+            return dist < SAFE_DISTANCE * 2;
+        });
+
+        if (spawnBlocked) return;
+
+        const baseSpeed = type === 'truck' ? MAX_SPEED * 0.7 : MAX_SPEED;
+        const colorIndex = Math.floor(Math.random() * COLORS.car.length);
+
+        const newVehicle: Vehicle = {
+            id: `v-${vehicleIdCounter.current++}`,
+            type,
+            position: { x, y },
+            velocity: { x: 0, y: 0 },
+            direction,
+            speed: 0, // Start with 0, will accelerate
+            maxSpeed: baseSpeed,
+            color: type === 'ambulance' ? COLORS.ambulance : type === 'truck' ? COLORS.truck : COLORS.car[colorIndex],
+            waitTime: 0,
+            hasPassedIntersection: false,
+        };
+
+        vehiclesRef.current.push(newVehicle);
+
+        if (type === 'ambulance') {
+            metricsRef.current.ambulanceCount++;
+        }
+    }, [config.isRunning, config.trafficIntensity, config.ambulanceFrequency]);
+
+    // ============================================
+    // GET STOP LINE POSITION FOR DIRECTION
+    // ============================================
+    const getStopLinePosition = (direction: Direction): number => {
+        switch (direction) {
+            case 'north': return INTERSECTION_CENTER_Y + STOP_LINE_OFFSET;
+            case 'south': return INTERSECTION_CENTER_Y - STOP_LINE_OFFSET;
+            case 'east': return INTERSECTION_CENTER_X - STOP_LINE_OFFSET;
+            case 'west': return INTERSECTION_CENTER_X + STOP_LINE_OFFSET;
+        }
+    };
+
+    // ============================================
+    // CHECK IF VEHICLE SHOULD STOP
+    // ============================================
+    const shouldVehicleStop = (vehicle: Vehicle): boolean => {
+        if (vehicle.hasPassedIntersection) return false;
+
+        const light = lightsRef.current[vehicle.direction];
+        const isRedOrYellow = light.state === 'red' || light.state === 'yellow';
+
+        if (!isRedOrYellow) return false;
+
+        // Get position relative to stop line
+        const stopLine = getStopLinePosition(vehicle.direction);
+
+        switch (vehicle.direction) {
+            case 'north':
+                return vehicle.position.y > stopLine && vehicle.position.y < stopLine + 150;
+            case 'south':
+                return vehicle.position.y < stopLine && vehicle.position.y > stopLine - 150;
+            case 'east':
+                return vehicle.position.x < stopLine && vehicle.position.x > stopLine - 150;
+            case 'west':
+                return vehicle.position.x > stopLine && vehicle.position.x < stopLine + 150;
+        }
+    };
+
+    // ============================================
+    // CHECK FOR VEHICLE AHEAD
+    // ============================================
+    const getVehicleAhead = (vehicle: Vehicle): Vehicle | null => {
+        let closestVehicle: Vehicle | null = null;
+        let closestDistance = Infinity;
+
+        for (const other of vehiclesRef.current) {
+            if (other.id === vehicle.id) continue;
+            if (other.direction !== vehicle.direction) continue;
+
+            let distance = 0;
+            let isAhead = false;
+
+            switch (vehicle.direction) {
+                case 'north':
+                    distance = vehicle.position.y - other.position.y;
+                    isAhead = distance > 0;
+                    break;
+                case 'south':
+                    distance = other.position.y - vehicle.position.y;
+                    isAhead = distance > 0;
+                    break;
+                case 'east':
+                    distance = other.position.x - vehicle.position.x;
+                    isAhead = distance > 0;
+                    break;
+                case 'west':
+                    distance = vehicle.position.x - other.position.x;
+                    isAhead = distance > 0;
+                    break;
+            }
+
+            if (isAhead && distance < closestDistance && distance < SAFE_DISTANCE * 2) {
+                closestDistance = distance;
+                closestVehicle = other;
+            }
+        }
+
+        return closestVehicle;
+    };
+
+    // ============================================
+    // UPDATE VEHICLE PHYSICS
+    // ============================================
+    const updateVehicle = (vehicle: Vehicle, deltaTime: number) => {
+        const speedMultiplier = config.speed;
+        const dt = deltaTime * speedMultiplier;
+
+        // Check if should stop for signal
+        const mustStopForSignal = shouldVehicleStop(vehicle);
+
+        // Check for vehicle ahead
+        const vehicleAhead = getVehicleAhead(vehicle);
+        const mustStopForVehicle = vehicleAhead !== null;
+
+        // Determine target speed
+        let targetSpeed = vehicle.maxSpeed;
+
+        if (mustStopForSignal && !vehicle.hasPassedIntersection) {
+            // Calculate distance to stop line
+            const stopLine = getStopLinePosition(vehicle.direction);
+            let distanceToStop = 0;
+
+            switch (vehicle.direction) {
+                case 'north': distanceToStop = vehicle.position.y - stopLine; break;
+                case 'south': distanceToStop = stopLine - vehicle.position.y; break;
+                case 'east': distanceToStop = stopLine - vehicle.position.x; break;
+                case 'west': distanceToStop = vehicle.position.x - stopLine; break;
+            }
+
+            if (distanceToStop < SAFE_DISTANCE) {
+                targetSpeed = 0; // Full stop
+            } else if (distanceToStop < SAFE_DISTANCE * 3) {
+                targetSpeed = vehicle.maxSpeed * (distanceToStop / (SAFE_DISTANCE * 3));
+            }
+        }
+
+        if (mustStopForVehicle && vehicleAhead) {
+            let distanceToVehicle = 0;
+            switch (vehicle.direction) {
+                case 'north': distanceToVehicle = vehicle.position.y - vehicleAhead.position.y; break;
+                case 'south': distanceToVehicle = vehicleAhead.position.y - vehicle.position.y; break;
+                case 'east': distanceToVehicle = vehicleAhead.position.x - vehicle.position.x; break;
+                case 'west': distanceToVehicle = vehicle.position.x - vehicleAhead.position.x; break;
+            }
+
+            if (distanceToVehicle < SAFE_DISTANCE) {
+                targetSpeed = 0;
+            } else if (distanceToVehicle < SAFE_DISTANCE * 2) {
+                const factor = (distanceToVehicle - SAFE_DISTANCE) / SAFE_DISTANCE;
+                targetSpeed = Math.min(targetSpeed, vehicleAhead.speed * factor);
+            }
+        }
+
+        // Apply acceleration/deceleration
+        if (vehicle.speed < targetSpeed) {
+            vehicle.speed = Math.min(vehicle.speed + ACCELERATION * dt, targetSpeed);
+        } else if (vehicle.speed > targetSpeed) {
+            vehicle.speed = Math.max(vehicle.speed - DECELERATION * dt, targetSpeed);
+        }
+
+        // Track wait time when stopped
+        if (vehicle.speed < 0.1 && !vehicle.hasPassedIntersection) {
+            vehicle.waitTime += deltaTime;
+        }
+
+        // Update position based on direction and speed
+        switch (vehicle.direction) {
+            case 'north':
+                vehicle.position.y -= vehicle.speed * dt;
+                break;
+            case 'south':
+                vehicle.position.y += vehicle.speed * dt;
+                break;
+            case 'east':
+                vehicle.position.x += vehicle.speed * dt;
+                break;
+            case 'west':
+                vehicle.position.x -= vehicle.speed * dt;
+                break;
+        }
+
+        // Check if passed intersection
+        if (!vehicle.hasPassedIntersection) {
+            const centerDist = Math.hypot(
+                vehicle.position.x - INTERSECTION_CENTER_X,
+                vehicle.position.y - INTERSECTION_CENTER_Y
+            );
+
+            if (centerDist < ROAD_WIDTH / 2) {
+                vehicle.hasPassedIntersection = true;
+                metricsRef.current.totalWaitTime += vehicle.waitTime;
+                metricsRef.current.totalVehicles++;
+                if (vehicle.type === 'ambulance') {
+                    metricsRef.current.ambulanceTotalTime += vehicle.waitTime;
+                }
+            }
+        }
+
+        return vehicle;
+    };
+
+    // ============================================
+    // UPDATE TRAFFIC LIGHTS
+    // ============================================
+    const updateTrafficLights = useCallback((deltaTime: number) => {
+        const dt = deltaTime * config.speed;
+        const lights = lightsRef.current;
+
+        // Find current green light
+        let activeDirection: Direction | null = null;
+        for (const dir of ['north', 'south', 'east', 'west'] as Direction[]) {
+            if (lights[dir].state === 'green') {
+                activeDirection = dir;
+                lights[dir].timer -= dt / 1000;
+
+                if (lights[dir].timer <= 0) {
+                    lights[dir].state = 'yellow';
+                    lights[dir].timer = 2; // 2 second yellow
+                }
+                break;
+            } else if (lights[dir].state === 'yellow') {
+                activeDirection = dir;
+                lights[dir].timer -= dt / 1000;
+
+                if (lights[dir].timer <= 0) {
+                    lights[dir].state = 'red';
+                    lights[dir].timer = 0;
+                    activeDirection = null;
+                }
+                break;
+            }
+        }
+
+        // If no active light, make AI decision for next green
+        if (!activeDirection) {
+            const intersection: IntersectionState = {
+                lights: Object.entries(lights).map(([dir, light]) => ({
+                    direction: dir as Direction,
+                    state: light.state,
+                    timer: light.timer,
+                    greenDuration: light.duration,
+                    yellowDuration: 2,
+                    redDuration: 15,
+                })),
+                queueLengths: {
+                    north: vehiclesRef.current.filter(v => v.direction === 'north' && !v.hasPassedIntersection).length,
+                    south: vehiclesRef.current.filter(v => v.direction === 'south' && !v.hasPassedIntersection).length,
+                    east: vehiclesRef.current.filter(v => v.direction === 'east' && !v.hasPassedIntersection).length,
+                    west: vehiclesRef.current.filter(v => v.direction === 'west' && !v.hasPassedIntersection).length,
+                },
+                vehicleDensity: {
+                    north: vehiclesRef.current.filter(v => v.direction === 'north').length,
+                    south: vehiclesRef.current.filter(v => v.direction === 'south').length,
+                    east: vehiclesRef.current.filter(v => v.direction === 'east').length,
+                    west: vehiclesRef.current.filter(v => v.direction === 'west').length,
+                },
+                emergencyPresent: {
+                    north: vehiclesRef.current.some(v => v.direction === 'north' && v.type === 'ambulance' && !v.hasPassedIntersection),
+                    south: vehiclesRef.current.some(v => v.direction === 'south' && v.type === 'ambulance' && !v.hasPassedIntersection),
+                    east: vehiclesRef.current.some(v => v.direction === 'east' && v.type === 'ambulance' && !v.hasPassedIntersection),
+                    west: vehiclesRef.current.some(v => v.direction === 'west' && v.type === 'ambulance' && !v.hasPassedIntersection),
+                },
+            };
+
+            const decision = makeTrafficDecision(
+                intersection,
+                vehiclesRef.current,
+                config.mode,
+                activeDirection
+            );
+
+            onDecisionUpdate(decision);
+
+            // Set the new green light
+            const newGreenDir = decision.activeDirection;
+            lights[newGreenDir].state = 'green';
+            lights[newGreenDir].timer = decision.suggestedGreenDuration;
+            lights[newGreenDir].duration = decision.suggestedGreenDuration;
+        }
+    }, [config.speed, config.mode, onDecisionUpdate]);
+
+    // ============================================
+    // UPDATE METRICS
+    // ============================================
+    const updateMetrics = useCallback(() => {
+        const totalVehicles = metricsRef.current.totalVehicles;
+        const elapsedMinutes = (Date.now() - metricsRef.current.startTime) / 60000;
+
+        onMetricsUpdate({
+            averageWaitTime: totalVehicles > 0 ? metricsRef.current.totalWaitTime / totalVehicles / 1000 : 0,
+            totalVehiclesProcessed: totalVehicles,
+            throughput: elapsedMinutes > 0.1 ? totalVehicles / elapsedMinutes : 0,
+            signalEfficiency: Math.min(100, totalVehicles * 2),
+            ambulanceResponseTime:
+                metricsRef.current.ambulanceCount > 0
+                    ? metricsRef.current.ambulanceTotalTime / metricsRef.current.ambulanceCount / 1000
+                    : 0,
+            ambulancesProcessed: metricsRef.current.ambulanceCount,
+            timeSaved: 0,
+        });
+    }, [onMetricsUpdate]);
+
+    // ============================================
+    // DRAWING FUNCTIONS
+    // ============================================
+    const drawRoads = (ctx: CanvasRenderingContext2D) => {
+        // Main road surfaces
+        ctx.fillStyle = COLORS.road;
+        // Vertical road
+        ctx.fillRect(INTERSECTION_CENTER_X - ROAD_WIDTH / 2, 0, ROAD_WIDTH, CANVAS_HEIGHT);
+        // Horizontal road
+        ctx.fillRect(0, INTERSECTION_CENTER_Y - ROAD_WIDTH / 2, CANVAS_WIDTH, ROAD_WIDTH);
+
+        // Center lane markings (dashed yellow)
+        ctx.strokeStyle = COLORS.roadMarkings;
+        ctx.lineWidth = 2;
+        ctx.setLineDash([15, 15]);
+
+        // Vertical center line (above intersection)
+        ctx.beginPath();
+        ctx.moveTo(INTERSECTION_CENTER_X, 0);
+        ctx.lineTo(INTERSECTION_CENTER_X, INTERSECTION_CENTER_Y - ROAD_WIDTH / 2 - 5);
+        ctx.stroke();
+
+        // Vertical center line (below intersection)
+        ctx.beginPath();
+        ctx.moveTo(INTERSECTION_CENTER_X, INTERSECTION_CENTER_Y + ROAD_WIDTH / 2 + 5);
+        ctx.lineTo(INTERSECTION_CENTER_X, CANVAS_HEIGHT);
+        ctx.stroke();
+
+        // Horizontal center line (left of intersection)
+        ctx.beginPath();
+        ctx.moveTo(0, INTERSECTION_CENTER_Y);
+        ctx.lineTo(INTERSECTION_CENTER_X - ROAD_WIDTH / 2 - 5, INTERSECTION_CENTER_Y);
+        ctx.stroke();
+
+        // Horizontal center line (right of intersection)
+        ctx.beginPath();
+        ctx.moveTo(INTERSECTION_CENTER_X + ROAD_WIDTH / 2 + 5, INTERSECTION_CENTER_Y);
+        ctx.lineTo(CANVAS_WIDTH, INTERSECTION_CENTER_Y);
+        ctx.stroke();
+
+        ctx.setLineDash([]);
+
+        // Stop lines
+        ctx.strokeStyle = COLORS.stopLine;
+        ctx.lineWidth = 4;
+
+        // North stop line
+        ctx.beginPath();
+        ctx.moveTo(INTERSECTION_CENTER_X, INTERSECTION_CENTER_Y + STOP_LINE_OFFSET);
+        ctx.lineTo(INTERSECTION_CENTER_X + ROAD_WIDTH / 2, INTERSECTION_CENTER_Y + STOP_LINE_OFFSET);
+        ctx.stroke();
+
+        // South stop line
+        ctx.beginPath();
+        ctx.moveTo(INTERSECTION_CENTER_X - ROAD_WIDTH / 2, INTERSECTION_CENTER_Y - STOP_LINE_OFFSET);
+        ctx.lineTo(INTERSECTION_CENTER_X, INTERSECTION_CENTER_Y - STOP_LINE_OFFSET);
+        ctx.stroke();
+
+        // East stop line
+        ctx.beginPath();
+        ctx.moveTo(INTERSECTION_CENTER_X - STOP_LINE_OFFSET, INTERSECTION_CENTER_Y);
+        ctx.lineTo(INTERSECTION_CENTER_X - STOP_LINE_OFFSET, INTERSECTION_CENTER_Y + ROAD_WIDTH / 2);
+        ctx.stroke();
+
+        // West stop line
+        ctx.beginPath();
+        ctx.moveTo(INTERSECTION_CENTER_X + STOP_LINE_OFFSET, INTERSECTION_CENTER_Y - ROAD_WIDTH / 2);
+        ctx.lineTo(INTERSECTION_CENTER_X + STOP_LINE_OFFSET, INTERSECTION_CENTER_Y);
+        ctx.stroke();
+    };
+
+    const drawTrafficLights = (ctx: CanvasRenderingContext2D) => {
+        const lights = lightsRef.current;
+        const lightRadius = 12;
+        const lightOffset = ROAD_WIDTH / 2 + 25;
+
+        const positions: { [key in Direction]: { x: number; y: number } } = {
+            north: { x: INTERSECTION_CENTER_X + lightOffset, y: INTERSECTION_CENTER_Y + STOP_LINE_OFFSET + 20 },
+            south: { x: INTERSECTION_CENTER_X - lightOffset, y: INTERSECTION_CENTER_Y - STOP_LINE_OFFSET - 20 },
+            east: { x: INTERSECTION_CENTER_X - STOP_LINE_OFFSET - 20, y: INTERSECTION_CENTER_Y + lightOffset },
+            west: { x: INTERSECTION_CENTER_X + STOP_LINE_OFFSET + 20, y: INTERSECTION_CENTER_Y - lightOffset },
+        };
+
+        for (const [direction, light] of Object.entries(lights)) {
+            const pos = positions[direction as Direction];
+
+            // Light housing
+            ctx.fillStyle = '#1f2937';
+            ctx.strokeStyle = '#374151';
+            ctx.lineWidth = 2;
+            ctx.beginPath();
+            ctx.roundRect(pos.x - 18, pos.y - 18, 36, 36, 6);
+            ctx.fill();
+            ctx.stroke();
+
+            // Light color
+            let color = COLORS.redLight;
+            if (light.state === 'green') color = COLORS.greenLight;
+            else if (light.state === 'yellow') color = COLORS.yellowLight;
+
+            // Glow effect
+            ctx.shadowColor = color;
+            ctx.shadowBlur = light.state === 'green' ? 20 : 10;
+
+            ctx.fillStyle = color;
+            ctx.beginPath();
+            ctx.arc(pos.x, pos.y, lightRadius, 0, Math.PI * 2);
+            ctx.fill();
+
+            ctx.shadowBlur = 0;
+        }
+    };
+
+    const drawVehicle = (ctx: CanvasRenderingContext2D, vehicle: Vehicle) => {
+        const { x, y } = vehicle.position;
+        const isHorizontal = vehicle.direction === 'east' || vehicle.direction === 'west';
+        const size = vehicle.type === 'truck' ? { w: VEHICLE_LENGTH + 8, h: VEHICLE_WIDTH + 4 } : { w: VEHICLE_LENGTH, h: VEHICLE_WIDTH };
+
+        ctx.save();
+        ctx.translate(x, y);
+
+        // Rotate based on direction
+        switch (vehicle.direction) {
+            case 'north': ctx.rotate(-Math.PI / 2); break;
+            case 'south': ctx.rotate(Math.PI / 2); break;
+            case 'east': ctx.rotate(0); break;
+            case 'west': ctx.rotate(Math.PI); break;
+        }
+
+        // Ambulance glow effect
+        if (vehicle.type === 'ambulance') {
+            const flash = Math.floor(Date.now() / 150) % 2 === 0;
+            ctx.shadowColor = flash ? '#ff0000' : '#0066ff';
+            ctx.shadowBlur = 15;
+        }
+
+        // Vehicle body
+        ctx.fillStyle = vehicle.type === 'ambulance' && Math.floor(Date.now() / 150) % 2 === 1 ? '#ffffff' : vehicle.color;
+        ctx.beginPath();
+        ctx.roundRect(-size.w / 2, -size.h / 2, size.w, size.h, 4);
+        ctx.fill();
+
+        ctx.shadowBlur = 0;
+
+        // Headlights
+        ctx.fillStyle = '#fef3c7';
+        ctx.fillRect(size.w / 2 - 4, -size.h / 2 + 2, 3, 4);
+        ctx.fillRect(size.w / 2 - 4, size.h / 2 - 6, 3, 4);
+
+        // Taillights  
+        ctx.fillStyle = '#ef4444';
+        ctx.fillRect(-size.w / 2 + 1, -size.h / 2 + 2, 3, 4);
+        ctx.fillRect(-size.w / 2 + 1, size.h / 2 - 6, 3, 4);
+
+        // Ambulance cross
+        if (vehicle.type === 'ambulance') {
+            ctx.fillStyle = '#ffffff';
+            ctx.fillRect(-2, -6, 4, 12);
+            ctx.fillRect(-6, -2, 12, 4);
+        }
+
+        // Windows
+        if (vehicle.type !== 'ambulance') {
+            ctx.fillStyle = 'rgba(100, 200, 255, 0.5)';
+            ctx.fillRect(size.w / 4 - 3, -size.h / 2 + 2, 6, size.h - 4);
+        }
+
+        ctx.restore();
+    };
+
+    const draw = useCallback(() => {
+        const canvas = canvasRef.current;
+        if (!canvas) return;
+
+        const ctx = canvas.getContext('2d');
+        if (!ctx) return;
+
+        // Clear canvas
+        ctx.fillStyle = '#000000';
+        ctx.fillRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
+
+        // Draw roads
+        drawRoads(ctx);
+
+        // Draw traffic lights
+        drawTrafficLights(ctx);
+
+        // Draw vehicles (sorted by y position for proper layering)
+        const sortedVehicles = [...vehiclesRef.current].sort((a, b) => a.position.y - b.position.y);
+        for (const vehicle of sortedVehicles) {
+            drawVehicle(ctx, vehicle);
+        }
+
+        // Draw intersection label
+        ctx.fillStyle = '#6b7280';
+        ctx.font = 'bold 11px sans-serif';
+        ctx.textAlign = 'center';
+        ctx.fillText('AI-Controlled Intersection', INTERSECTION_CENTER_X, 18);
+
+        // Draw direction indicators
+        ctx.fillStyle = '#4b5563';
+        ctx.font = '10px sans-serif';
+        ctx.fillText('↑ N', INTERSECTION_CENTER_X + 70, 35);
+        ctx.fillText('S ↓', INTERSECTION_CENTER_X - 70, CANVAS_HEIGHT - 20);
+        ctx.fillText('← W', 25, INTERSECTION_CENTER_Y - 60);
+        ctx.fillText('E →', CANVAS_WIDTH - 25, INTERSECTION_CENTER_Y + 70);
+    }, []);
+
+    // ============================================
+    // ANIMATION LOOP
+    // ============================================
+    useEffect(() => {
+        const animate = () => {
+            const now = Date.now();
+            const deltaTime = now - lastTimeRef.current;
+            lastTimeRef.current = now;
+
+            if (config.isRunning) {
+                // Spawn new vehicles
+                spawnVehicle();
+
+                // Update traffic lights
+                updateTrafficLights(deltaTime);
+
+                // Update each vehicle
+                vehiclesRef.current = vehiclesRef.current
+                    .map(v => updateVehicle(v, deltaTime))
+                    .filter(v => {
+                        // Remove vehicles that have left the canvas
+                        return v.position.x >= -100 && v.position.x <= CANVAS_WIDTH + 100 &&
+                            v.position.y >= -100 && v.position.y <= CANVAS_HEIGHT + 100;
+                    });
+
+                // Update metrics
+                updateMetrics();
+            }
+
+            // Draw
+            draw();
+
+            animationRef.current = requestAnimationFrame(animate);
+        };
+
+        animate();
+
+        return () => {
+            if (animationRef.current) {
+                cancelAnimationFrame(animationRef.current);
+            }
+        };
+    }, [config.isRunning, config.speed, spawnVehicle, updateTrafficLights, updateMetrics, draw]);
+
+    // Reset simulation when config changes significantly
+    useEffect(() => {
+        if (!config.isRunning) {
+            // Don't clear on pause, only on explicit changes
+        }
+    }, [config.mode]);
+
+    return (
+        <div className="relative w-full flex justify-center">
+            <canvas
+                ref={canvasRef}
+                width={CANVAS_WIDTH}
+                height={CANVAS_HEIGHT}
+                className="rounded-2xl border border-white/10 shadow-2xl bg-black"
+                style={{ maxWidth: '100%', height: 'auto' }}
+            />
+
+            {/* Legend overlay */}
+            <div className="absolute bottom-4 left-4 bg-black/70 backdrop-blur-sm rounded-lg p-3 text-xs">
+                <div className="flex items-center gap-4">
+                    <div className="flex items-center gap-1">
+                        <div className="w-4 h-2 rounded-sm" style={{ backgroundColor: COLORS.car[0] }}></div>
+                        <span className="text-gray-400">Car</span>
+                    </div>
+                    <div className="flex items-center gap-1">
+                        <div className="w-4 h-2 rounded-sm" style={{ backgroundColor: COLORS.ambulance }}></div>
+                        <span className="text-gray-400">Ambulance</span>
+                    </div>
+                    <div className="flex items-center gap-1">
+                        <div className="w-4 h-2 rounded-sm" style={{ backgroundColor: COLORS.truck }}></div>
+                        <span className="text-gray-400">Truck</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    );
+}
