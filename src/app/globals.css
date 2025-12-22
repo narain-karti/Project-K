@@ -76,6 +76,11 @@ body {
   @apply bg-black text-white overflow-x-hidden;
 }
 
+/* Hard-force font application to satisfy "full website" request */
+* {
+  font-family: var(--font-space), ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+}
+
 /* Existing styles */
 .glass-popup .leaflet-popup-content-wrapper {
   background: rgba(255, 255, 255, 0.95);
