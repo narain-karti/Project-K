@@ -245,10 +245,12 @@ export default function ChatInterface({ onRouteUpdate, filters }: ChatInterfaceP
                 </div>
                 <button
                     onClick={() => setIsManualMode(!isManualMode)}
-                    className="text-xs text-white/50 hover:text-white transition-colors flex items-center gap-1"
+                    className="px-3 py-1.5 rounded-lg bg-white/5 hover:bg-white/10 border border-white/10 hover:border-accent-cyan/50 transition-all flex items-center gap-2 text-xs font-medium"
                 >
-                    {isManualMode ? <ToggleRight className="w-4 h-4 text-accent-cyan" /> : <ToggleLeft className="w-4 h-4" />}
-                    {isManualMode ? 'Manual' : 'AI'}
+                    {isManualMode ? <ToggleRight className="w-4 h-4 text-accent-cyan" /> : <ToggleLeft className="w-4 h-4 text-white/50" />}
+                    <span className={isManualMode ? 'text-accent-cyan' : 'text-white/70'}>
+                        {isManualMode ? 'Manual' : 'AI Mode'}
+                    </span>
                 </button>
             </div>
 

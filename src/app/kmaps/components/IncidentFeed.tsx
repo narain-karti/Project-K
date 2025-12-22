@@ -9,8 +9,8 @@ interface IncidentFeedProps {
 
 export default function IncidentFeed({ incidents, onIncidentClick }: IncidentFeedProps) {
     return (
-        <GlassPanel title="Live Feed" className="h-[300px] flex flex-col">
-            <div className="overflow-y-auto custom-scrollbar flex-1 -mx-2 px-2 space-y-2">
+        <GlassPanel title="Live Feed" className="h-[300px] flex flex-col" noPadding>
+            <div className="overflow-y-auto custom-scrollbar flex-1 px-4 py-3 space-y-2">
                 {incidents.length === 0 && (
                     <div className="text-center text-white/30 py-8 text-sm">
                         Waiting for detections...

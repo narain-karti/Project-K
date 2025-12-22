@@ -27,7 +27,7 @@ export default function FilterPanel({ filters, setFilters }: FilterPanelProps) {
 
     return (
         <GlassPanel title="Map Layers" className="w-full">
-            <div className="space-y-4">
+            <div className="space-y-3">
                 {/* Type Toggles */}
                 <div className="space-y-2">
                     {typeConfig.map((type) => (
