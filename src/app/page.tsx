@@ -183,19 +183,19 @@ export default function Home() {
           >
             {/* Card 1 */}
             <motion.div
-              className="glass-card rounded-2xl p-6"
+              className="glass-card rounded-2xl p-6 group hover:bg-white/10 transition-colors duration-300"
               variants={{
                 hidden: { opacity: 0, y: 30 },
                 visible: { opacity: 1, y: 0, transition: { duration: 0.5 } }
               }}
             >
               <div className="flex items-start gap-4 mb-4">
-                <div className="w-12 h-12 rounded-full bg-red-500/20 flex items-center justify-center flex-shrink-0">
+                <div className="w-12 h-12 rounded-full bg-red-500/20 flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform duration-300">
                   <Clock className="w-6 h-6 text-red-500" />
                 </div>
-                <h3 className="text-xl font-bold">Accidents Go Undetected for Minutes</h3>
+                <h3 className="text-xl font-bold group-hover:text-white transition-colors duration-300">Accidents Go Undetected for Minutes</h3>
               </div>
-              <p className="text-text-secondary mb-3 text-sm">
+              <p className="text-text-secondary mb-3 text-sm group-hover:text-gray-300 transition-colors duration-300">
                 India currently detects most road accidents 5–15 minutes late, relying on human reporting or chance observation. In emergencies, these minutes cost lives.
               </p>
               <p className="text-accent-teal text-sm font-medium">
@@ -205,19 +205,19 @@ export default function Home() {
 
             {/* Card 2 */}
             <motion.div
-              className="glass-card rounded-2xl p-6"
+              className="glass-card rounded-2xl p-6 group hover:bg-white/10 transition-colors duration-300"
               variants={{
                 hidden: { opacity: 0, y: 30 },
                 visible: { opacity: 1, y: 0, transition: { duration: 0.5 } }
               }}
             >
               <div className="flex items-start gap-4 mb-4">
-                <div className="w-12 h-12 rounded-full bg-orange-500/20 flex items-center justify-center flex-shrink-0">
+                <div className="w-12 h-12 rounded-full bg-orange-500/20 flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform duration-300">
                   <Activity className="w-6 h-6 text-orange-500" />
                 </div>
-                <h3 className="text-xl font-bold">Ambulances Get Stuck in Traffic</h3>
+                <h3 className="text-xl font-bold group-hover:text-white transition-colors duration-300">Ambulances Get Stuck in Traffic</h3>
               </div>
-              <p className="text-text-secondary mb-3 text-sm">
+              <p className="text-text-secondary mb-3 text-sm group-hover:text-gray-300 transition-colors duration-300">
                 Emergency vehicles fight the same congestion as everyone else, leading to 20–45 minute delays in cities and even longer in peri-urban areas.
               </p>
               <p className="text-accent-teal text-sm font-medium">
@@ -227,19 +227,19 @@ export default function Home() {
 
             {/* Card 3 */}
             <motion.div
-              className="glass-card rounded-2xl p-6"
+              className="glass-card rounded-2xl p-6 group hover:bg-white/10 transition-colors duration-300"
               variants={{
                 hidden: { opacity: 0, y: 30 },
                 visible: { opacity: 1, y: 0, transition: { duration: 0.5 } }
               }}
             >
               <div className="flex items-start gap-4 mb-4">
-                <div className="w-12 h-12 rounded-full bg-yellow-500/20 flex items-center justify-center flex-shrink-0">
+                <div className="w-12 h-12 rounded-full bg-yellow-500/20 flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform duration-300">
                   <Zap className="w-6 h-6 text-yellow-500" />
                 </div>
-                <h3 className="text-xl font-bold">Traffic Signals Are Blind & Fixed</h3>
+                <h3 className="text-xl font-bold group-hover:text-white transition-colors duration-300">Traffic Signals Are Blind & Fixed</h3>
               </div>
-              <p className="text-text-secondary mb-3 text-sm">
+              <p className="text-text-secondary mb-3 text-sm group-hover:text-gray-300 transition-colors duration-300">
                 Most intersections run on rigid 30–30 second timers, ignoring real-time traffic, rush hours, or emergencies.
               </p>
               <p className="text-accent-teal text-sm font-medium">
@@ -249,19 +249,19 @@ export default function Home() {
 
             {/* Card 4 */}
             <motion.div
-              className="glass-card rounded-2xl p-6"
+              className="glass-card rounded-2xl p-6 group hover:bg-white/10 transition-colors duration-300"
               variants={{
                 hidden: { opacity: 0, y: 30 },
                 visible: { opacity: 1, y: 0, transition: { duration: 0.5 } }
               }}
             >
               <div className="flex items-start gap-4 mb-4">
-                <div className="w-12 h-12 rounded-full bg-purple-500/20 flex items-center justify-center flex-shrink-0">
+                <div className="w-12 h-12 rounded-full bg-purple-500/20 flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform duration-300">
                   <AlertTriangle className="w-6 h-6 text-purple-500" />
                 </div>
-                <h3 className="text-xl font-bold">Potholes & Waterlogging Go Unreported</h3>
+                <h3 className="text-xl font-bold group-hover:text-white transition-colors duration-300">Potholes & Waterlogging Go Unreported</h3>
               </div>
-              <p className="text-text-secondary mb-3 text-sm">
+              <p className="text-text-secondary mb-3 text-sm group-hover:text-gray-300 transition-colors duration-300">
                 Cities depend on slow citizen complaints or manual surveys. Potholes can take 1–3 weeks to be flagged and fixed, causing crashes and congestion.
               </p>
               <p className="text-accent-teal text-sm font-medium">
@@ -271,19 +271,19 @@ export default function Home() {
 
             {/* Card 5 */}
             <motion.div
-              className="glass-card rounded-2xl p-6"
+              className="glass-card rounded-2xl p-6 group hover:bg-white/10 transition-colors duration-300"
               variants={{
                 hidden: { opacity: 0, y: 30 },
                 visible: { opacity: 1, y: 0, transition: { duration: 0.5 } }
               }}
             >
               <div className="flex items-start gap-4 mb-4">
-                <div className="w-12 h-12 rounded-full bg-blue-500/20 flex items-center justify-center flex-shrink-0">
+                <div className="w-12 h-12 rounded-full bg-blue-500/20 flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform duration-300">
                   <Wifi className="w-6 h-6 text-blue-500" />
                 </div>
-                <h3 className="text-xl font-bold">Cameras Only Record, They Don't Respond</h3>
+                <h3 className="text-xl font-bold group-hover:text-white transition-colors duration-300">Cameras Only Record, They Don't Respond</h3>
               </div>
-              <p className="text-text-secondary mb-3 text-sm">
+              <p className="text-text-secondary mb-3 text-sm group-hover:text-gray-300 transition-colors duration-300">
                 India has installed more than 13 lakh traffic cameras, but 99% are passive, with no intelligence or automated action.
               </p>
               <p className="text-accent-teal text-sm font-medium">
@@ -293,19 +293,19 @@ export default function Home() {
 
             {/* Card 6 */}
             <motion.div
-              className="glass-card rounded-2xl p-6"
+              className="glass-card rounded-2xl p-6 group hover:bg-white/10 transition-colors duration-300"
               variants={{
                 hidden: { opacity: 0, y: 30 },
                 visible: { opacity: 1, y: 0, transition: { duration: 0.5 } }
               }}
             >
               <div className="flex items-start gap-4 mb-4">
-                <div className="w-12 h-12 rounded-full bg-rose-500/20 flex items-center justify-center flex-shrink-0">
+                <div className="w-12 h-12 rounded-full bg-rose-500/20 flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform duration-300">
                   <Shield className="w-6 h-6 text-rose-500" />
                 </div>
-                <h3 className="text-xl font-bold">One Cloud Failure Can Paralyze a City</h3>
+                <h3 className="text-xl font-bold group-hover:text-white transition-colors duration-300">One Cloud Failure Can Paralyze a City</h3>
               </div>
-              <p className="text-text-secondary mb-3 text-sm">
+              <p className="text-text-secondary mb-3 text-sm group-hover:text-gray-300 transition-colors duration-300">
                 Pure cloud-based traffic systems fail when the network fails — leading to city-wide gridlocks and massive cascading delays.
               </p>
               <p className="text-accent-teal text-sm font-medium">
@@ -315,19 +315,19 @@ export default function Home() {
 
             {/* Card 7 */}
             <motion.div
-              className="glass-card rounded-2xl p-6"
+              className="glass-card rounded-2xl p-6 group hover:bg-white/10 transition-colors duration-300"
               variants={{
                 hidden: { opacity: 0, y: 30 },
                 visible: { opacity: 1, y: 0, transition: { duration: 0.5 } }
               }}
             >
               <div className="flex items-start gap-4 mb-4">
-                <div className="w-12 h-12 rounded-full bg-teal-500/20 flex items-center justify-center flex-shrink-0">
+                <div className="w-12 h-12 rounded-full bg-teal-500/20 flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform duration-300">
                   <TrendingUp className="w-6 h-6 text-teal-500" />
                 </div>
-                <h3 className="text-xl font-bold">No City-Wide Optimization Today</h3>
+                <h3 className="text-xl font-bold group-hover:text-white transition-colors duration-300">No City-Wide Optimization Today</h3>
               </div>
-              <p className="text-text-secondary mb-3 text-sm">
+              <p className="text-text-secondary mb-3 text-sm group-hover:text-gray-300 transition-colors duration-300">
                 Each intersection works like an island with no coordination, causing backups that ripple across the city.
               </p>
               <p className="text-accent-teal text-sm font-medium">
@@ -337,19 +337,19 @@ export default function Home() {
 
             {/* Card 8 */}
             <motion.div
-              className="glass-card rounded-2xl p-6"
+              className="glass-card rounded-2xl p-6 group hover:bg-white/10 transition-colors duration-300"
               variants={{
                 hidden: { opacity: 0, y: 30 },
                 visible: { opacity: 1, y: 0, transition: { duration: 0.5 } }
               }}
             >
               <div className="flex items-start gap-4 mb-4">
-                <div className="w-12 h-12 rounded-full bg-amber-500/20 flex items-center justify-center flex-shrink-0">
+                <div className="w-12 h-12 rounded-full bg-amber-500/20 flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform duration-300">
                   <Brain className="w-6 h-6 text-amber-500" />
                 </div>
-                <h3 className="text-xl font-bold">No Real-Time Infrastructure Awareness</h3>
+                <h3 className="text-xl font-bold group-hover:text-white transition-colors duration-300">No Real-Time Infrastructure Awareness</h3>
               </div>
-              <p className="text-text-secondary mb-3 text-sm">
+              <p className="text-text-secondary mb-3 text-sm group-hover:text-gray-300 transition-colors duration-300">
                 Authorities have no automatic system to monitor accident hotspots, seasonal traffic patterns, or rising risks.
               </p>
               <p className="text-accent-teal text-sm font-medium">
@@ -441,15 +441,15 @@ export default function Home() {
             }}
           >
             <motion.div
-              className="glass-card rounded-2xl p-8"
+              className="glass-card rounded-2xl p-8 group hover:bg-white/10 transition-colors duration-300"
               variants={{
                 hidden: { opacity: 0, y: 30 },
                 visible: { opacity: 1, y: 0, transition: { duration: 0.5 } }
               }}
             >
-              <Brain className="w-12 h-12 text-accent-teal mb-4" />
-              <h3 className="text-2xl font-bold mb-3">Hybrid Architecture</h3>
-              <p className="text-text-secondary mb-4">Best of both worlds: Edge resilience + Cloud optimization. 85-90% uptime even during cloud failures.</p>
+              <Brain className="w-12 h-12 text-accent-teal mb-4 group-hover:scale-110 transition-transform duration-300" />
+              <h3 className="text-2xl font-bold mb-3 group-hover:text-white transition-colors duration-300">Hybrid Architecture</h3>
+              <p className="text-text-secondary mb-4 group-hover:text-gray-300 transition-colors duration-300">Best of both worlds: Edge resilience + Cloud optimization. 85-90% uptime even during cloud failures.</p>
               <ul className="space-y-2 text-sm">
                 <li className="flex items-center gap-2"><span className="text-accent-teal">✓</span> Local processing (fast)</li>
                 <li className="flex items-center gap-2"><span className="text-accent-teal">✓</span> Global learning (smart)</li>
@@ -459,31 +459,31 @@ export default function Home() {
             </motion.div>
 
             <motion.div
-              className="glass-card rounded-2xl p-8"
+              className="glass-card rounded-2xl p-8 group hover:bg-white/10 transition-colors duration-300"
               variants={{
                 hidden: { opacity: 0, y: 30 },
                 visible: { opacity: 1, y: 0, transition: { duration: 0.5 } }
               }}
             >
-              <DollarSign className="w-12 h-12 text-accent-orange mb-4" />
-              <h3 className="text-2xl font-bold mb-3">99.94% Bandwidth Savings</h3>
-              <p className="text-text-secondary mb-4">Traditional systems stream video → ₹1-2 crores/month. Project K sends metadata → ₹1.4 lakhs/month.</p>
-              <div className="bg-gradient-to-r from-accent-orange/10 to-transparent p-4 rounded-lg">
+              <DollarSign className="w-12 h-12 text-accent-orange mb-4 group-hover:scale-110 transition-transform duration-300" />
+              <h3 className="text-2xl font-bold mb-3 group-hover:text-white transition-colors duration-300">99.94% Bandwidth Savings</h3>
+              <p className="text-text-secondary mb-4 group-hover:text-gray-300 transition-colors duration-300">Traditional systems stream video → ₹1-2 crores/month. Project K sends metadata → ₹1.4 lakhs/month.</p>
+              <div className="bg-gradient-to-r from-accent-orange/10 to-transparent p-4 rounded-lg group-hover:bg-accent-orange/20 transition-colors duration-300">
                 <div className="text-3xl font-bold text-accent-orange">₹228 Cr</div>
                 <div className="text-sm text-text-secondary">Annual savings per city</div>
               </div>
             </motion.div>
 
             <motion.div
-              className="glass-card rounded-2xl p-8"
+              className="glass-card rounded-2xl p-8 group hover:bg-white/10 transition-colors duration-300"
               variants={{
                 hidden: { opacity: 0, y: 30 },
                 visible: { opacity: 1, y: 0, transition: { duration: 0.5 } }
               }}
             >
-              <Zap className="w-12 h-12 text-accent-purple mb-4" />
-              <h3 className="text-2xl font-bold mb-3">Multi-Model AI Fusion</h3>
-              <p className="text-text-secondary mb-4">Four specialized AI models working together for comprehensive coverage.</p>
+              <Zap className="w-12 h-12 text-accent-purple mb-4 group-hover:scale-110 transition-transform duration-300" />
+              <h3 className="text-2xl font-bold mb-3 group-hover:text-white transition-colors duration-300">Multi-Model AI Fusion</h3>
+              <p className="text-text-secondary mb-4 group-hover:text-gray-300 transition-colors duration-300">Four specialized AI models working together for comprehensive coverage.</p>
               <ul className="space-y-2 text-sm">
                 <li className="flex items-center gap-2"><span className="text-accent-purple">•</span> YOLO v11: Vehicle & accident (94.6%)</li>
                 <li className="flex items-center gap-2"><span className="text-accent-purple">•</span> Custom CNN: Pothole detection (91%)</li>
@@ -493,15 +493,15 @@ export default function Home() {
             </motion.div>
 
             <motion.div
-              className="glass-card rounded-2xl p-8"
+              className="glass-card rounded-2xl p-8 group hover:bg-white/10 transition-colors duration-300"
               variants={{
                 hidden: { opacity: 0, y: 30 },
                 visible: { opacity: 1, y: 0, transition: { duration: 0.5 } }
               }}
             >
-              <Clock className="w-12 h-12 text-green-500 mb-4" />
-              <h3 className="text-2xl font-bold mb-3">Real-Time Response</h3>
-              <p className="text-text-secondary mb-4">Every millisecond counts in emergency response.</p>
+              <Clock className="w-12 h-12 text-green-500 mb-4 group-hover:scale-110 transition-transform duration-300" />
+              <h3 className="text-2xl font-bold mb-3 group-hover:text-white transition-colors duration-300">Real-Time Response</h3>
+              <p className="text-text-secondary mb-4 group-hover:text-gray-300 transition-colors duration-300">Every millisecond counts in emergency response.</p>
               <div className="space-y-3">
                 <div className="flex justify-between items-center">
                   <span className="text-sm text-text-secondary">Detection</span>
@@ -542,14 +542,14 @@ export default function Home() {
             }}
           >
             <motion.div
-              className="glass-card rounded-2xl p-8"
+              className="glass-card rounded-2xl p-8 group hover:bg-white/10 transition-colors duration-300"
               variants={{
                 hidden: { opacity: 0, y: 30 },
                 visible: { opacity: 1, y: 0, transition: { duration: 0.5 } }
               }}
             >
-              <Target className="w-12 h-12 text-accent-teal mb-4" />
-              <h3 className="text-2xl font-bold mb-3">SDG 3.6 - Halve Road Deaths by 2030</h3>
+              <Target className="w-12 h-12 text-accent-teal mb-4 group-hover:scale-110 transition-transform duration-300" />
+              <h3 className="text-2xl font-bold mb-3 group-hover:text-white transition-colors duration-300">SDG 3.6 - Halve Road Deaths by 2030</h3>
               <div className="space-y-4">
                 <div>
                   <div className="flex justify-between text-sm mb-2">
@@ -582,15 +582,15 @@ export default function Home() {
             </motion.div>
 
             <motion.div
-              className="glass-card rounded-2xl p-8"
+              className="glass-card rounded-2xl p-8 group hover:bg-white/10 transition-colors duration-300"
               variants={{
                 hidden: { opacity: 0, y: 30 },
                 visible: { opacity: 1, y: 0, transition: { duration: 0.5 } }
               }}
             >
-              <Award className="w-12 h-12 text-accent-purple mb-4" />
-              <h3 className="text-2xl font-bold mb-3">Smart Cities Mission</h3>
-              <p className="text-text-secondary mb-4">₹48,000 crores allocated for 100 smart cities</p>
+              <Award className="w-12 h-12 text-accent-purple mb-4 group-hover:scale-110 transition-transform duration-300" />
+              <h3 className="text-2xl font-bold mb-3 group-hover:text-white transition-colors duration-300">Smart Cities Mission</h3>
+              <p className="text-text-secondary mb-4 group-hover:text-gray-300 transition-colors duration-300">₹48,000 crores allocated for 100 smart cities</p>
               <ul className="space-y-2 text-sm">
                 <li className="flex items-center gap-2"><span className="text-accent-purple">✓</span> Project K deployment: ₹15-27L per city</li>
                 <li className="flex items-center gap-2"><span className="text-accent-purple">✓</span> Perfect use of allocated funds</li>
@@ -599,28 +599,28 @@ export default function Home() {
             </motion.div>
 
             <motion.div
-              className="glass-card rounded-2xl p-8"
+              className="glass-card rounded-2xl p-8 group hover:bg-white/10 transition-colors duration-300"
               variants={{
                 hidden: { opacity: 0, y: 30 },
                 visible: { opacity: 1, y: 0, transition: { duration: 0.5 } }
               }}
             >
-              <Shield className="w-12 h-12 text-green-500 mb-4" />
-              <h3 className="text-2xl font-bold mb-3">National Road Safety Policy 2023</h3>
-              <p className="text-text-secondary mb-4">Target: 50% reduction in fatalities</p>
+              <Shield className="w-12 h-12 text-green-500 mb-4 group-hover:scale-110 transition-transform duration-300" />
+              <h3 className="text-2xl font-bold mb-3 group-hover:text-white transition-colors duration-300">National Road Safety Policy 2023</h3>
+              <p className="text-text-secondary mb-4 group-hover:text-gray-300 transition-colors duration-300">Target: 50% reduction in fatalities</p>
               <p className="text-sm">Project K contribution: <span className="text-green-500 font-bold">25-40% per city</span></p>
               <p className="text-sm text-text-secondary mt-2">Measurable impact aligned with policy goals</p>
             </motion.div>
 
             <motion.div
-              className="glass-card rounded-2xl p-8"
+              className="glass-card rounded-2xl p-8 group hover:bg-white/10 transition-colors duration-300"
               variants={{
                 hidden: { opacity: 0, y: 30 },
                 visible: { opacity: 1, y: 0, transition: { duration: 0.5 } }
               }}
             >
-              <Users className="w-12 h-12 text-accent-orange mb-4" />
-              <h3 className="text-2xl font-bold mb-3">Make in India</h3>
+              <Users className="w-12 h-12 text-accent-orange mb-4 group-hover:scale-110 transition-transform duration-300" />
+              <h3 className="text-2xl font-bold mb-3 group-hover:text-white transition-colors duration-300">Make in India</h3>
               <ul className="space-y-2 text-sm">
                 <li className="flex items-center gap-2"><span className="text-accent-orange">✓</span> 100% indigenous solution</li>
                 <li className="flex items-center gap-2"><span className="text-accent-orange">✓</span> Edge hardware: Indian manufacturing</li>
@@ -670,7 +670,7 @@ export default function Home() {
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <div className="bg-gradient-to-br from-green-500/10 to-transparent rounded-2xl p-6">
+              <div className="bg-gradient-to-br from-green-500/10 to-transparent rounded-2xl p-6 transition-all duration-300 hover:scale-105 hover:from-green-500/20">
                 <Heart className="w-8 h-8 text-green-500 mb-2" />
                 <div className="text-3xl font-bold mb-1">
                   <AnimatedCounter end={Math.floor(cityCount * 350)} duration={1} />
@@ -678,7 +678,7 @@ export default function Home() {
                 <div className="text-sm text-text-secondary">Lives Saved Annually</div>
               </div>
 
-              <div className="bg-gradient-to-br from-accent-orange/10 to-transparent rounded-2xl p-6">
+              <div className="bg-gradient-to-br from-accent-orange/10 to-transparent rounded-2xl p-6 transition-all duration-300 hover:scale-105 hover:from-accent-orange/20">
                 <DollarSign className="w-8 h-8 text-accent-orange mb-2" />
                 <div className="text-3xl font-bold mb-1">
                   ₹<AnimatedCounter end={Math.floor(cityCount * 450)} duration={1} /> Cr
@@ -686,7 +686,7 @@ export default function Home() {
                 <div className="text-sm text-text-secondary">Economic Value Created</div>
               </div>
 
-              <div className="bg-gradient-to-br from-accent-purple/10 to-transparent rounded-2xl p-6">
+              <div className="bg-gradient-to-br from-accent-purple/10 to-transparent rounded-2xl p-6 transition-all duration-300 hover:scale-105 hover:from-accent-purple/20">
                 <AlertTriangle className="w-8 h-8 text-accent-purple mb-2" />
                 <div className="text-3xl font-bold mb-1">
                   <AnimatedCounter end={Math.floor(cityCount * 1200)} duration={1} />
@@ -694,7 +694,7 @@ export default function Home() {
                 <div className="text-sm text-text-secondary">Accidents Prevented</div>
               </div>
 
-              <div className="bg-gradient-to-br from-accent-teal/10 to-transparent rounded-2xl p-6">
+              <div className="bg-gradient-to-br from-accent-teal/10 to-transparent rounded-2xl p-6 transition-all duration-300 hover:scale-105 hover:from-accent-teal/20">
                 <Users className="w-8 h-8 text-accent-teal mb-2" />
                 <div className="text-3xl font-bold mb-1">
                   <AnimatedCounter end={Math.floor(cityCount * 1500)} duration={1} />

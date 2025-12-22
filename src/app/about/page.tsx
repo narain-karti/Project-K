@@ -43,15 +43,15 @@ export default function AboutPage() {
                 <section className="mb-16">
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                         <motion.div
-                            className="glass-card rounded-2xl p-8"
+                            className="glass-card rounded-2xl p-8 group hover:bg-white/10 transition-colors duration-300"
                             initial={{ opacity: 0, x: -30 }}
                             whileInView={{ opacity: 1, x: 0 }}
                             transition={{ duration: 0.6 }}
                             viewport={{ once: true }}
                         >
-                            <Target className="w-12 h-12 text-accent-teal mb-4" />
-                            <h2 className="text-2xl font-bold mb-4">Our Mission</h2>
-                            <p className="text-text-secondary leading-relaxed">
+                            <Target className="w-12 h-12 text-accent-teal mb-4 group-hover:scale-110 transition-transform duration-300" />
+                            <h2 className="text-2xl font-bold mb-4 group-hover:text-white transition-colors duration-300">Our Mission</h2>
+                            <p className="text-text-secondary leading-relaxed group-hover:text-gray-300 transition-colors duration-300">
                                 To transform India's 13 lakh passive traffic cameras into an intelligent network that saves lives,
                                 prevents accidents, and creates safer roads for everyone. We're not just building technology—we're
                                 building a future where every camera is a guardian angel.
@@ -59,15 +59,15 @@ export default function AboutPage() {
                         </motion.div>
 
                         <motion.div
-                            className="glass-card rounded-2xl p-8"
+                            className="glass-card rounded-2xl p-8 group hover:bg-white/10 transition-colors duration-300"
                             initial={{ opacity: 0, x: 30 }}
                             whileInView={{ opacity: 1, x: 0 }}
                             transition={{ duration: 0.6 }}
                             viewport={{ once: true }}
                         >
-                            <Users className="w-12 h-12 text-accent-purple mb-4" />
-                            <h2 className="text-2xl font-bold mb-4">Our Vision</h2>
-                            <p className="text-text-secondary leading-relaxed">
+                            <Users className="w-12 h-12 text-accent-purple mb-4 group-hover:scale-110 transition-transform duration-300" />
+                            <h2 className="text-2xl font-bold mb-4 group-hover:text-white transition-colors duration-300">Our Vision</h2>
+                            <p className="text-text-secondary leading-relaxed group-hover:text-gray-300 transition-colors duration-300">
                                 By 2030, become India's de facto standard for AI-powered traffic management, deployed in 50+ cities,
                                 saving 50,000+ lives annually, and preventing ₹100,000+ crores in economic losses. We envision a
                                 future where road deaths are as rare as they should be.
@@ -79,25 +79,25 @@ export default function AboutPage() {
                 {/* Why Now */}
                 <section className="mb-16">
                     <motion.div
-                        className="glass-card rounded-2xl p-8"
+                        className="glass-card rounded-2xl p-8 group hover:bg-white/10 transition-colors duration-300"
                         initial={{ opacity: 0, y: 30 }}
                         whileInView={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.6 }}
                         viewport={{ once: true }}
                     >
-                        <h2 className="text-3xl font-bold mb-6">Why Now?</h2>
+                        <h2 className="text-3xl font-bold mb-6 group-hover:text-white transition-colors duration-300">Why Now?</h2>
                         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                            <div>
-                                <div className="text-accent-teal font-bold mb-2">Market Timing</div>
-                                <p className="text-sm text-text-secondary">Smart Cities Mission: ₹48,000 Cr allocated (2025-2030). Government procurement timelines are active now.</p>
+                            <div className="group/item">
+                                <div className="text-accent-teal font-bold mb-2 group-hover/item:scale-105 transition-transform duration-300">Market Timing</div>
+                                <p className="text-sm text-text-secondary group-hover/item:text-gray-300 transition-colors duration-300">Smart Cities Mission: ₹48,000 Cr allocated (2025-2030). Government procurement timelines are active now.</p>
                             </div>
-                            <div>
-                                <div className="text-accent-orange font-bold mb-2">Technology Readiness</div>
-                                <p className="text-sm text-text-secondary">Edge AI accelerators are now affordable (₹2-3K). YOLO v11 achieves 94.6% accuracy on Indian roads.</p>
+                            <div className="group/item">
+                                <div className="text-accent-orange font-bold mb-2 group-hover/item:scale-105 transition-transform duration-300">Technology Readiness</div>
+                                <p className="text-sm text-text-secondary group-hover/item:text-gray-300 transition-colors duration-300">Edge AI accelerators are now affordable (₹2-3K). YOLO v11 achieves 94.6% accuracy on Indian roads.</p>
                             </div>
-                            <div>
-                                <div className="text-accent-purple font-bold mb-2">Regulatory Support</div>
-                                <p className="text-sm text-text-secondary">National Road Safety Policy 2023 mandates 50% reduction. SDG 3.6 commitment creates urgency.</p>
+                            <div className="group/item">
+                                <div className="text-accent-purple font-bold mb-2 group-hover/item:scale-105 transition-transform duration-300">Regulatory Support</div>
+                                <p className="text-sm text-text-secondary group-hover/item:text-gray-300 transition-colors duration-300">National Road Safety Policy 2023 mandates 50% reduction. SDG 3.6 commitment creates urgency.</p>
                             </div>
                         </div>
                     </motion.div>
