@@ -14,7 +14,7 @@ export default function AccidentAlert({ onRedirect, onContinue }: AccidentAlertP
             initial={{ opacity: 0, scale: 0.9, y: 20 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.9, y: 20 }}
-            className="absolute bottom-8 left-1/2 -translate-x-1/2 w-[90%] max-w-md glass-card border border-red-500/30 bg-black/80 backdrop-blur-xl p-6 rounded-2xl shadow-2xl z-10"
+            className="absolute bottom-8 left-1/2 -translate-x-1/2 w-[90%] max-w-md glass-card border border-red-500/30 bg-black/80 backdrop-blur-xl p-6 rounded-2xl shadow-2xl z-10 hover:shadow-[0_0_50px_rgba(239,68,68,0.5)] transition-all duration-300"
         >
             <div className="flex items-start gap-4">
                 <div className="w-12 h-12 rounded-full bg-red-500/20 flex items-center justify-center shrink-0 animate-pulse">

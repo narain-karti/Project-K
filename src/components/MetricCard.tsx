@@ -18,7 +18,7 @@ export default function MetricCard({ title, value, change, icon, trend = 'neutra
     };
 
     return (
-        <div className="glass-card rounded-2xl p-6 hover:scale-105 transition-all duration-300">
+        <div className="glass-card rounded-2xl p-6 hover:scale-105 transition-all duration-300 group hover:shadow-[0_0_40px_rgba(45,212,191,0.4)] hover:border-accent-teal/40 hover:bg-gradient-to-br hover:from-accent-teal/10 hover:to-transparent">
             <div className="flex items-start justify-between mb-4">
                 <div className="text-text-secondary text-sm font-medium">{title}</div>
                 <div className="text-accent-teal">{icon}</div>
