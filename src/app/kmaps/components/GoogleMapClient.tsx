@@ -5,6 +5,8 @@ import { GoogleMap, useJsApiLoader, Marker, InfoWindow, DirectionsRenderer, Dire
 import { Incident } from '../hooks/useIncidentData';
 import { AlertTriangle, CloudRain, Shield, Activity, X } from 'lucide-react';
 
+// Fixed usage of IncidentType enum (Force Rebuild)
+
 const CHENNAI_CENTER = { lat: 13.0827, lng: 80.2707 };
 
 const containerStyle = {
