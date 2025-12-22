@@ -1,0 +1,90 @@
+@import "tailwindcss";
+
+@theme {
+    /* Colors */
+    --color-text-primary: #ffffff;
+    --color-text-secondary: #9ca3af;
+    /* gray-400 */
+    --color-accent-teal: #2dd4bf;
+    /* teal-400 */
+    --color-accent-purple: #a855f7;
+    /* purple-500 */
+    --color-accent-orange: #f97316;
+    /* orange-500 */
+    --color-accent-rose: #f43f5e;
+    /* rose-500 */
+    --color-accent-amber: #f59e0b;
+    /* amber-500 */
+    --color-accent-cyan: #22d3ee;
+    /* cyan-400 */
+    --color-accent-violet: #8b5cf6;
+    /* violet-500 */
+    --color-accent-blue: #3b82f6;
+    /* blue-500 */
+    --color-accent-green: #22c55e;
+    /* green-500 */
+
+    /* Animations */
+    --animate-float-slow: float 6s ease-in-out infinite;
+    --animate-float-medium: float 5s ease-in-out infinite;
+    --animate-float-fast: float 4s ease-in-out infinite;
+
+    @keyframes float {
+        0% {
+            transform: translateY(0px);
+        }
+
+        50% {
+            transform: translateY(-20px);
+        }
+
+        100% {
+            transform: translateY(0px);
+        }
+    }
+}
+
+/* Utilities */
+@utility glass-card {
+    @apply bg-white/5 backdrop-blur-lg border border-white/10 shadow-xl;
+}
+
+@utility interactive {
+    @apply transition-transform hover:scale-105 active:scale-95 cursor-pointer;
+}
+
+@utility hover-interactive {
+    @apply scale-150 bg-white/10 mix-blend-difference;
+}
+
+/* Base styles */
+body {
+    @apply bg-black text-white overflow-x-hidden;
+}
+
+/* Existing styles */
+.glass-popup .leaflet-popup-content-wrapper {
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    padding: 0;
+    overflow: hidden;
+}
+
+.glass-popup .leaflet-popup-tip {
+    background: rgba(255, 255, 255, 0.95);
+}
+
+.custom-scrollbar::-webkit-scrollbar {
+    width: 4px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 4px;
+}
