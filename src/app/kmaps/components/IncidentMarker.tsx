@@ -1,22 +1,22 @@
 import { Incident } from '../hooks/useIncidentData';
-import { Marker, Popup } from 'react-leaflet';
+import { Marker, Popup, useMap } from 'react-leaflet';
 import L from 'leaflet';
 import { useEffect, useState } from 'react';
 import { AlertTriangle, Ambulance, Droplets, Construction, Zap } from 'lucide-react';
 import ReactDOMServer from 'react-dom/server';
 
 // Helper to get Lucide icon as string
-const getIconString = (type: string) => {
+const getIconString = (type: string, size: number = 18) => {
     switch (type) {
-        case 'ACCIDENT': return ReactDOMServer.renderToString(<AlertTriangle size={18} color="white" />);
-        case 'AMBULANCE': return ReactDOMServer.renderToString(<Ambulance size={18} color="white" />);
-        case 'POTHOLE': return ReactDOMServer.renderToString(<Construction size={18} color="white" />);
-        case 'WATERLOG': return ReactDOMServer.renderToString(<Droplets size={18} color="white" />);
-        default: return ReactDOMServer.renderToString(<Zap size={18} color="white" />);
+        case 'ACCIDENT': return ReactDOMServer.renderToString(<AlertTriangle size={size} color="white" />);
+        case 'AMBULANCE': return ReactDOMServer.renderToString(<Ambulance size={size} color="white" />);
+        case 'POTHOLE': return ReactDOMServer.renderToString(<Construction size={size} color="white" />);
+        case 'WATERLOG': return ReactDOMServer.renderToString(<Droplets size={size} color="white" />);
+        default: return ReactDOMServer.renderToString(<Zap size={size} color="white" />);
     }
 };
 
-const getIconHtml = (type: string, severity: string) => {
+const getIconHtml = (type: string, severity: string, size: number) => {
     let color = '#3B82F6';
     let pulseColor = 'rgba(59, 130, 246, 0.5)';
 
@@ -27,37 +27,32 @@ const getIconHtml = (type: string, severity: string) => {
         case 'WATERLOG': color = '#06B6D4'; pulseColor = 'rgba(6, 182, 212, 0.6)'; break;
     }
 
-    const iconSvg = getIconString(type);
+    // Scale icon size inside the marker
+    const iconSize = Math.floor(size * 0.5);
+    const iconSvg = getIconString(type, iconSize);
+
     const pulseClass = severity === 'CRITICAL' ? 'marker-pulse-critical' : 'marker-pulse-normal';
 
     return `
-        <div class="relative w-10 h-10 flex items-center justify-center group">
+        <div class="relative flex items-center justify-center group" style="width: ${size}px; height: ${size}px;">
             <style>
                 @keyframes pulse-ring {
                     0% { transform: scale(0.8); opacity: 0.8; }
                     100% { transform: scale(2.5); opacity: 0; }
                 }
-                .marker-pulse-critical::before {
+                .marker-pulse-critical::before, .marker-pulse-normal::before {
                     content: '';
                     position: absolute;
                     width: 100%;
                     height: 100%;
                     border-radius: 50%;
                     background-color: ${pulseColor};
-                    animation: pulse-ring 1.5s cubic-bezier(0.215, 0.61, 0.355, 1) infinite;
-                }
-                .marker-pulse-normal::before {
-                    content: '';
-                    position: absolute;
-                    width: 100%;
-                    height: 100%;
-                    border-radius: 50%;
-                    background-color: ${pulseColor};
-                    animation: pulse-ring 3s cubic-bezier(0.215, 0.61, 0.355, 1) infinite;
+                    animation: pulse-ring 2s cubic-bezier(0.215, 0.61, 0.355, 1) infinite;
                 }
             </style>
             <div class="${pulseClass} absolute inset-0 rounded-full"></div>
-            <div class="relative z-10 w-9 h-9 rounded-full flex items-center justify-center shadow-[0_4px_12px_rgba(0,0,0,0.5)] border-2 border-white/90 transition-transform duration-300 group-hover:scale-110" style="background: linear-gradient(135deg, ${color}, #000);">
+            <div class="relative z-10 rounded-full flex items-center justify-center shadow-[0_4px_12px_rgba(0,0,0,0.5)] border-2 border-white/90 transition-transform duration-300 group-hover:scale-110" 
+                 style="background: linear-gradient(135deg, ${color}, #000); width: ${size - 2}px; height: ${size - 2}px;">
                 ${iconSvg}
             </div>
         </div>
@@ -71,16 +66,36 @@ interface IncidentMarkerProps {
 export default function IncidentMarker({ incident }: IncidentMarkerProps) {
     const [icon, setIcon] = useState<L.DivIcon | null>(null);
 
+    const map = useMap();
+    const [currentZoom, setCurrentZoom] = useState(map.getZoom());
+
     useEffect(() => {
+        const onZoom = () => {
+            setCurrentZoom(map.getZoom());
+        };
+        map.on('zoomend', onZoom);
+        return () => {
+            map.off('zoomend', onZoom);
+        };
+    }, [map]);
+
+    useEffect(() => {
+        // Dynamic size based on zoom
+        let size = 40; // Default (Zoom > 15)
+        if (currentZoom < 13) size = 20;
+        else if (currentZoom < 15) size = 30;
+
+        const anchor = size / 2;
+
         const newIcon = L.divIcon({
-            className: 'custom-marker-icon', // Use transparent class
-            html: getIconHtml(incident.type, incident.severity),
-            iconSize: [40, 40],
-            iconAnchor: [20, 20],
-            popupAnchor: [0, -20]
+            className: 'custom-marker-icon',
+            html: getIconHtml(incident.type, incident.severity, size), // Pass size to helper
+            iconSize: [size, size],
+            iconAnchor: [anchor, anchor],
+            popupAnchor: [0, -anchor]
         });
         setIcon(newIcon);
-    }, [incident]);
+    }, [incident, currentZoom]);
 
     if (!icon) return null;
 

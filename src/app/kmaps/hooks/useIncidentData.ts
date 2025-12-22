@@ -23,8 +23,8 @@ export interface FilterState {
 
 // Mock Data Generators
 const CHENNAI_BOUNDS = {
-    lat: { min: 12.9000, max: 13.2000 },
-    lng: { min: 80.1500, max: 80.3500 }
+    lat: { min: 12.9000, max: 13.1500 }, // Slightly reduced North to stay central
+    lng: { min: 80.1900, max: 80.2600 }  // Reduced East to strictly exclude ocean (Marina beach edge)
 };
 
 const LOCATIONS = [

@@ -89,14 +89,14 @@ export default function KMapsPage() {
                     </div>
 
                     {/* Main Interface Layout */}
-                    <div className="flex flex-col md:flex-row gap-4 h-full mt-4 overflow-hidden">
+                    <div className="flex flex-col md:flex-row gap-4 h-full mt-4 overflow-hidden pointer-events-none">
 
-                        {/* LEFT: Filters & Legend */}
-                        <div className="w-full md:w-80 shrink-0 pointer-events-auto space-y-4 hidden md:block flex flex-col gap-4">
+                        {/* LEFT: Filters & Legend (Mobile: Top, Desktop: Left) */}
+                        <div className="w-full md:w-80 shrink-0 pointer-events-auto flex flex-col gap-4 max-h-[40vh] md:max-h-full overflow-y-auto custom-scrollbar">
                             <FilterPanel filters={filters} setFilters={setFilters} />
 
-                            {/* Chat Interface (Replacing/Adding to Left Panel) */}
-                            <div className="h-96 rounded-2xl overflow-hidden glass-card">
+                            {/* Chat Interface */}
+                            <div className="md:h-96 min-h-[300px] rounded-2xl overflow-hidden glass-card shrink-0">
                                 <ChatInterface
                                     onRouteUpdate={handleRouteUpdate}
                                     filters={filters}
@@ -104,12 +104,14 @@ export default function KMapsPage() {
                             </div>
                         </div>
 
-                        {/* CENTER: Spacer (Map visible here) */}
-                        <div className="flex-1 min-w-0" />
+                        {/* CENTER: Spacer (Map interaction zone) */}
+                        <div className="flex-1 min-w-0 hidden md:block" />
 
-                        {/* RIGHT: Feed & Intelligence */}
-                        <div className="w-full md:w-96 shrink-0 pointer-events-auto flex flex-col gap-4 max-h-full overflow-hidden">
-                            <IntelligencePanel incidents={allIncidents} />
+                        {/* RIGHT: Feed & Intelligence (Mobile: Bottom, Desktop: Right) */}
+                        <div className="w-full md:w-96 shrink-0 pointer-events-auto flex flex-col gap-4 max-h-[40vh] md:max-h-full overflow-y-auto custom-scrollbar mt-auto md:mt-0">
+                            <div className="hidden md:block">
+                                <IntelligencePanel incidents={allIncidents} />
+                            </div>
                             <IncidentFeed incidents={incidents} onIncidentClick={handleIncidentClick} />
                         </div>
                     </div>

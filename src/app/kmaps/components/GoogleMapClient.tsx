@@ -149,7 +149,10 @@ function GoogleMapClient({ incidents, focusedLocation, routeRequest }: GoogleMap
                             ? 'https://maps.google.com/mapfiles/ms/icons/red-dot.png'
                             : incident.type === 'POTHOLE'
                                 ? 'https://maps.google.com/mapfiles/ms/icons/orange-dot.png'
-                                : 'https://maps.google.com/mapfiles/ms/icons/blue-dot.png'
+                                : incident.type === 'AMBULANCE'
+                                    ? 'https://maps.google.com/mapfiles/ms/icons/green-dot.png'
+                                    : 'https://maps.google.com/mapfiles/ms/icons/blue-dot.png',
+                        scaledSize: new window.google.maps.Size(40, 40)
                     }}
                 />
             ))}
