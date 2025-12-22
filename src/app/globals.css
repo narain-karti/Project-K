@@ -52,11 +52,14 @@
   "Segoe UI Emoji",
   "Segoe UI Symbol",
   "Noto Color Emoji";
+
+  /* Custom Shadows */
+  --shadow-glow: 0 0 50px rgba(255, 255, 255, 0.25);
 }
 
 /* Utilities */
 @utility glass-card {
-  @apply bg-white/5 backdrop-blur-lg border border-white/10 shadow-xl transition-all duration-300 hover:shadow-2xl hover:border-accent-teal/40 hover:-translate-y-1;
+  @apply bg-white/5 backdrop-blur-lg border border-white/10 shadow-xl transition-all duration-300 hover:shadow-glow hover:border-white/40 hover:-translate-y-1;
 }
 
 @utility interactive {
