@@ -11,6 +11,8 @@
   "dependencies": {
     "@google/generative-ai": "^0.24.1",
     "@react-google-maps/api": "^2.20.7",
+    "@react-three/drei": "^10.7.7",
+    "@react-three/fiber": "^9.4.2",
     "@teachablemachine/image": "^0.8.5",
     "@tensorflow-models/coco-ssd": "^2.2.3",
     "@tensorflow/tfjs": "^4.22.0",
@@ -27,6 +29,7 @@
     "react-leaflet": "^5.0.0",
     "recharts": "^3.5.0",
     "tailwind-merge": "^3.4.0",
+    "three": "^0.182.0",
     "xlsx": "^0.18.5"
   },
   "devDependencies": {
