@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { Users, Target, Mail, Phone, MapPin, Send, ChevronDown } from 'lucide-react';
+import { motion } from 'framer-motion';
 
 export default function AboutPage() {
     const [formData, setFormData] = useState({ name: '', email: '', organization: '', message: '' });
@@ -41,7 +42,13 @@ export default function AboutPage() {
                 {/* Mission & Vision */}
                 <section className="mb-16">
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                        <div className="glass-card rounded-2xl p-8">
+                        <motion.div
+                            className="glass-card rounded-2xl p-8"
+                            initial={{ opacity: 0, x: -30 }}
+                            whileInView={{ opacity: 1, x: 0 }}
+                            transition={{ duration: 0.6 }}
+                            viewport={{ once: true }}
+                        >
                             <Target className="w-12 h-12 text-accent-teal mb-4" />
                             <h2 className="text-2xl font-bold mb-4">Our Mission</h2>
                             <p className="text-text-secondary leading-relaxed">
@@ -49,9 +56,15 @@ export default function AboutPage() {
                                 prevents accidents, and creates safer roads for everyone. We're not just building technology—we're
                                 building a future where every camera is a guardian angel.
                             </p>
-                        </div>
+                        </motion.div>
 
-                        <div className="glass-card rounded-2xl p-8">
+                        <motion.div
+                            className="glass-card rounded-2xl p-8"
+                            initial={{ opacity: 0, x: 30 }}
+                            whileInView={{ opacity: 1, x: 0 }}
+                            transition={{ duration: 0.6 }}
+                            viewport={{ once: true }}
+                        >
                             <Users className="w-12 h-12 text-accent-purple mb-4" />
                             <h2 className="text-2xl font-bold mb-4">Our Vision</h2>
                             <p className="text-text-secondary leading-relaxed">
@@ -59,13 +72,19 @@ export default function AboutPage() {
                                 saving 50,000+ lives annually, and preventing ₹100,000+ crores in economic losses. We envision a
                                 future where road deaths are as rare as they should be.
                             </p>
-                        </div>
+                        </motion.div>
                     </div>
                 </section>
 
                 {/* Why Now */}
                 <section className="mb-16">
-                    <div className="glass-card rounded-2xl p-8">
+                    <motion.div
+                        className="glass-card rounded-2xl p-8"
+                        initial={{ opacity: 0, y: 30 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.6 }}
+                        viewport={{ once: true }}
+                    >
                         <h2 className="text-3xl font-bold mb-6">Why Now?</h2>
                         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                             <div>
@@ -81,7 +100,7 @@ export default function AboutPage() {
                                 <p className="text-sm text-text-secondary">National Road Safety Policy 2023 mandates 50% reduction. SDG 3.6 commitment creates urgency.</p>
                             </div>
                         </div>
-                    </div>
+                    </motion.div>
                 </section>
 
                 {/* Contact Form */}
@@ -144,19 +163,19 @@ export default function AboutPage() {
                             <div className="glass-card rounded-2xl p-6">
                                 <Mail className="w-8 h-8 text-accent-teal mb-3" />
                                 <div className="text-sm text-text-secondary mb-1">Email</div>
-                                <div className="font-medium">contact@projectk.in</div>
+                                <div className="font-medium">pnarainkarti@gmail.com</div>
                             </div>
 
                             <div className="glass-card rounded-2xl p-6">
                                 <Phone className="w-8 h-8 text-accent-orange mb-3" />
                                 <div className="text-sm text-text-secondary mb-1">Phone</div>
-                                <div className="font-medium">+91 XXXX XXXXXX</div>
+                                <div className="font-medium">+91 8015383591</div>
                             </div>
 
                             <div className="glass-card rounded-2xl p-6">
                                 <MapPin className="w-8 h-8 text-accent-purple mb-3" />
                                 <div className="text-sm text-text-secondary mb-1">Headquarters</div>
-                                <div className="font-medium">Pune, Maharashtra, India</div>
+                                <div className="font-medium">Coming Soon</div>
                             </div>
                         </div>
                     </div>
@@ -178,11 +197,13 @@ export default function AboutPage() {
                                             }`}
                                     />
                                 </button>
-                                {openFaq === index && (
-                                    <div className="px-6 pb-6 text-text-secondary">
-                                        {faq.a}
+                                <div className={`grid transition-all duration-300 ease-in-out w-full ${openFaq === index ? 'grid-rows-[1fr] opacity-100' : 'grid-rows-[0fr] opacity-0'}`}>
+                                    <div className="overflow-hidden w-full">
+                                        <div className="px-6 pb-6 text-text-secondary w-full break-words">
+                                            {faq.a}
+                                        </div>
                                     </div>
-                                )}
+                                </div>
                             </div>
                         ))}
                     </div>

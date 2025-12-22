@@ -167,9 +167,28 @@ export default function Home() {
             The Paradox India Faces
           </h2>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <motion.div
+            className="grid grid-cols-1 md:grid-cols-2 gap-6"
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, amount: 0.1 }}
+            variants={{
+              hidden: {},
+              visible: {
+                transition: {
+                  staggerChildren: 0.1
+                }
+              }
+            }}
+          >
             {/* Card 1 */}
-            <div className="glass-card rounded-2xl p-6">
+            <motion.div
+              className="glass-card rounded-2xl p-6"
+              variants={{
+                hidden: { opacity: 0, y: 30 },
+                visible: { opacity: 1, y: 0, transition: { duration: 0.5 } }
+              }}
+            >
               <div className="flex items-start gap-4 mb-4">
                 <div className="w-12 h-12 rounded-full bg-red-500/20 flex items-center justify-center flex-shrink-0">
                   <Clock className="w-6 h-6 text-red-500" />
@@ -182,10 +201,16 @@ export default function Home() {
               <p className="text-accent-teal text-sm font-medium">
                 ✓ Project K solves this with &lt;2-second accident detection, triggering instant alerts and emergency routing the moment a crash occurs.
               </p>
-            </div>
+            </motion.div>
 
             {/* Card 2 */}
-            <div className="glass-card rounded-2xl p-6">
+            <motion.div
+              className="glass-card rounded-2xl p-6"
+              variants={{
+                hidden: { opacity: 0, y: 30 },
+                visible: { opacity: 1, y: 0, transition: { duration: 0.5 } }
+              }}
+            >
               <div className="flex items-start gap-4 mb-4">
                 <div className="w-12 h-12 rounded-full bg-orange-500/20 flex items-center justify-center flex-shrink-0">
                   <Activity className="w-6 h-6 text-orange-500" />
@@ -198,10 +223,16 @@ export default function Home() {
               <p className="text-accent-teal text-sm font-medium">
                 ✓ Project K auto-creates dynamic green corridors, clearing intersections ahead of ambulances and accelerating response during the golden hour.
               </p>
-            </div>
+            </motion.div>
 
             {/* Card 3 */}
-            <div className="glass-card rounded-2xl p-6">
+            <motion.div
+              className="glass-card rounded-2xl p-6"
+              variants={{
+                hidden: { opacity: 0, y: 30 },
+                visible: { opacity: 1, y: 0, transition: { duration: 0.5 } }
+              }}
+            >
               <div className="flex items-start gap-4 mb-4">
                 <div className="w-12 h-12 rounded-full bg-yellow-500/20 flex items-center justify-center flex-shrink-0">
                   <Zap className="w-6 h-6 text-yellow-500" />
@@ -214,10 +245,16 @@ export default function Home() {
               <p className="text-accent-teal text-sm font-medium">
                 ✓ Project K replaces this with adaptive AI-driven signal timing, optimizing every light based on actual queue lengths and conditions.
               </p>
-            </div>
+            </motion.div>
 
             {/* Card 4 */}
-            <div className="glass-card rounded-2xl p-6">
+            <motion.div
+              className="glass-card rounded-2xl p-6"
+              variants={{
+                hidden: { opacity: 0, y: 30 },
+                visible: { opacity: 1, y: 0, transition: { duration: 0.5 } }
+              }}
+            >
               <div className="flex items-start gap-4 mb-4">
                 <div className="w-12 h-12 rounded-full bg-purple-500/20 flex items-center justify-center flex-shrink-0">
                   <AlertTriangle className="w-6 h-6 text-purple-500" />
@@ -230,10 +267,16 @@ export default function Home() {
               <p className="text-accent-teal text-sm font-medium">
                 ✓ Project K's cameras detect potholes, road defects, and waterlogging automatically and alert authorities instantly for faster repair.
               </p>
-            </div>
+            </motion.div>
 
             {/* Card 5 */}
-            <div className="glass-card rounded-2xl p-6">
+            <motion.div
+              className="glass-card rounded-2xl p-6"
+              variants={{
+                hidden: { opacity: 0, y: 30 },
+                visible: { opacity: 1, y: 0, transition: { duration: 0.5 } }
+              }}
+            >
               <div className="flex items-start gap-4 mb-4">
                 <div className="w-12 h-12 rounded-full bg-blue-500/20 flex items-center justify-center flex-shrink-0">
                   <Wifi className="w-6 h-6 text-blue-500" />
@@ -246,10 +289,16 @@ export default function Home() {
               <p className="text-accent-teal text-sm font-medium">
                 ✓ Project K gives these cameras a brain — enabling real-time analysis, incident detection, and autonomous decision-making right at the intersection.
               </p>
-            </div>
+            </motion.div>
 
             {/* Card 6 */}
-            <div className="glass-card rounded-2xl p-6">
+            <motion.div
+              className="glass-card rounded-2xl p-6"
+              variants={{
+                hidden: { opacity: 0, y: 30 },
+                visible: { opacity: 1, y: 0, transition: { duration: 0.5 } }
+              }}
+            >
               <div className="flex items-start gap-4 mb-4">
                 <div className="w-12 h-12 rounded-full bg-rose-500/20 flex items-center justify-center flex-shrink-0">
                   <Shield className="w-6 h-6 text-rose-500" />
@@ -262,10 +311,16 @@ export default function Home() {
               <p className="text-accent-teal text-sm font-medium">
                 ✓ Project K's hybrid architecture ensures every intersection keeps working autonomously, even during full cloud outages, maintaining up to 90% efficiency.
               </p>
-            </div>
+            </motion.div>
 
             {/* Card 7 */}
-            <div className="glass-card rounded-2xl p-6">
+            <motion.div
+              className="glass-card rounded-2xl p-6"
+              variants={{
+                hidden: { opacity: 0, y: 30 },
+                visible: { opacity: 1, y: 0, transition: { duration: 0.5 } }
+              }}
+            >
               <div className="flex items-start gap-4 mb-4">
                 <div className="w-12 h-12 rounded-full bg-teal-500/20 flex items-center justify-center flex-shrink-0">
                   <TrendingUp className="w-6 h-6 text-teal-500" />
@@ -278,10 +333,16 @@ export default function Home() {
               <p className="text-accent-teal text-sm font-medium">
                 ✓ Project K uses cloud intelligence to coordinate 50+ downstream intersections, preventing jams before they happen.
               </p>
-            </div>
+            </motion.div>
 
             {/* Card 8 */}
-            <div className="glass-card rounded-2xl p-6">
+            <motion.div
+              className="glass-card rounded-2xl p-6"
+              variants={{
+                hidden: { opacity: 0, y: 30 },
+                visible: { opacity: 1, y: 0, transition: { duration: 0.5 } }
+              }}
+            >
               <div className="flex items-start gap-4 mb-4">
                 <div className="w-12 h-12 rounded-full bg-amber-500/20 flex items-center justify-center flex-shrink-0">
                   <Brain className="w-6 h-6 text-amber-500" />
@@ -294,8 +355,8 @@ export default function Home() {
               <p className="text-accent-teal text-sm font-medium">
                 ✓ Project K builds a live city-wide safety map, identifying danger zones, peak accident times, and patterns invisible without AI.
               </p>
-            </div>
-          </div>
+            </motion.div>
+          </motion.div>
         </div>
       </section>
 
@@ -369,8 +430,23 @@ export default function Home() {
             Revolutionary Innovations
           </h2>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            <div className="glass-card rounded-2xl p-8">
+          <motion.div
+            className="grid grid-cols-1 md:grid-cols-2 gap-8"
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, amount: 0.1 }}
+            variants={{
+              hidden: {},
+              visible: { transition: { staggerChildren: 0.1 } }
+            }}
+          >
+            <motion.div
+              className="glass-card rounded-2xl p-8"
+              variants={{
+                hidden: { opacity: 0, y: 30 },
+                visible: { opacity: 1, y: 0, transition: { duration: 0.5 } }
+              }}
+            >
               <Brain className="w-12 h-12 text-accent-teal mb-4" />
               <h3 className="text-2xl font-bold mb-3">Hybrid Architecture</h3>
               <p className="text-text-secondary mb-4">Best of both worlds: Edge resilience + Cloud optimization. 85-90% uptime even during cloud failures.</p>
@@ -380,9 +456,15 @@ export default function Home() {
                 <li className="flex items-center gap-2"><span className="text-accent-teal">✓</span> Minimal bandwidth (cheap)</li>
                 <li className="flex items-center gap-2"><span className="text-accent-teal">✓</span> Resilient design (reliable)</li>
               </ul>
-            </div>
+            </motion.div>
 
-            <div className="glass-card rounded-2xl p-8">
+            <motion.div
+              className="glass-card rounded-2xl p-8"
+              variants={{
+                hidden: { opacity: 0, y: 30 },
+                visible: { opacity: 1, y: 0, transition: { duration: 0.5 } }
+              }}
+            >
               <DollarSign className="w-12 h-12 text-accent-orange mb-4" />
               <h3 className="text-2xl font-bold mb-3">99.94% Bandwidth Savings</h3>
               <p className="text-text-secondary mb-4">Traditional systems stream video → ₹1-2 crores/month. Project K sends metadata → ₹1.4 lakhs/month.</p>
@@ -390,9 +472,15 @@ export default function Home() {
                 <div className="text-3xl font-bold text-accent-orange">₹228 Cr</div>
                 <div className="text-sm text-text-secondary">Annual savings per city</div>
               </div>
-            </div>
+            </motion.div>
 
-            <div className="glass-card rounded-2xl p-8">
+            <motion.div
+              className="glass-card rounded-2xl p-8"
+              variants={{
+                hidden: { opacity: 0, y: 30 },
+                visible: { opacity: 1, y: 0, transition: { duration: 0.5 } }
+              }}
+            >
               <Zap className="w-12 h-12 text-accent-purple mb-4" />
               <h3 className="text-2xl font-bold mb-3">Multi-Model AI Fusion</h3>
               <p className="text-text-secondary mb-4">Four specialized AI models working together for comprehensive coverage.</p>
@@ -402,9 +490,15 @@ export default function Home() {
                 <li className="flex items-center gap-2"><span className="text-accent-purple">•</span> Audio fusion: Emergency sirens (98%)</li>
                 <li className="flex items-center gap-2"><span className="text-accent-purple">•</span> Traffic flow: Adaptive signals (96%)</li>
               </ul>
-            </div>
+            </motion.div>
 
-            <div className="glass-card rounded-2xl p-8">
+            <motion.div
+              className="glass-card rounded-2xl p-8"
+              variants={{
+                hidden: { opacity: 0, y: 30 },
+                visible: { opacity: 1, y: 0, transition: { duration: 0.5 } }
+              }}
+            >
               <Clock className="w-12 h-12 text-green-500 mb-4" />
               <h3 className="text-2xl font-bold mb-3">Real-Time Response</h3>
               <p className="text-text-secondary mb-4">Every millisecond counts in emergency response.</p>
@@ -425,8 +519,8 @@ export default function Home() {
                   vs. 5-15 minutes traditional
                 </div>
               </div>
-            </div>
-          </div>
+            </motion.div>
+          </motion.div>
         </div>
       </section>
 
@@ -437,8 +531,23 @@ export default function Home() {
             Perfect Fit with India's National Priorities
           </h2>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            <div className="glass-card rounded-2xl p-8">
+          <motion.div
+            className="grid grid-cols-1 md:grid-cols-2 gap-8"
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, amount: 0.1 }}
+            variants={{
+              hidden: {},
+              visible: { transition: { staggerChildren: 0.1 } }
+            }}
+          >
+            <motion.div
+              className="glass-card rounded-2xl p-8"
+              variants={{
+                hidden: { opacity: 0, y: 30 },
+                visible: { opacity: 1, y: 0, transition: { duration: 0.5 } }
+              }}
+            >
               <Target className="w-12 h-12 text-accent-teal mb-4" />
               <h3 className="text-2xl font-bold mb-3">SDG 3.6 - Halve Road Deaths by 2030</h3>
               <div className="space-y-4">
@@ -470,9 +579,15 @@ export default function Home() {
                   </div>
                 </div>
               </div>
-            </div>
+            </motion.div>
 
-            <div className="glass-card rounded-2xl p-8">
+            <motion.div
+              className="glass-card rounded-2xl p-8"
+              variants={{
+                hidden: { opacity: 0, y: 30 },
+                visible: { opacity: 1, y: 0, transition: { duration: 0.5 } }
+              }}
+            >
               <Award className="w-12 h-12 text-accent-purple mb-4" />
               <h3 className="text-2xl font-bold mb-3">Smart Cities Mission</h3>
               <p className="text-text-secondary mb-4">₹48,000 crores allocated for 100 smart cities</p>
@@ -481,17 +596,29 @@ export default function Home() {
                 <li className="flex items-center gap-2"><span className="text-accent-purple">✓</span> Perfect use of allocated funds</li>
                 <li className="flex items-center gap-2"><span className="text-accent-purple">✓</span> Technology-driven urban transformation</li>
               </ul>
-            </div>
+            </motion.div>
 
-            <div className="glass-card rounded-2xl p-8">
+            <motion.div
+              className="glass-card rounded-2xl p-8"
+              variants={{
+                hidden: { opacity: 0, y: 30 },
+                visible: { opacity: 1, y: 0, transition: { duration: 0.5 } }
+              }}
+            >
               <Shield className="w-12 h-12 text-green-500 mb-4" />
               <h3 className="text-2xl font-bold mb-3">National Road Safety Policy 2023</h3>
               <p className="text-text-secondary mb-4">Target: 50% reduction in fatalities</p>
               <p className="text-sm">Project K contribution: <span className="text-green-500 font-bold">25-40% per city</span></p>
               <p className="text-sm text-text-secondary mt-2">Measurable impact aligned with policy goals</p>
-            </div>
+            </motion.div>
 
-            <div className="glass-card rounded-2xl p-8">
+            <motion.div
+              className="glass-card rounded-2xl p-8"
+              variants={{
+                hidden: { opacity: 0, y: 30 },
+                visible: { opacity: 1, y: 0, transition: { duration: 0.5 } }
+              }}
+            >
               <Users className="w-12 h-12 text-accent-orange mb-4" />
               <h3 className="text-2xl font-bold mb-3">Make in India</h3>
               <ul className="space-y-2 text-sm">
@@ -501,8 +628,8 @@ export default function Home() {
                 <li className="flex items-center gap-2"><span className="text-accent-orange">✓</span> Job creation: 500+ by Year 3</li>
                 <li className="flex items-center gap-2"><span className="text-accent-orange">✓</span> Export potential: ₹1000+ crores</li>
               </ul>
-            </div>
-          </div>
+            </motion.div>
+          </motion.div>
         </div>
       </section>
 
@@ -516,7 +643,13 @@ export default function Home() {
             Select the number of cities to see projected impact
           </p>
 
-          <div className="glass-card rounded-3xl p-8 md:p-12">
+          <motion.div
+            className="glass-card rounded-3xl p-8 md:p-12"
+            initial={{ opacity: 0, scale: 0.95 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.5 }}
+            viewport={{ once: true }}
+          >
             <div className="mb-8">
               <label className="block text-center mb-4">
                 <span className="text-6xl font-bold text-accent-teal">{cityCount}</span>
@@ -569,7 +702,7 @@ export default function Home() {
                 <div className="text-sm text-text-secondary">Families Protected</div>
               </div>
             </div>
-          </div>
+          </motion.div>
         </div>
       </section>
 
@@ -580,43 +713,58 @@ export default function Home() {
             See Project K in Action
           </h2>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <Link href="/demo" className="glass-card rounded-2xl p-8 hover:scale-105 transition-all duration-300 interactive group">
-              <div className="w-16 h-16 rounded-full bg-gradient-to-br from-accent-teal to-accent-purple flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
-                <Activity className="w-8 h-8 text-white" />
-              </div>
-              <h3 className="text-2xl font-bold mb-3">Watch Live Demo</h3>
-              <p className="text-text-secondary mb-4">See real AI-powered video analysis</p>
-              <div className="flex items-center gap-2 text-accent-teal group-hover:gap-4 transition-all">
-                <span className="font-semibold">Explore Demo</span>
-                <ArrowRight className="w-5 h-5" />
-              </div>
-            </Link>
+          <motion.div
+            className="grid grid-cols-1 md:grid-cols-3 gap-8"
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, amount: 0.1 }}
+            variants={{
+              hidden: {},
+              visible: { transition: { staggerChildren: 0.1 } }
+            }}
+          >
+            <motion.div variants={{ hidden: { opacity: 0, y: 30 }, visible: { opacity: 1, y: 0, transition: { duration: 0.5 } } }}>
+              <Link href="/demo" className="glass-card rounded-2xl p-8 hover:scale-105 transition-all duration-300 interactive group block h-full">
+                <div className="w-16 h-16 rounded-full bg-gradient-to-br from-accent-teal to-accent-purple flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                  <Activity className="w-8 h-8 text-white" />
+                </div>
+                <h3 className="text-2xl font-bold mb-3">Watch Live Demo</h3>
+                <p className="text-text-secondary mb-4">See real AI-powered video analysis</p>
+                <div className="flex items-center gap-2 text-accent-teal group-hover:gap-4 transition-all">
+                  <span className="font-semibold">Explore Demo</span>
+                  <ArrowRight className="w-5 h-5" />
+                </div>
+              </Link>
+            </motion.div>
 
-            <Link href="/dashboard" className="glass-card rounded-2xl p-8 hover:scale-105 transition-all duration-300 interactive group">
-              <div className="w-16 h-16 rounded-full bg-gradient-to-br from-accent-orange to-red-500 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
-                <TrendingUp className="w-8 h-8 text-white" />
-              </div>
-              <h3 className="text-2xl font-bold mb-3">View Control Dashboard</h3>
-              <p className="text-text-secondary mb-4">Ultra-functional analytics center</p>
-              <div className="flex items-center gap-2 text-accent-orange group-hover:gap-4 transition-all">
-                <span className="font-semibold">Open Dashboard</span>
-                <ArrowRight className="w-5 h-5" />
-              </div>
-            </Link>
+            <motion.div variants={{ hidden: { opacity: 0, y: 30 }, visible: { opacity: 1, y: 0, transition: { duration: 0.5 } } }}>
+              <Link href="/dashboard" className="glass-card rounded-2xl p-8 hover:scale-105 transition-all duration-300 interactive group block h-full">
+                <div className="w-16 h-16 rounded-full bg-gradient-to-br from-accent-orange to-red-500 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                  <TrendingUp className="w-8 h-8 text-white" />
+                </div>
+                <h3 className="text-2xl font-bold mb-3">View Control Dashboard</h3>
+                <p className="text-text-secondary mb-4">Ultra-functional analytics center</p>
+                <div className="flex items-center gap-2 text-accent-orange group-hover:gap-4 transition-all">
+                  <span className="font-semibold">Open Dashboard</span>
+                  <ArrowRight className="w-5 h-5" />
+                </div>
+              </Link>
+            </motion.div>
 
-            <Link href="/about" className="glass-card rounded-2xl p-8 hover:scale-105 transition-all duration-300 interactive group">
-              <div className="w-16 h-16 rounded-full bg-gradient-to-br from-accent-purple to-pink-500 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
-                <Users className="w-8 h-8 text-white" />
-              </div>
-              <h3 className="text-2xl font-bold mb-3">Request Pilot Deployment</h3>
-              <p className="text-text-secondary mb-4">Bring Project K to your city</p>
-              <div className="flex items-center gap-2 text-accent-purple group-hover:gap-4 transition-all">
-                <span className="font-semibold">Contact Us</span>
-                <ArrowRight className="w-5 h-5" />
-              </div>
-            </Link>
-          </div>
+            <motion.div variants={{ hidden: { opacity: 0, y: 30 }, visible: { opacity: 1, y: 0, transition: { duration: 0.5 } } }}>
+              <Link href="/about" className="glass-card rounded-2xl p-8 hover:scale-105 transition-all duration-300 interactive group block h-full">
+                <div className="w-16 h-16 rounded-full bg-gradient-to-br from-accent-purple to-pink-500 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                  <Users className="w-8 h-8 text-white" />
+                </div>
+                <h3 className="text-2xl font-bold mb-3">Request Pilot Deployment</h3>
+                <p className="text-text-secondary mb-4">Bring Project K to your city</p>
+                <div className="flex items-center gap-2 text-accent-purple group-hover:gap-4 transition-all">
+                  <span className="font-semibold">Contact Us</span>
+                  <ArrowRight className="w-5 h-5" />
+                </div>
+              </Link>
+            </motion.div>
+          </motion.div>
         </div>
       </section>
     </main>
