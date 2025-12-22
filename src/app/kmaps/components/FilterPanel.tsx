@@ -43,10 +43,10 @@ export default function FilterPanel({ filters, setFilters }: FilterPanelProps) {
                                 <div className={`w-2 h-2 rounded-full ${type.color} ${filters.types[type.id] ? 'animate-pulse shadow-[0_0_8px_currentColor]' : ''}`} />
                                 <span className="text-sm font-medium">{type.label}</span>
                             </div>
-                            <div className={`w-8 h-4 rounded-full relative transition-colors ${filters.types[type.id] ? 'bg-indigo-500' : 'bg-white/10'}`}>
+                            <div className={`w-12 h-6 rounded-full relative transition-colors ${filters.types[type.id] ? 'bg-indigo-500' : 'bg-white/10'}`}>
                                 <motion.div
-                                    className="absolute top-1 left-1 w-2 h-2 bg-white rounded-full"
-                                    animate={{ x: filters.types[type.id] ? 16 : 0 }}
+                                    className="absolute top-1 left-1 w-4 h-4 bg-white rounded-full shadow-lg"
+                                    animate={{ x: filters.types[type.id] ? 24 : 0 }}
                                 />
                             </div>
                         </button>

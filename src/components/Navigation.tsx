@@ -5,7 +5,6 @@ import { usePathname } from 'next/navigation';
 import { useState, useEffect } from 'react';
 import { Menu, X } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
-import Image from 'next/image';
 
 const navLinks = [
   { href: '/', label: 'Home' },
@@ -49,24 +48,8 @@ export default function Navigation() {
       >
         <nav className="container mx-auto px-6 py-4">
           <div className="flex items-center justify-between">
-            {/* Logo and Title with Animations */}
-            <Link href="/" className="flex items-center gap-4 group">
-              <motion.div
-                className="relative w-16 h-16"
-                whileHover={{
-                  scale: 1.1,
-                  rotate: [0, -5, 5, -5, 0],
-                  transition: { duration: 0.5 }
-                }}
-              >
-                <Image
-                  src="/logo.png"
-                  alt="Project K Logo"
-                  width={64}
-                  height={64}
-                  className="object-contain drop-shadow-[0_0_15px_rgba(45,212,191,0.6)]"
-                />
-              </motion.div>
+            {/* Title with Animations */}
+            <Link href="/" className="flex items-center group">
               <motion.div
                 className="flex flex-col"
                 animate={{
@@ -97,6 +80,7 @@ export default function Navigation() {
                 >
                   PROJECT K
                 </motion.span>
+              </motion.div>
             </Link>
 
             {/* Desktop Navigation */}
