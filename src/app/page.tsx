@@ -3,6 +3,7 @@
 import StackedCards from '@/components/StackedCards';
 import AnimatedCounter from '@/components/AnimatedCounter';
 import ProjectKStory from '@/components/ProjectKStory';
+import Roadmap from '@/components/Roadmap';
 import { AlertTriangle, Brain, Zap, Shield, TrendingUp, Activity, ArrowRight, Clock, DollarSign, Wifi, Heart, Target, Users, Award, ChevronDown, Play } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { useState, useRef } from 'react';
@@ -634,6 +635,9 @@ export default function Home() {
             </motion.div>
           </div>
         </section>
+
+        {/* SECTION 5.5: ROADMAP */}
+        <Roadmap />
 
         {/* SECTION 6: IMPACT CALCULATOR */}
         <section className="py-24 px-8 md:px-24 bg-gradient-to-b from-black/10 to-transparent">
