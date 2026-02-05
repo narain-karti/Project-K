@@ -11,7 +11,7 @@ const navLinks = [
   { href: '/demo', label: 'Live Demo' },
   { href: '/dashboard', label: 'Dashboard' },
   { href: '/kmaps', label: 'K Maps' },
-  { href: '/traffic-sim', label: 'Traffic AI Simulation (3D)' },
+  { href: '/simulation', label: 'Traffic AI Simulation (3D)' },
   { href: '/technology', label: 'Technology' },
   { href: '/impact', label: 'Impact' },
   { href: '/business', label: 'Business' },
