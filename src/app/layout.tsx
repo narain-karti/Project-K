@@ -22,12 +22,14 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={`${space.variable} antialiased font-sans`}>
+      <body className={`${space.variable} antialiased font-sans bg-black`}>
         <DetectionProvider>
           <GlobalBackground />
-          <CustomCursor />
-          <Navigation />
-          {children}
+          <div className="relative z-10">
+            <CustomCursor />
+            <Navigation />
+            {children}
+          </div>
         </DetectionProvider>
       </body>
     </html>

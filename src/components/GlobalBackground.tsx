@@ -85,7 +85,7 @@ function FloatingCity() {
 
 export default function GlobalBackground() {
     return (
-        <div className="fixed inset-0 z-[-1] bg-black/40 pointer-events-none">
+        <div className="fixed inset-0 z-0 pointer-events-none">
             <Canvas gl={{ antialias: true }} dpr={[1, 2]}>
                 <PerspectiveCamera makeDefault position={[0, 0, 30]} fov={50} />
                 <ambientLight intensity={0.5} />
