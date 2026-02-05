@@ -54,14 +54,14 @@ export default function StackedCards() {
     const isInView = useInView(containerRef, { once: false, amount: 0.3 });
 
     return (
-        <div ref={containerRef} className="relative w-full max-w-6xl mx-auto min-h-[600px] flex items-center justify-center py-12">
+        <div ref={containerRef} className="relative w-full max-w-6xl mx-auto min-h-[750px] flex items-center justify-center py-12">
             {/* Glowing Background Effect */}
             <div className="absolute inset-0 -z-10 overflow-hidden">
                 <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-gradient-to-br from-accent-teal/20 to-accent-purple/20 rounded-full blur-3xl animate-pulse" />
                 <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-gradient-to-br from-accent-rose/20 to-accent-amber/20 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1s' }} />
             </div>
 
-            <div className="relative w-full h-[500px]">
+            <div className="relative w-full h-[650px]">
                 {cards.map((card, index) => {
                     const Icon = card.icon;
 
@@ -76,8 +76,8 @@ export default function StackedCards() {
                     ];
 
                     const pos = gridPositions[index];
-                    const cardWidth = 320;
-                    const cardHeight = 200;
+                    const cardWidth = 360;
+                    const cardHeight = 280;
                     const gap = 24;
 
                     return (
