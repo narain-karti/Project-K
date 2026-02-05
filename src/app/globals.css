@@ -74,6 +74,7 @@
 /* Base styles */
 body {
   @apply bg-black text-white overflow-x-hidden;
+  zoom: 0.9;
 }
 
 /* Hard-force font application to satisfy "full website" request */

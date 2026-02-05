@@ -4,6 +4,7 @@ import StackedCards from '@/components/StackedCards';
 import AnimatedCounter from '@/components/AnimatedCounter';
 import ProjectKStory from '@/components/ProjectKStory';
 import Roadmap from '@/components/Roadmap';
+import LifeSavingCarousel from '@/components/LifeSavingCarousel';
 import { AlertTriangle, Brain, Zap, Shield, TrendingUp, Activity, ArrowRight, Clock, DollarSign, Wifi, Heart, Target, Users, Award, ChevronDown, Play } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { useState, useRef } from 'react';
@@ -421,10 +422,8 @@ export default function Home() {
           </div>
         </section>
 
-        {/* SECTION 3.5: HOW PROJECT K SAVES LIVES - STORY SECTIONS */}
-        <section className="py-12 px-8 md:px-24 bg-gradient-to-b from-transparent via-black/20 to-transparent">
-          <ProjectKStory />
-        </section>
+        {/* SECTION 3.6: LIFE-SAVING CAROUSEL */}
+        <LifeSavingCarousel />
 
         {/* SECTION 4: KEY INNOVATIONS */}
         <section className="py-24 px-8 md:px-24 bg-gradient-to-b from-black/10 to-transparent">
@@ -775,6 +774,6 @@ export default function Home() {
         </section>
       </motion.div>
 
-    </main>
+    </main >
   );
 }
