@@ -91,7 +91,7 @@ class IncidentDetector:
         # Example: TensorFlow Lite
         # self.model = tf.lite.Interpreter(model_path="model/incident_model.tflite")
         # self.model.allocate_tensors()
-        print("🧠 ML Model initialized (using demo detector)")
+        print("ML Model initialized (using demo detector)")
     
     def preprocess(self, frame: np.ndarray) -> np.ndarray:
         """Preprocess frame for model input"""
@@ -264,46 +264,138 @@ class AlertRequest(BaseModel):
     type: str
     confidence: float
     location: str = "Unknown Location"
+    force: bool = False
+
+# Server-side email cooldown tracking
+last_email_sent_time = 0
+EMAIL_COOLDOWN_SECONDS = 300  # 5 minutes
 
 @app.post("/api/send-alert")
 async def send_email_alert(alert: AlertRequest):
-    """Send email alert for critical incidents"""
+    """Send HTML email alert for critical incidents with 5-min cooldown"""
+    global last_email_sent_time
+
     if SENDER_EMAIL == "your-email@gmail.com":
-        print("⚠️  Email API skipped: Sender credentials not configured.")
+        print("[!] Email API skipped: Sender credentials not configured.")
         return {"status": "skipped", "message": "Email credentials missing"}
 
+    # Check cooldown (unless force=True from test button)
+    current_time = __import__('time').time()
+    time_since_last = current_time - last_email_sent_time
+    if not alert.force and time_since_last < EMAIL_COOLDOWN_SECONDS:
+        remaining = int(EMAIL_COOLDOWN_SECONDS - time_since_last)
+        print(f"[*] Email cooldown active: {remaining}s remaining")
+        return {"status": "cooldown", "remaining_seconds": remaining}
+
     try:
-        msg = MIMEMultipart()
+        msg = MIMEMultipart("alternative")
         msg['From'] = SENDER_EMAIL
         msg['To'] = RECIPIENT_EMAIL
-        msg['Subject'] = f"🚨 PROJECT K ALERT: {alert.type.upper()} Detected!"
+        msg['Subject'] = f"PROJECT K ALERT: {alert.type.upper()} Detected!"
 
-        body = f"""
+        timestamp = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+        confidence_pct = f"{alert.confidence * 100:.1f}%"
+
+        # HTML email template
+        html_body = f"""
+        <!DOCTYPE html>
+        <html>
+        <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"></head>
+        <body style="margin:0;padding:0;background-color:#0a0a0a;font-family:Arial,Helvetica,sans-serif;">
+            <table width="100%" cellpadding="0" cellspacing="0" style="background-color:#0a0a0a;padding:40px 20px;">
+                <tr><td align="center">
+                    <table width="600" cellpadding="0" cellspacing="0" style="background-color:#1a1a1a;border-radius:16px;overflow:hidden;border:1px solid #333;">
+                        <!-- Header -->
+                        <tr>
+                            <td style="background:linear-gradient(135deg,#FF4D00,#CC3D00);padding:24px 32px;">
+                                <h1 style="margin:0;color:#fff;font-size:22px;font-weight:700;">\U0001f6a8 CRITICAL ALERT</h1>
+                                <p style="margin:4px 0 0;color:rgba(255,255,255,0.8);font-size:13px;">Project K Incident Detection System</p>
+                            </td>
+                        </tr>
+                        <!-- Body -->
+                        <tr>
+                            <td style="padding:32px;">
+                                <h2 style="margin:0 0 16px;color:#FF4D00;font-size:28px;font-weight:700;">{alert.type.upper()} DETECTED</h2>
+                                <table width="100%" cellpadding="0" cellspacing="0" style="margin-bottom:24px;">
+                                    <tr>
+                                        <td width="50%" style="padding:12px;background:#111;border-radius:8px;border:1px solid #333;">
+                                            <div style="color:#888;font-size:11px;text-transform:uppercase;margin-bottom:4px;">Confidence</div>
+                                            <div style="color:#FF4D00;font-size:24px;font-weight:700;">{confidence_pct}</div>
+                                        </td>
+                                        <td width="8"></td>
+                                        <td width="50%" style="padding:12px;background:#111;border-radius:8px;border:1px solid #333;">
+                                            <div style="color:#888;font-size:11px;text-transform:uppercase;margin-bottom:4px;">Timestamp</div>
+                                            <div style="color:#fff;font-size:14px;font-weight:600;">{timestamp}</div>
+                                        </td>
+                                    </tr>
+                                </table>
+                                <table width="100%" cellpadding="0" cellspacing="0" style="margin-bottom:24px;">
+                                    <tr>
+                                        <td style="padding:12px;background:#111;border-radius:8px;border:1px solid #333;">
+                                            <div style="color:#888;font-size:11px;text-transform:uppercase;margin-bottom:4px;">Location</div>
+                                            <div style="color:#fff;font-size:14px;">{alert.location}</div>
+                                        </td>
+                                    </tr>
+                                </table>
+                                <!-- Deploy Ambulance Button -->
+                                <table width="100%" cellpadding="0" cellspacing="0">
+                                    <tr>
+                                        <td align="center" style="padding:8px 0;">
+                                            <a href="tel:9176257316" style="display:inline-block;background:linear-gradient(135deg,#dc2626,#b91c1c);color:#fff;font-size:18px;font-weight:700;padding:16px 48px;border-radius:12px;text-decoration:none;letter-spacing:0.5px;">
+                                                \U0001f691 Deploy Ambulance
+                                            </a>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td align="center" style="padding:8px 0 0;color:#888;font-size:11px;">
+                                            Tapping this button will dial 9176257316
+                                        </td>
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr>
+                        <!-- Footer -->
+                        <tr>
+                            <td style="padding:16px 32px;background:#111;border-top:1px solid #333;">
+                                <p style="margin:0;color:#666;font-size:11px;text-align:center;">Project K \u2022 Hybrid Traffic Intelligence System \u2022 Automated Alert</p>
+                            </td>
+                        </tr>
+                    </table>
+                </td></tr>
+            </table>
+        </body>
+        </html>
+        """
+
+        # Plain text fallback
+        text_body = f"""
         CRITICAL ALERT - PROJECT K
-        
+
         Incident: {alert.type.upper()}
-        Confidence: {alert.confidence * 100:.1f}%
+        Confidence: {confidence_pct}
         Location: {alert.location}
-        Time: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}
-        
+        Time: {timestamp}
+
+        DEPLOY AMBULANCE: Call 9176257316
+
         Immediate attention required.
         """
-        
-        msg.attach(MIMEText(body, 'plain'))
-        
-        # Connect to server
+
+        msg.attach(MIMEText(text_body, 'plain'))
+        msg.attach(MIMEText(html_body, 'html'))
+
         server = smtplib.SMTP(SMTP_SERVER, SMTP_PORT)
         server.starttls()
         server.login(SENDER_EMAIL, SENDER_PASSWORD.replace(' ', ''))
-        text = msg.as_string()
-        server.sendmail(SENDER_EMAIL, RECIPIENT_EMAIL, text)
+        server.sendmail(SENDER_EMAIL, RECIPIENT_EMAIL, msg.as_string())
         server.quit()
-        
-        print(f"📧 Alert email sent to {RECIPIENT_EMAIL}")
+
+        last_email_sent_time = current_time
+        print(f"\u2709\ufe0f  HTML alert email sent to {RECIPIENT_EMAIL}")
         return {"status": "sent", "recipient": RECIPIENT_EMAIL}
-        
+
     except Exception as e:
-        print(f"❌ Failed to send email: {e}")
+        print(f"Failed to send email: {e}")
         return {"status": "error", "message": str(e)}
 
 
@@ -327,7 +419,7 @@ async def detection_websocket(websocket: WebSocket):
     """
     await websocket.accept()
     connected_clients.append(websocket)
-    print(f"✅ Client connected. Total clients: {len(connected_clients)}")
+    print(f"Client connected. Total clients: {len(connected_clients)}")
     
     try:
         while True:
@@ -411,7 +503,7 @@ async def detection_websocket(websocket: WebSocket):
     finally:
         if websocket in connected_clients:
             connected_clients.remove(websocket)
-        print(f"❌ Client disconnected. Total clients: {len(connected_clients)}")
+        print(f"Client disconnected. Total clients: {len(connected_clients)}")
 
 # ============================================
 # MAIN
@@ -420,18 +512,16 @@ async def detection_websocket(websocket: WebSocket):
 if __name__ == "__main__":
     import uvicorn
     
-    print("""
-    ╔═══════════════════════════════════════════════════════════╗
-    ║         PROJECT K - ESP32 Detection Server                ║
-    ╠═══════════════════════════════════════════════════════════╣
-    ║  Endpoints:                                               ║
-    ║    GET  /              - Health check                     ║
-    ║    GET  /esp32/status  - Check ESP32 connection           ║
-    ║    GET  /esp32/capture - Capture frame with detection     ║
-    ║    WS   /ws/detection  - Real-time detection stream       ║
-    ╠═══════════════════════════════════════════════════════════╣
-    ║  ⚠️  Update ESP32_IP in this file with your camera's IP   ║
-    ╚═══════════════════════════════════════════════════════════╝
-    """)
+    print("-" * 60)
+    print("         PROJECT K - ESP32 Detection Server")
+    print("-" * 60)
+    print("  Endpoints:")
+    print("    GET  /              - Health check")
+    print("    GET  /esp32/status  - Check ESP32 connection")
+    print("    GET  /esp32/capture - Capture frame with detection")
+    print("    WS   /ws/detection  - Real-time detection stream")
+    print("-" * 60)
+    print("  Update ESP32_IP in this file with your camera's IP")
+    print("-" * 60)
     
     uvicorn.run(app, host="0.0.0.0", port=8000, log_level="info")

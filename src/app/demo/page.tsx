@@ -1,6 +1,7 @@
 'use client';
 
 import { motion } from 'framer-motion';
+import { Activity } from 'lucide-react';
 import VideoAnalyzer from '@/components/VideoAnalyzer';
 
 
@@ -34,9 +35,9 @@ export default function DemoPage() {
             <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.5 }}>
                 <div className="container mx-auto max-w-7xl">
                     {/* Header */}
-                    <div className="mb-8">
-                        <h1 className="text-5xl font-bold mb-4">Live Demo</h1>
-                        <p className="text-text-secondary text-lg">Experience Project K's AI-powered video analysis in real-time</p>
+                    <div className="mb-12 text-center">
+                        <h1 className="text-5xl md:text-6xl font-bold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-white to-gray-500">Live Demo</h1>
+                        <p className="text-text-secondary text-lg max-w-2xl mx-auto italic">Experience Project K's AI-powered video analysis in real-time</p>
                     </div>
 
                     {/* Main Content Card - Video Upload Analysis */}
@@ -46,33 +47,25 @@ export default function DemoPage() {
                         animate={{ opacity: 1, scale: 1 }}
                         transition={{ delay: 0.1 }}
                     >
-                        {/* Header Section */}
-                        <div className="p-8 border-b border-white/5 bg-white/5 backdrop-blur-md">
-                            <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
-                                <div className="flex items-center gap-3">
-                                    <span className="text-3xl p-2 rounded-lg bg-blue-500/10">📹</span>
-                                    <div>
-                                        <h2 className="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-white to-gray-400">
-                                            Video Analysis Dashboard
-                                        </h2>
-                                        <p className="text-text-secondary text-sm mt-1">
-                                            Upload and analyze video files for traffic incidents
-                                        </p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
                         {/* Content Area */}
                         <div className="p-6 bg-black/20 min-h-[600px]">
                             <VideoAnalyzer />
                         </div>
                     </motion.div>
 
-                    {/* Incident Detection Log - RESTORED */}
-                    <div className="glass-card rounded-2xl p-6 mb-12 mt-8 group hover:shadow-[0_0_40px_rgba(45,212,191,0.4)] hover:border-accent-teal/40 hover:bg-gradient-to-br hover:from-accent-teal/5 hover:to-transparent transition-all duration-300">
-                        <h3 className="text-xl font-bold mb-4">Incident Detection Log</h3>
-                        <div className="overflow-x-auto">
+                    {/* Incident Detection Log */}
+                    <div className="mt-16 bg-black/40 backdrop-blur-md rounded-3xl border border-white/10 p-8 gpu-optimize shadow-2xl">
+                        <div className="flex items-center gap-4 mb-8">
+                            <div className="w-12 h-12 rounded-xl bg-accent-teal/20 flex items-center justify-center">
+                                <Activity className="w-6 h-6 text-accent-teal" />
+                            </div>
+                            <div>
+                                <h2 className="text-3xl font-bold text-white">Incident Detection Log</h2>
+                                <p className="text-text-secondary">Historical analysis of detected events</p>
+                            </div>
+                        </div>
+
+                        <div className="overflow-x-auto rounded-xl border border-white/5">
                             <table className="w-full">
                                 <thead>
                                     <tr className="border-b border-white/10">
@@ -81,7 +74,6 @@ export default function DemoPage() {
                                         <th className="text-left py-3 px-4 text-sm font-medium text-text-secondary">Confidence</th>
                                         <th className="text-left py-3 px-4 text-sm font-medium text-text-secondary">Description</th>
                                         <th className="text-left py-3 px-4 text-sm font-medium text-text-secondary">Frame #</th>
-                                        <th className="text-left py-3 px-4 text-sm font-medium text-text-secondary">Action</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -99,9 +91,6 @@ export default function DemoPage() {
                                             <td className="py-3 px-4 text-sm font-bold text-green-500">{incident.confidence}</td>
                                             <td className="py-3 px-4 text-sm text-text-secondary">{incident.desc}</td>
                                             <td className="py-3 px-4 text-sm">{incident.frame}</td>
-                                            <td className="py-3 px-4 text-sm">
-                                                <button className="text-accent-teal hover:underline interactive">View →</button>
-                                            </td>
                                         </tr>
                                     ))}
                                 </tbody>
@@ -109,28 +98,6 @@ export default function DemoPage() {
                         </div>
                     </div>
 
-                    {/* Interactive Scenarios - RESTORED */}
-                    <div className="mt-12">
-                        <h2 className="text-3xl font-bold mb-8">Try Interactive Scenarios</h2>
-                        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                            {scenarios.map((scenario, index) => (
-                                <motion.div
-                                    key={index}
-                                    className={`glass-card rounded-2xl p-8 interactive cursor-pointer group transition-all duration-300 ${index === 0 ? "hover:shadow-[0_0_40px_rgba(239,68,68,0.4)] hover:border-red-500/40 hover:bg-gradient-to-br hover:from-red-500/10" :
-                                        index === 1 ? "hover:shadow-[0_0_40px_rgba(34,197,94,0.4)] hover:border-green-500/40 hover:bg-gradient-to-br hover:from-green-500/10" :
-                                            "hover:shadow-[0_0_40px_rgba(245,158,11,0.4)] hover:border-amber-500/40 hover:bg-gradient-to-br hover:from-amber-500/10"
-                                        } hover:to-transparent`}
-                                    whileHover={{ scale: 1.05 }}
-                                    whileTap={{ scale: 0.98 }}
-                                >
-                                    <div className="text-5xl mb-4">{scenario.icon}</div>
-                                    <h3 className="text-xl font-bold mb-3">{scenario.title}</h3>
-                                    <p className="text-text-secondary text-sm mb-4">{scenario.description}</p>
-                                    <button className="text-accent-teal font-semibold text-sm">Simulate →</button>
-                                </motion.div>
-                            ))}
-                        </div>
-                    </div>
                 </div>
             </motion.div>
         </main>

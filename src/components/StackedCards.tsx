@@ -83,7 +83,7 @@ export default function StackedCards() {
                     return (
                         <motion.div
                             key={card.id}
-                            className="absolute glass-card rounded-2xl p-6 cursor-pointer overflow-hidden"
+                            className="absolute glass-card gpu-optimize rounded-2xl p-6 cursor-pointer overflow-hidden"
                             style={{
                                 width: cardWidth,
                                 height: cardHeight,

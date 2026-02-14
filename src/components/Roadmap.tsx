@@ -226,7 +226,7 @@ function PhaseCard({ phase, index, isHovered, isNeighbor, isDimmed, setHovered, 
             )}
 
             {/* Card Body */}
-            <div className={`h-full relative overflow-hidden rounded-xl border transition-all duration-300 backdrop-blur-xl bg-black/40
+            <div className={`h-full relative overflow-hidden rounded-xl border transition-all duration-300 backdrop-blur-md bg-black/40 gpu-optimize
         ${isHovered ? 'border-cyan-400/50 shadow-[0_0_30px_rgba(34,211,238,0.2)]' : 'border-white/10'}`}
             >
                 {/* Tech Grid Background on Card */}
@@ -365,7 +365,7 @@ function FloatingPanel({ children }: { children: React.ReactNode }) {
             initial={{ opacity: 0, y: 50 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="glass-card rounded-3xl relative overflow-hidden border border-white/10 bg-black/60 backdrop-blur-xl"
+            className="glass-card rounded-3xl relative overflow-hidden border border-white/10 bg-black/60 backdrop-blur-md gpu-optimize"
         >
             <div className="absolute inset-0 opacity-5 bg-[linear-gradient(rgba(255,255,255,0.1)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.1)_1px,transparent_1px)] bg-[size:30px_30px]" />
             <div className="relative z-10">

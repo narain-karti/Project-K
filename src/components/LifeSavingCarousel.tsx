@@ -97,7 +97,7 @@ export default function LifeSavingCarousel() {
                                 return (
                                     <motion.div
                                         key={slide.id}
-                                        className="absolute inset-0 cursor-pointer"
+                                        className="absolute inset-0 cursor-pointer gpu-optimize"
                                         initial={false}
                                         animate={{
                                             x: distance * 20,
@@ -120,7 +120,7 @@ export default function LifeSavingCarousel() {
                                         }}
                                         onClick={() => setActiveIndex(index)}
                                     >
-                                        <div className={`h-full rounded-3xl relative overflow-hidden border border-white/10 backdrop-blur-xl bg-gradient-to-br ${slide.color} p-8 shadow-2xl`}>
+                                        <div className={`h-full rounded-3xl relative overflow-hidden border border-white/10 backdrop-blur-md bg-gradient-to-br ${slide.color} p-8 shadow-2xl`}>
                                             {/* Tech grid overlay */}
                                             <div className="absolute inset-0 bg-[linear-gradient(rgba(0,0,0,0.3)_1px,transparent_1px),linear-gradient(90deg,rgba(0,0,0,0.3)_1px,transparent_1px)] bg-[size:30px_30px] opacity-20" />
 

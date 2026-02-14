@@ -143,10 +143,10 @@ export default function DashboardPage() {
     };
 
     const severityColors: Record<string, string> = {
-        Critical: 'bg-red-500/20 border-red-500 text-red-500',
-        High: 'bg-orange-500/20 border-orange-500 text-orange-500',
-        Medium: 'bg-yellow-500/20 border-yellow-500 text-yellow-500',
-        Low: 'bg-blue-500/20 border-blue-500 text-blue-500'
+        Critical: 'bg-accent-teal/20 border-accent-teal text-accent-teal',
+        High: 'bg-accent-amber/20 border-accent-amber text-accent-amber',
+        Medium: 'bg-accent-amber/20 border-accent-amber text-accent-amber',
+        Low: 'bg-accent-cyan/20 border-accent-cyan text-accent-cyan'
     };
 
     return (
@@ -202,8 +202,8 @@ export default function DashboardPage() {
                             total: '/ 850',
                             subtitle: '+99.6% uptime',
                             icon: Wifi,
-                            color: 'from-cyan-500 to-blue-500',
-                            subtitleColor: 'text-green-500'
+                            color: 'from-accent-cyan to-accent-blue',
+                            subtitleColor: 'text-accent-green'
                         },
                         {
                             label: 'Detections (Last Hour)',
@@ -211,8 +211,8 @@ export default function DashboardPage() {
                             total: '',
                             subtitle: '+12.3% vs. avg',
                             icon: Activity,
-                            color: 'from-purple-500 to-pink-500',
-                            subtitleColor: 'text-green-500'
+                            color: 'from-accent-purple to-accent-violet',
+                            subtitleColor: 'text-accent-green'
                         },
                         {
                             label: 'Emergency Incidents (Today)',
@@ -220,8 +220,8 @@ export default function DashboardPage() {
                             total: '',
                             subtitle: '-32% response time',
                             icon: AlertTriangle,
-                            color: 'from-red-500 to-rose-500',
-                            subtitleColor: 'text-green-500'
+                            color: 'from-accent-teal to-accent-rose',
+                            subtitleColor: 'text-accent-green'
                         },
                         {
                             label: 'Bandwidth Savings',
@@ -229,8 +229,8 @@ export default function DashboardPage() {
                             total: '',
                             subtitle: '+2.2 Cr monthly',
                             icon: Zap,
-                            color: 'from-green-500 to-emerald-500',
-                            subtitleColor: 'text-green-500'
+                            color: 'from-accent-green to-accent-cyan',
+                            subtitleColor: 'text-accent-green'
                         }
                     ].map((stat, idx) => {
                         const Icon = stat.icon;
@@ -241,22 +241,24 @@ export default function DashboardPage() {
                                 animate={{ opacity: 1, y: 0 }}
                                 transition={{ delay: idx * 0.1 }}
                                 whileHover={{ scale: 1.02 }}
-                                className={`glass-card rounded-2xl p-6 relative overflow-hidden group hover:shadow-[0_0_40px_rgba(255,255,255,0.2)] transition-all duration-300 ${idx === 0 ? "hover:shadow-[0_0_40px_rgba(6,182,212,0.4)] hover:border-cyan-500/40" :
-                                    idx === 1 ? "hover:shadow-[0_0_40px_rgba(168,85,247,0.4)] hover:border-purple-500/40" :
-                                        idx === 2 ? "hover:shadow-[0_0_40px_rgba(239,68,68,0.4)] hover:border-red-500/40" :
-                                            "hover:shadow-[0_0_40px_rgba(34,197,94,0.4)] hover:border-green-500/40"
+                                className={`glass-card p-6 relative overflow-hidden group transition-all duration-300 ${idx === 0 ? "hover:shadow-[0_0_40px_rgba(0,240,255,0.3)] hover:border-accent-cyan/30" :
+                                    idx === 1 ? "hover:shadow-[0_0_40px_rgba(213,0,249,0.3)] hover:border-accent-purple/30" :
+                                        idx === 2 ? "hover:shadow-[0_0_40px_rgba(255,23,68,0.3)] hover:border-accent-teal/30" :
+                                            "hover:shadow-[0_0_40px_rgba(0,230,118,0.3)] hover:border-accent-green/30"
                                     }`}
                             >
-                                <div className={`absolute inset-0 bg-gradient-to-br ${stat.color} opacity-0 group-hover:opacity-10 transition-opacity`} />
-                                <div className="flex items-start justify-between mb-4">
+                                <div className={`absolute inset-0 bg-gradient-to-br ${stat.color} opacity-0 group-hover:opacity-10 transition-opacity rounded-3xl`} />
+                                <div className="flex items-start justify-between mb-4 relative z-10">
                                     <span className="text-sm text-text-secondary">{stat.label}</span>
-                                    <Icon className={`w-5 h-5 bg-gradient-to-br ${stat.color} bg-clip-text text-transparent`} />
+                                    <div className={`clay-icon w-10 h-10 bg-gradient-to-br ${stat.color} bg-opacity-20`}>
+                                        <Icon className="w-5 h-5 text-white" />
+                                    </div>
                                 </div>
-                                <div className="text-3xl font-bold mb-1">
+                                <div className="text-3xl font-bold mb-1 relative z-10">
                                     {stat.value}
                                     {stat.total && <span className="text-lg text-text-secondary">{stat.total}</span>}
                                 </div>
-                                <div className={`text-xs ${stat.subtitleColor}`}>{stat.subtitle}</div>
+                                <div className={`text-xs ${stat.subtitleColor} relative z-10`}>{stat.subtitle}</div>
                             </motion.div>
                         );
                     })}
@@ -269,7 +271,7 @@ export default function DashboardPage() {
                         initial={{ opacity: 0, scale: 0.95 }}
                         animate={{ opacity: 1, scale: 1 }}
                         transition={{ delay: 0.4 }}
-                        className="glass-card rounded-2xl p-6 group hover:shadow-[0_0_40px_rgba(168,85,247,0.4)] hover:border-purple-500/40 hover:bg-gradient-to-br hover:from-purple-500/5 hover:to-transparent transition-all duration-300"
+                        className="glass-card p-6 group hover:shadow-[0_0_40px_rgba(213,0,249,0.3)] hover:border-accent-purple/30 transition-all duration-300"
                     >
                         <h3 className="text-lg font-bold mb-6">Detection Timeline (Last 24h)</h3>
                         <ResponsiveContainer width="100%" height={280}>
@@ -307,7 +309,7 @@ export default function DashboardPage() {
                         initial={{ opacity: 0, scale: 0.95 }}
                         animate={{ opacity: 1, scale: 1 }}
                         transition={{ delay: 0.2 }}
-                        className="glass-card rounded-2xl p-6 group hover:shadow-[0_0_40px_rgba(245,158,11,0.4)] hover:border-amber-500/40 hover:bg-gradient-to-br hover:from-amber-500/5 hover:to-transparent transition-all duration-300"
+                        className="glass-card p-6 group hover:shadow-[0_0_40px_rgba(255,171,0,0.3)] hover:border-accent-amber/30 transition-all duration-300"
                     >
                         <h3 className="text-xl font-bold mb-6 flex items-center gap-2">
                             <Target className="w-5 h-5 text-accent-amber" />
@@ -344,7 +346,7 @@ export default function DashboardPage() {
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ delay: 0.5 }}
-                        className="glass-card rounded-2xl p-6 group hover:shadow-[0_0_40px_rgba(59,130,246,0.4)] hover:border-blue-500/40 hover:bg-gradient-to-br hover:from-blue-500/5 hover:to-transparent transition-all duration-300"
+                        className="glass-card p-6 group hover:shadow-[0_0_40px_rgba(61,90,254,0.3)] hover:border-accent-blue/30 transition-all duration-300"
                     >
                         <h3 className="text-xl font-bold mb-6">AI Model Performance</h3>
                         <div className="space-y-4">
@@ -377,7 +379,7 @@ export default function DashboardPage() {
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ delay: 0.6 }}
-                        className="glass-card rounded-2xl p-6 group hover:shadow-[0_0_40px_rgba(34,197,94,0.4)] hover:border-green-500/40 hover:bg-gradient-to-br hover:from-green-500/5 hover:to-transparent transition-all duration-300"
+                        className="glass-card p-6 group hover:shadow-[0_0_40px_rgba(0,230,118,0.3)] hover:border-accent-green/30 transition-all duration-300"
                     >
                         <h3 className="text-xl font-bold mb-6">Emergency Response</h3>
                         <div className="space-y-4">
@@ -408,7 +410,7 @@ export default function DashboardPage() {
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ delay: 0.7 }}
-                        className="glass-card rounded-2xl p-6 group hover:shadow-[0_0_40px_rgba(234,179,8,0.4)] hover:border-yellow-500/40 hover:bg-gradient-to-br hover:from-yellow-500/5 hover:to-transparent transition-all duration-300"
+                        className="glass-card p-6 group hover:shadow-[0_0_40px_rgba(255,171,0,0.3)] hover:border-accent-amber/30 transition-all duration-300"
                     >
                         <h3 className="text-xl font-bold mb-6">Infrastructure Defects</h3>
                         <div className="space-y-3">
@@ -440,7 +442,7 @@ export default function DashboardPage() {
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 0.8 }}
-                    className="glass-card rounded-2xl p-6 group hover:shadow-[0_0_40px_rgba(45,212,191,0.4)] hover:border-accent-teal/40 hover:bg-gradient-to-br hover:from-accent-teal/5 hover:to-transparent transition-all duration-300"
+                    className="glass-card p-6 group hover:shadow-[0_0_40px_rgba(255,23,68,0.3)] hover:border-accent-teal/30 transition-all duration-300"
                 >
                     <div className="flex items-center justify-between mb-6">
                         <h3 className="text-xl font-bold">System Activity Log (Real-time)</h3>
@@ -448,7 +450,7 @@ export default function DashboardPage() {
                             <select
                                 value={timeRange}
                                 onChange={(e) => setTimeRange(e.target.value)}
-                                className="glass-card px-4 py-2 rounded-lg border border-white/10 bg-black/20 text-sm"
+                                className="clay-input text-sm text-text-primary"
                             >
                                 <option value="all">All Events</option>
                                 <option value="accident">Accidents</option>
@@ -459,7 +461,7 @@ export default function DashboardPage() {
                                 whileHover={{ scale: 1.05 }}
                                 whileTap={{ scale: 0.95 }}
                                 onClick={exportToCSV}
-                                className="glass-card px-4 py-2 rounded-lg border border-white/10 bg-black/20 text-sm hover:border-accent-teal transition-all"
+                                className="clay-button px-4 py-2 bg-black/20 text-sm hover:border-accent-teal transition-all"
                             >
                                 Export CSV
                             </motion.button>
@@ -476,7 +478,6 @@ export default function DashboardPage() {
                                     <th className="pb-3 font-medium">Severity</th>
                                     <th className="pb-3 font-medium">Description</th>
                                     <th className="pb-3 font-medium">Location</th>
-                                    <th className="pb-3 font-medium text-right">Action</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -509,11 +510,6 @@ export default function DashboardPage() {
                                             <td className={`py-4 text-sm font-bold ${severityColor}`}>{alert.severity}</td>
                                             <td className="py-4 text-sm text-text-secondary max-w-xs truncate">{alert.description}</td>
                                             <td className="py-4 text-sm text-accent-teal">{alert.location}</td>
-                                            <td className="py-4 text-right">
-                                                <button className="text-sm text-accent-teal hover:text-accent-cyan transition-colors">
-                                                    View →
-                                                </button>
-                                            </td>
                                         </motion.tr>
                                     );
                                 })}

@@ -41,7 +41,7 @@ export default function Navigation() {
   return (
     <>
       <motion.header
-        className={`fixed top-4 left-4 right-4 md:left-8 md:right-8 z-50 transition-all duration-300 rounded-2xl backdrop-blur-2xl border border-white/10 shadow-2xl ${scrolled ? 'bg-black/60 shadow-2xl' : 'bg-black/40 shadow-xl'
+        className={`fixed top-4 left-4 right-4 md:left-8 md:right-8 z-50 transition-all duration-300 rounded-2xl border border-white/8 shadow-2xl ${scrolled ? 'bg-black/50 backdrop-blur-[32px] backdrop-saturate-[180%]' : 'bg-black/30 backdrop-blur-[24px] backdrop-saturate-[150%]'
           }`}
         initial={{ y: -100, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
@@ -53,34 +53,21 @@ export default function Navigation() {
             <Link href="/" className="flex items-center group">
               <motion.div
                 className="flex flex-col"
-                animate={{
-                  y: [0, -6, 0],
-                }}
+                initial={{ x: -40, opacity: 0 }}
+                animate={{ x: 0, opacity: 1 }}
                 transition={{
-                  duration: 3,
-                  repeat: Infinity,
-                  ease: "easeInOut",
-                  delay: 0.2
+                  type: 'spring',
+                  stiffness: 120,
+                  damping: 18,
+                  delay: 0.1
                 }}
               >
-                <motion.span
-                  className="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-accent-teal via-accent-purple to-accent-teal bg-[length:200%_auto]"
-                  animate={{
-                    backgroundPosition: ['0% center', '200% center'],
-                  }}
-                  transition={{
-                    duration: 3,
-                    repeat: Infinity,
-                    ease: "linear"
-                  }}
-                  whileHover={{
-                    scale: 1.05,
-                    textShadow: "0 0 20px rgba(45,212,191,0.8)",
-                    transition: { duration: 0.3 }
-                  }}
+                <span
+                  className="text-2xl font-bold text-white tracking-wider"
+                  style={{ textShadow: '0 0 20px rgba(255,23,68,0.4)' }}
                 >
-                  PROJECT K
-                </motion.span>
+                  PROJECT <span className="bg-clip-text text-transparent bg-gradient-to-r from-accent-teal to-accent-purple">K</span>
+                </span>
               </motion.div>
             </Link>
 
@@ -98,7 +85,7 @@ export default function Navigation() {
                   {link.label}
                   {pathname === link.href && (
                     <motion.div
-                      className="absolute -bottom-1 left-0 right-0 h-0.5 bg-gradient-to-r from-accent-cyan to-accent-violet rounded-full"
+                      className="absolute -bottom-1 left-0 right-0 h-0.5 bg-gradient-to-r from-accent-teal to-accent-cyan rounded-full"
                       layoutId="activeNav"
                       transition={{ type: 'spring', stiffness: 300, damping: 30 }}
                     />
@@ -126,7 +113,7 @@ export default function Navigation() {
 
         {/* Scroll Progress Bar */}
         <motion.div
-          className="h-1 bg-gradient-to-r from-accent-cyan via-accent-violet to-accent-rose rounded-b-2xl"
+          className="h-1 bg-gradient-to-r from-accent-teal via-accent-purple to-accent-cyan rounded-b-2xl"
           style={{ scaleX: scrollProgress / 100, transformOrigin: 'left' }}
           initial={{ scaleX: 0 }}
         />

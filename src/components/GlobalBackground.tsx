@@ -1,100 +1,95 @@
 'use client';
 
-import { Canvas, useFrame } from '@react-three/fiber';
-import { Stars, Environment, PerspectiveCamera, Float } from '@react-three/drei';
-import * as THREE from 'three';
-import { useRef, useState, useMemo } from 'react';
-
-// --- 3D Components ---
-
-function CityBlock({ position, scale, color }: { position: [number, number, number], scale: [number, number, number], color: string }) {
-    const meshRef = useRef<THREE.Mesh>(null);
-
-    // Random vertical movement for "floating" effect
-    useFrame((state) => {
-        if (meshRef.current) {
-            meshRef.current.position.y += Math.sin(state.clock.elapsedTime + position[0]) * 0.002;
-        }
-    });
-
-    return (
-        <mesh ref={meshRef} position={position} scale={scale}>
-            <boxGeometry args={[1, 1, 1]} />
-            <meshBasicMaterial color={color} wireframe transparent opacity={0.3} />
-            <meshBasicMaterial color={color} transparent opacity={0.1} />
-        </mesh>
-    );
-}
-
-function ScanningLaser() {
-    const lineRef = useRef<THREE.Line>(null);
-    const [points] = useState(() => [new THREE.Vector3(-550, 0, 0), new THREE.Vector3(50, 0, 0)]);
-
-    useFrame((state) => {
-        if (lineRef.current) {
-            const z = Math.sin(state.clock.elapsedTime * 0.5) * 20;
-            lineRef.current.position.z = z;
-            lineRef.current.position.y = Math.cos(state.clock.elapsedTime * 0.5) * 5;
-        }
-    });
-
-    const geometry = useMemo(() => {
-        const geo = new THREE.BufferGeometry().setFromPoints(points);
-        return geo;
-    }, [points]);
-
-    return (
-        <line ref={lineRef as any}>
-            <bufferGeometry attach="geometry" {...geometry} />
-            <lineBasicMaterial color="#00ffff" linewidth={2} opacity={0.8} transparent />
-        </line>
-    );
-}
-
-function FloatingCity() {
-    const count = 40; // Increased count for better background coverage
-    // Generate random blocks
-    const blocks = useMemo(() => {
-        return new Array(count).fill(0).map(() => ({
-            position: [
-                (Math.random() - 0.5) * 80,
-                (Math.random() - 0.5) * 30 - 5,
-                (Math.random() - 0.5) * 50 - 10
-            ] as [number, number, number],
-            scale: [
-                1 + Math.random() * 3,
-                1 + Math.random() * 10,
-                1 + Math.random() * 3
-            ] as [number, number, number],
-            color: Math.random() > 0.5 ? '#2dd4bf' : '#8b5cf6' // Teal or Purple
-        }));
-    }, []);
-
-    return (
-        <group rotation={[0, -Math.PI / 4, 0]}>
-            {blocks.map((block, i) => (
-                <Float key={i} speed={1} rotationIntensity={0.2} floatIntensity={0.5}>
-                    <CityBlock {...block} />
-                </Float>
-            ))}
-            <ScanningLaser />
-            <Stars radius={100} depth={50} count={5000} factor={4} saturation={0} fade speed={1} />
-        </group>
-    );
-}
-
 export default function GlobalBackground() {
     return (
-        <div className="fixed inset-0 z-0 pointer-events-none">
-            <Canvas gl={{ antialias: true }} dpr={[1, 2]}>
-                <PerspectiveCamera makeDefault position={[0, 0, 30]} fov={50} />
-                <ambientLight intensity={0.5} />
-                <FloatingCity />
-                <Environment preset="city" />
-            </Canvas>
+        <div className="fixed inset-0 z-0 pointer-events-none overflow-hidden">
+            {/* Base dark gradient */}
+            <div className="absolute inset-0 bg-gradient-to-br from-[#050508] via-[#0a0a1a] to-[#0d0515]" />
 
-            {/* Grid Overlay for "Tech" feel */}
-            <div className="absolute inset-0 bg-[linear-gradient(rgba(0,0,0,0)_1px,transparent_1px),linear-gradient(90deg,rgba(0,0,0,0)_1px,transparent_1px)] bg-[size:40px_40px] [mask-image:radial-gradient(ellipse_60%_60%_at_50%_50%,#000_70%,transparent_100%)] opacity-20" style={{ backgroundImage: 'linear-gradient(rgba(0,255,255,0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(0,255,255,0.1) 1px, transparent 1px)' }}></div>
+            {/* 3D Mesh Grid — subtle perspective grid */}
+            <div
+                className="absolute inset-0 opacity-[0.04]"
+                style={{
+                    backgroundImage: `
+                        linear-gradient(rgba(255,255,255,0.1) 1px, transparent 1px),
+                        linear-gradient(90deg, rgba(255,255,255,0.1) 1px, transparent 1px)
+                    `,
+                    backgroundSize: '60px 60px',
+                    perspective: '500px',
+                    transform: 'rotateX(60deg) translateY(-30%)',
+                    transformOrigin: 'center top',
+                }}
+            />
+
+            {/* Floating Orb 1 — Neon Crimson / Red */}
+            <div
+                className="absolute w-[500px] h-[500px] rounded-full"
+                style={{
+                    top: '10%',
+                    left: '15%',
+                    background: 'radial-gradient(circle, rgba(255,23,68,0.15) 0%, rgba(255,0,64,0.05) 40%, transparent 70%)',
+                    filter: 'blur(80px)',
+                    animation: 'orb-drift-1 20s ease-in-out infinite',
+                }}
+            />
+
+            {/* Floating Orb 2 — Neon Cyan / Blue */}
+            <div
+                className="absolute w-[600px] h-[600px] rounded-full"
+                style={{
+                    top: '50%',
+                    right: '10%',
+                    background: 'radial-gradient(circle, rgba(0,240,255,0.12) 0%, rgba(61,90,254,0.05) 40%, transparent 70%)',
+                    filter: 'blur(100px)',
+                    animation: 'orb-drift-2 25s ease-in-out infinite',
+                }}
+            />
+
+            {/* Floating Orb 3 — Neon Purple / Violet */}
+            <div
+                className="absolute w-[450px] h-[450px] rounded-full"
+                style={{
+                    bottom: '10%',
+                    left: '30%',
+                    background: 'radial-gradient(circle, rgba(213,0,249,0.12) 0%, rgba(124,77,255,0.04) 40%, transparent 70%)',
+                    filter: 'blur(90px)',
+                    animation: 'orb-drift-3 22s ease-in-out infinite',
+                }}
+            />
+
+            {/* Floating Orb 4 — Neon Green (subtle) */}
+            <div
+                className="absolute w-[350px] h-[350px] rounded-full"
+                style={{
+                    top: '70%',
+                    right: '60%',
+                    background: 'radial-gradient(circle, rgba(0,230,118,0.08) 0%, transparent 60%)',
+                    filter: 'blur(80px)',
+                    animation: 'orb-drift-1 30s ease-in-out infinite reverse',
+                }}
+            />
+
+            {/* Rotating Mesh Gradient — large, slow spin */}
+            <div
+                className="absolute w-[800px] h-[800px] opacity-[0.06]"
+                style={{
+                    top: '20%',
+                    left: '50%',
+                    transform: 'translateX(-50%)',
+                    background: 'conic-gradient(from 0deg, #FF1744, #D500F9, #3D5AFE, #00F0FF, #00E676, #FFAB00, #FF1744)',
+                    borderRadius: '50%',
+                    filter: 'blur(120px)',
+                    animation: 'mesh-rotate 60s linear infinite',
+                }}
+            />
+
+            {/* Noise texture overlay for depth */}
+            <div
+                className="absolute inset-0 opacity-[0.015]"
+                style={{
+                    backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E")`,
+                }}
+            />
         </div>
     );
 }

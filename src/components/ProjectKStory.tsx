@@ -55,7 +55,7 @@ function StoryCard({ section, index }: { section: StorySection; index: number })
             initial={{ opacity: 0, x: isEven ? -100 : 100 }}
             animate={isInView ? { opacity: 1, x: 0 } : { opacity: 0, x: isEven ? -100 : 100 }}
             transition={{ duration: 0.8, delay: 0.2 }}
-            className="mb-16"
+            className="mb-16 gpu-optimize"
         >
             <div className={`flex flex-col ${isEven ? 'lg:flex-row' : 'lg:flex-row-reverse'} gap-8 items-center`}>
                 {/* Icon Card */}

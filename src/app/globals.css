@@ -1,28 +1,37 @@
 @import "tailwindcss";
 
 @theme {
-  /* Colors */
+  /* ═══════════════════════════════════════════════════
+     FUTURISTIC NEON PALETTE — Red Blend + Neon Shades
+     ═══════════════════════════════════════════════════ */
   --color-text-primary: #ffffff;
-  --color-text-secondary: #9ca3af;
-  /* gray-400 */
-  --color-accent-teal: #2dd4bf;
-  /* teal-400 */
-  --color-accent-purple: #a855f7;
-  /* purple-500 */
-  --color-accent-orange: #f97316;
-  /* orange-500 */
-  --color-accent-rose: #f43f5e;
-  /* rose-500 */
-  --color-accent-amber: #f59e0b;
-  /* amber-500 */
-  --color-accent-cyan: #22d3ee;
-  /* cyan-400 */
-  --color-accent-violet: #8b5cf6;
-  /* violet-500 */
-  --color-accent-blue: #3b82f6;
-  /* blue-500 */
-  --color-accent-green: #22c55e;
-  /* green-500 */
+  --color-text-secondary: #a0aec0;
+
+  /* Primary Neon Reds */
+  --color-accent-teal: #FF1744;
+  /* Neon Crimson */
+  --color-accent-rose: #FF0040;
+  /* Electric Red */
+
+  /* Neon Cyans & Blues */
+  --color-accent-cyan: #00F0FF;
+  /* Neon Cyan */
+  --color-accent-blue: #3D5AFE;
+  /* Electric Indigo */
+
+  /* Neon Purples & Violets */
+  --color-accent-purple: #D500F9;
+  /* Neon Purple */
+  --color-accent-violet: #7C4DFF;
+  /* Electric Violet */
+
+  /* Neon Greens & Warm */
+  --color-accent-green: #00E676;
+  /* Neon Green */
+  --color-accent-amber: #FFAB00;
+  /* Neon Amber */
+  --color-accent-orange: #FF6D00;
+  /* Neon Orange */
 
   /* Animations */
   --animate-float-slow: float 6s ease-in-out infinite;
@@ -43,8 +52,8 @@
     }
   }
 
-  /* Font Family Override */
-  --font-sans: var(--font-jakarta),
+  /* Font Family Override — Space Grotesk */
+  --font-sans: var(--font-space),
   ui-sans-serif,
   system-ui,
   sans-serif,
@@ -53,36 +62,233 @@
   "Segoe UI Symbol",
   "Noto Color Emoji";
 
-  /* Custom Shadows */
-  --shadow-glow: 0 0 30px rgba(45, 212, 191, 0.6),
-  0 0 70px rgba(168, 85, 247, 0.4);
+  /* Neon Glow Shadows */
+  --shadow-glow: 0 0 20px rgba(255, 23, 68, 0.3),
+  0 0 60px rgba(213, 0, 249, 0.15);
+  --shadow-glow-cyan: 0 0 20px rgba(0, 240, 255, 0.3),
+  0 0 60px rgba(61, 90, 254, 0.15);
+  --shadow-glow-purple: 0 0 20px rgba(213, 0, 249, 0.3),
+  0 0 60px rgba(124, 77, 255, 0.15);
+  --shadow-glow-green: 0 0 20px rgba(0, 230, 118, 0.3),
+  0 0 60px rgba(0, 230, 118, 0.15);
 }
 
-/* Utilities */
-@utility glass-card {
-  @apply bg-transparent backdrop-blur-lg border border-white/10 shadow-xl transition-all duration-300 hover:shadow-glow hover:border-white/40 hover:-translate-y-1;
-}
-
-@utility interactive {
-  @apply transition-transform hover:scale-105 active:scale-95 cursor-pointer;
-}
-
-@utility hover-interactive {
-  @apply scale-150 bg-white/10 mix-blend-difference;
-}
-
-/* Base styles */
-body {
-  @apply bg-black text-white overflow-x-hidden;
-  zoom: 0.9;
-}
-
-/* Hard-force font application to satisfy "full website" request */
+/* ═══════════════════════════════════════
+   GLOBAL FONT
+   ═══════════════════════════════════════ */
 * {
   font-family: var(--font-space), ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  box-sizing: border-box;
 }
 
-/* Existing styles */
+/* ═══════════════════════════════════════
+   CLAYMORPHISM UTILITIES
+   ═══════════════════════════════════════ */
+@utility glass-card {
+  @apply rounded-3xl transition-all duration-300;
+  background: rgba(255, 255, 255, 0.04);
+  backdrop-filter: blur(24px) saturate(180%);
+  -webkit-backdrop-filter: blur(24px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  box-shadow:
+    /* Outer clay depth */
+    6px 6px 16px rgba(0, 0, 0, 0.5),
+    -3px -3px 12px rgba(255, 255, 255, 0.03),
+    /* Inner clay highlight (top-left light source) */
+    inset 2px 2px 4px rgba(255, 255, 255, 0.07),
+    inset -2px -2px 4px rgba(0, 0, 0, 0.2);
+  transform: translateZ(0);
+  will-change: transform, opacity;
+}
+
+@utility glass-card-hover {
+  @apply glass-card;
+}
+
+@utility liquid-glow {
+  @apply rounded-3xl transition-all duration-500;
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(40px) saturate(200%);
+  -webkit-backdrop-filter: blur(40px) saturate(200%);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow:
+    8px 8px 20px rgba(0, 0, 0, 0.5),
+    -4px -4px 16px rgba(255, 255, 255, 0.04),
+    inset 3px 3px 6px rgba(255, 255, 255, 0.08),
+    inset -3px -3px 6px rgba(0, 0, 0, 0.25),
+    0 0 60px rgba(255, 23, 68, 0.05);
+}
+
+/* Claymorphism button — raised pill */
+@utility clay-button {
+  @apply rounded-full font-semibold transition-all duration-200;
+  box-shadow:
+    4px 4px 10px rgba(0, 0, 0, 0.4),
+    -2px -2px 8px rgba(255, 255, 255, 0.04),
+    inset 1px 1px 2px rgba(255, 255, 255, 0.1),
+    inset -1px -1px 2px rgba(0, 0, 0, 0.15);
+
+  &:hover {
+    transform: translateY(-1px);
+    box-shadow:
+      6px 6px 14px rgba(0, 0, 0, 0.5),
+      -3px -3px 10px rgba(255, 255, 255, 0.05),
+      inset 1px 1px 2px rgba(255, 255, 255, 0.12),
+      inset -1px -1px 2px rgba(0, 0, 0, 0.2);
+  }
+
+  &:active {
+    transform: translateY(1px);
+    box-shadow:
+      2px 2px 6px rgba(0, 0, 0, 0.3),
+      -1px -1px 4px rgba(255, 255, 255, 0.02),
+      inset 2px 2px 4px rgba(0, 0, 0, 0.3),
+      inset -2px -2px 4px rgba(255, 255, 255, 0.05);
+  }
+}
+
+/* Clay icon container */
+@utility clay-icon {
+  @apply rounded-2xl flex items-center justify-center transition-all duration-200;
+  box-shadow:
+    3px 3px 8px rgba(0, 0, 0, 0.4),
+    -2px -2px 6px rgba(255, 255, 255, 0.03),
+    inset 1px 1px 3px rgba(255, 255, 255, 0.08),
+    inset -1px -1px 3px rgba(0, 0, 0, 0.2);
+}
+
+/* Clay badge — small status pill */
+@utility clay-badge {
+  @apply rounded-full px-3 py-1 text-xs font-medium;
+  box-shadow:
+    2px 2px 5px rgba(0, 0, 0, 0.35),
+    -1px -1px 3px rgba(255, 255, 255, 0.03),
+    inset 1px 1px 2px rgba(255, 255, 255, 0.06),
+    inset -1px -1px 2px rgba(0, 0, 0, 0.15);
+}
+
+/* Clay input — inset field */
+@utility clay-input {
+  @apply rounded-xl px-4 py-3 transition-all duration-200;
+  background: rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  box-shadow:
+    inset 3px 3px 6px rgba(0, 0, 0, 0.4),
+    inset -2px -2px 4px rgba(255, 255, 255, 0.04);
+}
+
+/* Clay section container */
+@utility clay-section {
+  @apply rounded-[2rem] transition-all duration-300;
+  background: rgba(255, 255, 255, 0.02);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.04);
+  box-shadow:
+    10px 10px 30px rgba(0, 0, 0, 0.4),
+    -5px -5px 20px rgba(255, 255, 255, 0.02),
+    inset 2px 2px 6px rgba(255, 255, 255, 0.04),
+    inset -2px -2px 6px rgba(0, 0, 0, 0.15);
+}
+
+/* ═══════════════════════════════════════
+   TYPING CURSOR BLINK
+   ═══════════════════════════════════════ */
+@keyframes blink-caret {
+
+  0%,
+  100% {
+    border-color: transparent;
+  }
+
+  50% {
+    border-color: #FF1744;
+  }
+}
+
+/* ═══════════════════════════════════════
+   ORB ANIMATIONS FOR BACKGROUND
+   ═══════════════════════════════════════ */
+@keyframes orb-drift-1 {
+
+  0%,
+  100% {
+    transform: translate(0, 0) scale(1);
+  }
+
+  25% {
+    transform: translate(80px, -60px) scale(1.1);
+  }
+
+  50% {
+    transform: translate(-40px, 40px) scale(0.95);
+  }
+
+  75% {
+    transform: translate(60px, 80px) scale(1.05);
+  }
+}
+
+@keyframes orb-drift-2 {
+
+  0%,
+  100% {
+    transform: translate(0, 0) scale(1);
+  }
+
+  25% {
+    transform: translate(-100px, 80px) scale(1.15);
+  }
+
+  50% {
+    transform: translate(60px, -50px) scale(0.9);
+  }
+
+  75% {
+    transform: translate(-80px, -60px) scale(1.1);
+  }
+}
+
+@keyframes orb-drift-3 {
+
+  0%,
+  100% {
+    transform: translate(0, 0) scale(1);
+  }
+
+  33% {
+    transform: translate(120px, 40px) scale(1.08);
+  }
+
+  66% {
+    transform: translate(-60px, -80px) scale(0.92);
+  }
+}
+
+@keyframes mesh-rotate {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+/* ═══════════════════════════════════════
+   BASE STYLES
+   ═══════════════════════════════════════ */
+body {
+  @apply bg-black text-white;
+  overflow-x: hidden;
+  zoom: 0.9;
+  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background: #050508;
+}
+
+/* Leaflet popups */
 .glass-popup .leaflet-popup-content-wrapper {
   background: rgba(255, 255, 255, 0.95);
   backdrop-filter: blur(10px);
@@ -96,15 +302,16 @@ body {
   background: rgba(255, 255, 255, 0.95);
 }
 
+/* Custom scrollbar */
 .custom-scrollbar::-webkit-scrollbar {
   width: 4px;
 }
 
 .custom-scrollbar::-webkit-scrollbar-track {
-  background: rgba(255, 255, 255, 0.05);
+  background: rgba(255, 255, 255, 0.03);
 }
 
 .custom-scrollbar::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.2);
+  background: rgba(255, 255, 255, 0.15);
   border-radius: 4px;
 }
