@@ -31,6 +31,7 @@ export default function VideoAnalyzer() {
     const [isModelLoading, setIsModelLoading] = useState(true);
     const [modelError, setModelError] = useState<string | null>(null);
     const [showAccidentAlert, setShowAccidentAlert] = useState(false);
+    const [alertDetails, setAlertDetails] = useState<{ confidence: number } | null>(null);
     const [accidentDetected, setAccidentDetected] = useState(false);
     const lastNotificationTime = useRef<number>(0); // Track last notification time for cooldown
     const [metrics, setMetrics] = useState<PerformanceMetrics>({
@@ -189,12 +190,8 @@ export default function VideoAnalyzer() {
 
                 if (!showAccidentAlert && timeSinceLastNotification > COOLDOWN_PERIOD) {
                     setShowAccidentAlert(true);
+                    setAlertDetails({ confidence: accidentPrediction.probability });
                     lastNotificationTime.current = currentTime;
-
-                    // Auto-hide after 2.5 seconds with fade animation
-                    setTimeout(() => {
-                        setShowAccidentAlert(false);
-                    }, 2500);
                 }
 
                 setAccidentDetected(true);
@@ -245,32 +242,99 @@ export default function VideoAnalyzer() {
     return (
         <>
             {/* Accident Alert Notification */}
+            {/* CRITICAL ALERT MODAL - Perplexity Style */}
             <AnimatePresence>
-                {showAccidentAlert && (
-                    <motion.div
-                        initial={{ opacity: 0, y: -50, scale: 0.9 }}
-                        animate={{ opacity: 1, y: 0, scale: 1 }}
-                        exit={{ opacity: 0, y: -50, scale: 0.9 }}
-                        className="fixed top-24 right-8 z-50 bg-red-500 text-white px-6 py-4 rounded-xl shadow-2xl flex items-center gap-4 max-w-md"
-                    >
-                        <div className="flex items-center gap-3 flex-1">
-                            <div className="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center animate-pulse">
-                                <AlertTriangle className="w-6 h-6" />
-                            </div>
-                            <div>
-                                <h4 className="font-bold text-lg">⚠️ ACCIDENT DETECTED!</h4>
-                                <p className="text-sm text-red-100">High confidence detection - Immediate response required</p>
-                            </div>
-                        </div>
-                        <button
+                {showAccidentAlert && alertDetails && (
+                    <div className="fixed inset-0 z-[9999] flex items-center justify-center p-4">
+                        {/* Backdrop */}
+                        <motion.div
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
+                            exit={{ opacity: 0 }}
+                            className="absolute inset-0 bg-black/80 backdrop-blur-md"
                             onClick={() => setShowAccidentAlert(false)}
-                            className="p-2 hover:bg-white/20 rounded-lg transition-colors"
+                        />
+
+                        {/* Modal Content - Perplexity Style (Dark Theme) */}
+                        <motion.div
+                            initial={{ scale: 0.95, opacity: 0, y: 10 }}
+                            animate={{ scale: 1, opacity: 1, y: 0 }}
+                            exit={{ scale: 0.95, opacity: 0, y: 10 }}
+                            transition={{ type: "spring", duration: 0.3 }}
+                            className="relative z-[10000] bg-[#121212] border border-white/10 rounded-2xl w-full max-w-lg shadow-[0_0_50px_rgba(220,38,38,0.2)] overflow-hidden"
+                            style={{ margin: 'auto' }}
                         >
-                            <X className="w-5 h-5" />
-                        </button>
-                    </motion.div>
+                            {/* Header */}
+                            <div className="flex items-center justify-between px-6 py-4 border-b border-white/5 bg-white/5">
+                                <div className="flex items-center gap-2 text-red-500">
+                                    <span className="text-xl">⚠️</span>
+                                    <h3 className="font-semibold tracking-wide uppercase text-sm">Critical Alert</h3>
+                                </div>
+                                <button
+                                    onClick={() => setShowAccidentAlert(false)}
+                                    className="text-gray-400 hover:text-white transition-colors"
+                                >
+                                    ✕
+                                </button>
+                            </div>
+
+                            {/* Body */}
+                            <div className="p-8 text-center">
+                                <div className="mb-6">
+                                    <h2 className="text-3xl font-medium text-white mb-2">Accident Detected</h2>
+                                    <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-red-500/10 border border-red-500/20 text-red-500">
+                                        <span className="relative flex h-2 w-2">
+                                            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
+                                            <span className="relative inline-flex rounded-full h-2 w-2 bg-red-500"></span>
+                                        </span>
+                                        <span className="font-mono font-bold ml-2">{(alertDetails.confidence * 100).toFixed(1)}% CONFIDENCE</span>
+                                    </div>
+                                </div>
+
+                                <div className="grid grid-cols-2 gap-4 mb-8">
+                                    <div className="p-4 bg-white/5 rounded-xl border border-white/5 text-left">
+                                        <div className="text-gray-400 text-xs uppercase mb-1 font-semibold">Source</div>
+                                        <div className="text-white font-medium">Video Analysis</div>
+                                    </div>
+                                    <div className="p-4 bg-white/5 rounded-xl border border-white/5 text-left">
+                                        <div className="text-gray-400 text-xs uppercase mb-1 font-semibold">Status</div>
+                                        <div className="text-red-400 font-medium flex items-center gap-1">
+                                            <span>!</span> Incident Logged
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div className="flex gap-3">
+                                    <button
+                                        onClick={() => setShowAccidentAlert(false)}
+                                        className="flex-1 py-3 px-4 bg-white/5 hover:bg-white/10 text-white rounded-lg font-medium transition-colors border border-white/10"
+                                    >
+                                        Dismiss
+                                    </button>
+                                </div>
+                            </div>
+
+                            {/* Footer / Progress bar visual */}
+                            <div className="h-1 w-full bg-white/5">
+                                <div className="h-full bg-red-600 w-full animate-[shrink_60s_linear_forwards]"></div>
+                            </div>
+                        </motion.div>
+                    </div>
                 )}
             </AnimatePresence>
+
+            {/* Test Trigger (Hidden) */}
+            <div className="fixed bottom-4 right-4 z-40 opacity-0 hover:opacity-100 transition-opacity">
+                <button
+                    onClick={() => {
+                        setShowAccidentAlert(true);
+                        setAlertDetails({ confidence: 0.94 });
+                    }}
+                    className="px-3 py-1 bg-gray-800 text-xs text-gray-500 rounded border border-gray-700"
+                >
+                    Test Alert
+                </button>
+            </div>
 
             <div className="glass-card rounded-2xl p-6">
                 <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">

@@ -51,6 +51,13 @@ ESP32_IP = "192.168.1.100"  # ⚠️ CHANGE THIS to your ESP32's IP address
 ESP32_STREAM_URL = f"http://{ESP32_IP}/stream"
 ESP32_CAPTURE_URL = f"http://{ESP32_IP}/capture"
 
+# Email Configuration
+SMTP_SERVER = "smtp.gmail.com"
+SMTP_PORT = 587
+SENDER_EMAIL = "dineshkuttan78@gmail.com"  # ⚠️ PROJECT K: Replace with your Gmail
+SENDER_PASSWORD = "tebcirmmpbjvbxzp"  # ⚠️ PROJECT K: Replace with App Password
+RECIPIENT_EMAIL = "vishalraajdnd@gmail.com"
+
 # Detection classes
 CLASSES = [
     {"id": 0, "name": "normal", "color": "#10b981", "severity": "low"},
@@ -240,10 +247,65 @@ async def capture_frame():
     except Exception as e:
         raise HTTPException(status_code=503, detail=f"ESP32 capture failed: {str(e)}")
 
+import smtplib
+from email.mime.text import MIMEText
+from email.mime.multipart import MIMEMultipart
+from pydantic import BaseModel
+
+# ... imports ...
+
+
 @app.get("/detections/history")
 async def get_detection_history():
     """Get recent detection history"""
     return {"detections": detection_history[-50:]}  # Last 50 detections
+
+class AlertRequest(BaseModel):
+    type: str
+    confidence: float
+    location: str = "Unknown Location"
+
+@app.post("/api/send-alert")
+async def send_email_alert(alert: AlertRequest):
+    """Send email alert for critical incidents"""
+    if SENDER_EMAIL == "your-email@gmail.com":
+        print("⚠️  Email API skipped: Sender credentials not configured.")
+        return {"status": "skipped", "message": "Email credentials missing"}
+
+    try:
+        msg = MIMEMultipart()
+        msg['From'] = SENDER_EMAIL
+        msg['To'] = RECIPIENT_EMAIL
+        msg['Subject'] = f"🚨 PROJECT K ALERT: {alert.type.upper()} Detected!"
+
+        body = f"""
+        CRITICAL ALERT - PROJECT K
+        
+        Incident: {alert.type.upper()}
+        Confidence: {alert.confidence * 100:.1f}%
+        Location: {alert.location}
+        Time: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}
+        
+        Immediate attention required.
+        """
+        
+        msg.attach(MIMEText(body, 'plain'))
+        
+        # Connect to server
+        server = smtplib.SMTP(SMTP_SERVER, SMTP_PORT)
+        server.starttls()
+        server.login(SENDER_EMAIL, SENDER_PASSWORD)
+        text = msg.as_string()
+        server.sendmail(SENDER_EMAIL, RECIPIENT_EMAIL, text)
+        server.quit()
+        
+        print(f"📧 Alert email sent to {RECIPIENT_EMAIL}")
+        return {"status": "sent", "recipient": RECIPIENT_EMAIL}
+        
+    except Exception as e:
+        print(f"❌ Failed to send email: {e}")
+        return {"status": "error", "message": str(e)}
+
 
 # ============================================
 # WEBSOCKET FOR REAL-TIME DETECTION

@@ -10,7 +10,7 @@ type DemoMode = 'upload' | 'esp32';
 
 export default function DemoPage() {
 
-    const [demoMode, setDemoMode] = useState<DemoMode>('upload');
+    const [demoMode, setDemoMode] = useState<DemoMode>('esp32');
 
     const scenarios = [
         {
