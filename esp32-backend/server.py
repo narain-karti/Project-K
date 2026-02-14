@@ -56,7 +56,7 @@ SMTP_SERVER = "smtp.gmail.com"
 SMTP_PORT = 587
 SENDER_EMAIL = "dineshkuttan78@gmail.com"  # ⚠️ PROJECT K: Replace with your Gmail
 SENDER_PASSWORD = "tebc irmm pbjv bxzp"  # ⚠️ PROJECT K: Replace with App Password
-RECIPIENT_EMAIL = "dineshkuttan78@gmail.com"
+RECIPIENT_EMAIL = SENDER_EMAIL
 
 # Detection classes
 CLASSES = [
@@ -294,7 +294,7 @@ async def send_email_alert(alert: AlertRequest):
         # Connect to server
         server = smtplib.SMTP(SMTP_SERVER, SMTP_PORT)
         server.starttls()
-        server.login(SENDER_EMAIL, SENDER_PASSWORD)
+        server.login(SENDER_EMAIL, SENDER_PASSWORD.replace(' ', ''))
         text = msg.as_string()
         server.sendmail(SENDER_EMAIL, RECIPIENT_EMAIL, text)
         server.quit()

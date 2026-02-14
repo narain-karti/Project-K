@@ -341,6 +341,15 @@ export default function VideoAnalyzer() {
                                     >
                                         Dismiss
                                     </button>
+                                    <a
+                                        href="https://ambucall.vercel.app/"
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className="flex-1 py-3 px-4 bg-red-600 hover:bg-red-700 text-white rounded-lg font-bold transition-colors flex items-center justify-center gap-2 shadow-lg shadow-red-500/20"
+                                    >
+                                        <span>🚑</span>
+                                        Deploy Ambulance
+                                    </a>
                                 </div>
                             </div>
 
