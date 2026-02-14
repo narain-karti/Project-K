@@ -43,6 +43,23 @@ export default function VideoAnalyzer() {
 
     const { setHighConfidence, setCurrentDetection, setConfidenceLevel } = useDetection();
 
+    const sendEmailAlert = async (confidence: number) => {
+        try {
+            await fetch('http://localhost:8000/api/send-alert', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    type: 'accident',
+                    confidence: confidence,
+                    location: 'Video Analysis Feed'
+                })
+            });
+            console.log('📧 Alert email sent');
+        } catch (error) {
+            console.error('Failed to send alert email:', error);
+        }
+    };
+
     // Load both models
     useEffect(() => {
         const loadModels = async () => {
@@ -191,6 +208,7 @@ export default function VideoAnalyzer() {
                 if (!showAccidentAlert && timeSinceLastNotification > COOLDOWN_PERIOD) {
                     setShowAccidentAlert(true);
                     setAlertDetails({ confidence: accidentPrediction.probability });
+                    sendEmailAlert(accidentPrediction.probability);
                     lastNotificationTime.current = currentTime;
                 }
 
@@ -329,6 +347,7 @@ export default function VideoAnalyzer() {
                     onClick={() => {
                         setShowAccidentAlert(true);
                         setAlertDetails({ confidence: 0.94 });
+                        sendEmailAlert(0.94);
                     }}
                     className="px-3 py-1 bg-gray-800 text-xs text-gray-500 rounded border border-gray-700"
                 >

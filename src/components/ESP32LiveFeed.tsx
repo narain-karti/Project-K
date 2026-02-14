@@ -543,6 +543,17 @@ export default function ESP32LiveFeed() {
                         // Instead, we'll just set the state directly for this visual test button
                         setShowAccidentModal(true);
                         setAlertDetails({ confidence: 0.88 });
+
+                        // Send Test Email
+                        fetch(`${config.serverUrl.replace('ws://', 'http://').replace('/ws/detection', '')}/api/send-alert`, {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({
+                                type: 'accident',
+                                confidence: 0.88,
+                                location: 'TEST ALERT - Main Road'
+                            })
+                        }).catch(err => console.error('Failed to send test email:', err));
                     }}
                     className="px-3 py-1 bg-gray-800 text-xs text-gray-500 rounded border border-gray-700"
                 >

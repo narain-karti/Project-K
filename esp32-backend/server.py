@@ -56,7 +56,7 @@ SMTP_SERVER = "smtp.gmail.com"
 SMTP_PORT = 587
 SENDER_EMAIL = "dineshkuttan78@gmail.com"  # ⚠️ PROJECT K: Replace with your Gmail
 SENDER_PASSWORD = "tebcirmmpbjvbxzp"  # ⚠️ PROJECT K: Replace with App Password
-RECIPIENT_EMAIL = "vishalraajdnd@gmail.com"
+RECIPIENT_EMAIL = "dineshkuttan78@gmail.com"
 
 # Detection classes
 CLASSES = [
