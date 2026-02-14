@@ -32,6 +32,7 @@ export default function VideoAnalyzer() {
     const [modelError, setModelError] = useState<string | null>(null);
     const [showAccidentAlert, setShowAccidentAlert] = useState(false);
     const [alertDetails, setAlertDetails] = useState<{ confidence: number } | null>(null);
+    const [emailStatus, setEmailStatus] = useState<'idle' | 'sending' | 'success' | 'error'>('idle');
     const [accidentDetected, setAccidentDetected] = useState(false);
     const lastNotificationTime = useRef<number>(0); // Track last notification time for cooldown
     const [metrics, setMetrics] = useState<PerformanceMetrics>({
@@ -44,8 +45,9 @@ export default function VideoAnalyzer() {
     const { setHighConfidence, setCurrentDetection, setConfidenceLevel } = useDetection();
 
     const sendEmailAlert = async (confidence: number) => {
+        setEmailStatus('sending');
         try {
-            await fetch('http://localhost:8000/api/send-alert', {
+            const response = await fetch('http://localhost:8000/api/send-alert', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
@@ -54,9 +56,19 @@ export default function VideoAnalyzer() {
                     location: 'Video Analysis Feed'
                 })
             });
-            console.log('📧 Alert email sent');
+            if (response.ok) {
+                setEmailStatus('success');
+                console.log('📧 Alert email sent successfully');
+            } else {
+                setEmailStatus('error');
+                const errorText = await response.text();
+                console.error(`Failed to send email: Server returned ${response.status} ${response.statusText}`, errorText);
+                alert(`Email Failed: Server Error ${response.status}. Check console for details.`);
+            }
         } catch (error) {
-            console.error('Failed to send alert email:', error);
+            setEmailStatus('error');
+            console.error('Failed to send alert email (Network/Fetch Error):', error);
+            alert(`Email Failed: Network Error. Is the backend running? Check console.`);
         }
     };
 
@@ -341,17 +353,18 @@ export default function VideoAnalyzer() {
                 )}
             </AnimatePresence>
 
-            {/* Test Trigger (Hidden) */}
-            <div className="fixed bottom-4 right-4 z-40 opacity-0 hover:opacity-100 transition-opacity">
+            {/* Test Trigger (Visible for Debugging) */}
+            <div className="fixed bottom-4 right-4 z-40">
                 <button
                     onClick={() => {
                         setShowAccidentAlert(true);
                         setAlertDetails({ confidence: 0.94 });
                         sendEmailAlert(0.94);
                     }}
-                    className="px-3 py-1 bg-gray-800 text-xs text-gray-500 rounded border border-gray-700"
+                    className="flex items-center gap-2 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg shadow-lg transition-all"
                 >
-                    Test Alert
+                    <span>📧</span>
+                    Test Alert & Email
                 </button>
             </div>
 

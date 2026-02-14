@@ -55,7 +55,7 @@ ESP32_CAPTURE_URL = f"http://{ESP32_IP}/capture"
 SMTP_SERVER = "smtp.gmail.com"
 SMTP_PORT = 587
 SENDER_EMAIL = "dineshkuttan78@gmail.com"  # ⚠️ PROJECT K: Replace with your Gmail
-SENDER_PASSWORD = "tebcirmmpbjvbxzp"  # ⚠️ PROJECT K: Replace with App Password
+SENDER_PASSWORD = "tebc irmm pbjv bxzp"  # ⚠️ PROJECT K: Replace with App Password
 RECIPIENT_EMAIL = "dineshkuttan78@gmail.com"
 
 # Detection classes
