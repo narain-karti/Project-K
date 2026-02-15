@@ -352,9 +352,12 @@ async def send_email_alert(alert: AlertRequest):
                             </table>
                             
                             <!-- Action Button -->
-                            <a href="#" style="display:inline-block;background-color:#00e5ff;color:#000000;font-weight:bold;text-decoration:none;padding:16px 32px;border-radius:8px;font-size:16px;transition:all 0.2s;">
-                                View Live Feed
+                            <a href="https://call-ambulance-function.vercel.app" style="display:inline-block;background-color:#ef4444;color:#ffffff;font-weight:bold;text-decoration:none;padding:16px 32px;border-radius:8px;font-size:16px;transition:all 0.2s;">
+                                🚑 DEPLOY AMBULANCE
                             </a>
+                            <p style="margin:16px 0 0;color:#666666;font-size:12px;">
+                                Clicking this will immediately dispatch emergency services to the location.
+                            </p>
                         </td>
                     </tr>
                     
