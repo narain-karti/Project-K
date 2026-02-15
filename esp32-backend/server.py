@@ -352,7 +352,7 @@ async def send_email_alert(alert: AlertRequest):
                             </table>
                             
                             <!-- Action Button -->
-                            <a href="https://call-ambulance-function.vercel.app" style="display:inline-block;background-color:#ef4444;color:#ffffff;font-weight:bold;text-decoration:none;padding:16px 32px;border-radius:8px;font-size:16px;transition:all 0.2s;">
+                            <a href="https://call-ambulance-function.onrender.com/" style="display:inline-block;background-color:#ef4444;color:#ffffff;font-weight:bold;text-decoration:none;padding:16px 32px;border-radius:8px;font-size:16px;transition:all 0.2s;">
                                 🚑 DEPLOY AMBULANCE
                             </a>
                             <p style="margin:16px 0 0;color:#666666;font-size:12px;">
