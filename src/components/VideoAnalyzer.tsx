@@ -492,12 +492,6 @@ export default function VideoAnalyzer() {
                                             >
                                                 Dismiss
                                             </button>
-                                            <a
-                                                href="tel:9176257316"
-                                                className="flex-1 py-2 px-3 bg-red-600 hover:bg-red-700 text-white rounded-lg text-sm font-bold transition-colors flex items-center justify-center gap-1.5"
-                                            >
-                                                🚑 Deploy Ambulance
-                                            </a>
                                         </div>
                                     </div>
                                 </motion.div>
@@ -514,7 +508,7 @@ export default function VideoAnalyzer() {
                                 }}
                                 className="flex-1 flex items-center justify-center gap-2 py-2 px-3 bg-accent-teal/10 hover:bg-accent-teal/20 text-accent-teal border border-accent-teal/20 rounded-lg text-sm font-medium transition-colors"
                             >
-                                📧 Test Email
+                                📧 mailtest
                             </button>
                             {emailCooldownRemaining > 0 && (
                                 <span className="text-xs text-text-secondary font-mono">
@@ -522,6 +516,7 @@ export default function VideoAnalyzer() {
                                 </span>
                             )}
                         </div>
+
 
                         {/* Email Status */}
                         {emailStatus !== 'idle' && (
