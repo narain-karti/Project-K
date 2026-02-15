@@ -15,6 +15,7 @@ export default function Home() {
   const [cityCount, setCityCount] = useState(10);
   const [isVideoPlaying, setIsVideoPlaying] = useState(false);
   const [typedText, setTypedText] = useState('');
+  const [isTypingComplete, setIsTypingComplete] = useState(false);
   const fullTitle = 'Project K';
 
   const videoRef = useRef<HTMLVideoElement>(null);
@@ -27,6 +28,7 @@ export default function Home() {
         i++;
       } else {
         clearInterval(timer);
+        setIsTypingComplete(true);
       }
     }, 150);
     return () => clearInterval(timer);
@@ -96,10 +98,12 @@ export default function Home() {
               <h1 className="text-6xl md:text-9xl font-bold tracking-tight">
                 <span className="text-white">{typedText.slice(0, 8)}</span>
                 <span className="bg-clip-text text-transparent bg-gradient-to-r from-accent-teal via-accent-purple to-accent-cyan">{typedText.slice(8)}</span>
-                <span
-                  className="inline-block w-[4px] h-[0.8em] ml-1 align-baseline border-r-4 border-accent-teal"
-                  style={{ animation: 'blink-caret 0.75s step-end infinite' }}
-                />
+                {!isTypingComplete && (
+                  <span
+                    className="inline-block w-[4px] h-[0.8em] ml-1 align-baseline border-r-4 border-accent-teal"
+                    style={{ animation: 'blink-caret 0.75s step-end infinite' }}
+                  />
+                )}
               </h1>
               <p className="text-lg md:text-xl text-text-secondary mt-3 tracking-widest uppercase">
                 Hybrid Traffic Intelligence

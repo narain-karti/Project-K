@@ -39,11 +39,11 @@ export default function TechnologyPage() {
     ];
 
     const competitors = [
-        { feature: "Detection Speed", pureCloud: "5-15 min ⌛", pureEdge: "<500ms ⚡", navigation: "N/A ✗", projectK: "<2 sec ✓✓" },
-        { feature: "Cloud Failure", pureCloud: "0% uptime ✗", pureEdge: "100% ✓", navigation: "0% ✗", projectK: "85-90% ✓✓" },
-        { feature: "Cost/City/Year", pureCloud: "₹2-5 cr 💸", pureEdge: "₹50 cr 💸💸💸", navigation: "₹50L 💸", projectK: "₹15-27L ✓✓" },
-        { feature: "Network Optim.", pureCloud: "Yes ✓", pureEdge: "No ✗", navigation: "Partial ~", projectK: "Yes ✓✓" },
-        { feature: "Privacy", pureCloud: "Poor ⚠️", pureEdge: "Good ✓", navigation: "Poor ⚠️", projectK: "Excellent ✓✓" },
+        { feature: "Detection Speed", pureCloud: "5-15 min", pureEdge: "<500ms", navigation: "N/A", projectK: "<2 sec" },
+        { feature: "Cloud Failure", pureCloud: "0% uptime", pureEdge: "100%", navigation: "0%", projectK: "85-90%" },
+        { feature: "Cost/City/Year", pureCloud: "₹2-5 cr", pureEdge: "₹50 cr", navigation: "₹50L", projectK: "₹15-27L" },
+        { feature: "Network Optim.", pureCloud: "Yes", pureEdge: "No", navigation: "Partial", projectK: "Yes" },
+        { feature: "Privacy", pureCloud: "Poor", pureEdge: "Good", navigation: "Poor", projectK: "Excellent" },
     ];
 
     return (
@@ -142,59 +142,6 @@ export default function TechnologyPage() {
                         </div>
                     </section>
 
-                    {/* Bandwidth Savings Calculator */}
-                    <section className="mb-16">
-                        <h2 className="text-3xl font-bold mb-8">Bandwidth Savings Calculator</h2>
-                        <div className="glass-card rounded-3xl p-8 md:p-12">
-                            <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
-                                <div>
-                                    <h3 className="text-xl font-bold mb-4 text-red-500">Traditional Cloud System</h3>
-                                    <div className="space-y-3 text-sm">
-                                        <div className="flex justify-between">
-                                            <span>Video streaming per camera</span>
-                                            <span className="font-bold">8MB / 30s</span>
-                                        </div>
-                                        <div className="flex justify-between">
-                                            <span>10,000 cameras × 2,880 snapshots/day</span>
-                                            <span className="font-bold">1.9 PB/month</span>
-                                        </div>
-                                        <div className="flex justify-between text-lg pt-4 border-t border-white/10">
-                                            <span className="text-red-500 font-bold">Monthly Cost</span>
-                                            <span className="text-red-500 font-bold">₹1.9 Cr</span>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div>
-                                    <h3 className="text-xl font-bold mb-4 text-green-500">Project K System</h3>
-                                    <div className="space-y-3 text-sm">
-                                        <div className="flex justify-between">
-                                            <span>Metadata per node</span>
-                                            <span className="font-bold">0.05MB / 30s</span>
-                                        </div>
-                                        <div className="flex justify-between">
-                                            <span>10,000 nodes × 2,880 outputs/day</span>
-                                            <span className="font-bold">1.4 GB/month</span>
-                                        </div>
-                                        <div className="flex justify-between text-lg pt-4 border-t border-white/10">
-                                            <span className="text-green-500 font-bold">Monthly Cost</span>
-                                            <span className="text-green-500 font-bold">₹1.4 Lakhs</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div className="mt-8 text-center">
-                                <div className="inline-block glass-card px-8 py-4 rounded-2xl group hover:shadow-[0_0_40px_rgba(34,197,94,0.4)] hover:border-green-500/40 hover:bg-gradient-to-br hover:from-green-500/10 hover:to-transparent transition-all duration-300">
-                                    <div className="text-sm text-text-secondary mb-2">Annual Savings Per City</div>
-                                    <div className="text-4xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-green-500 to-emerald-500">
-                                        ₹228 Crores
-                                    </div>
-                                    <div className="text-sm text-green-500 mt-2">99.94% bandwidth reduction</div>
-                                </div>
-                            </div>
-                        </div>
-                    </section>
 
                     {/* Competitive Comparison */}
                     <section>
@@ -207,7 +154,7 @@ export default function TechnologyPage() {
                                         <th className="text-left py-4 px-4 text-sm font-bold">Pure Cloud</th>
                                         <th className="text-left py-4 px-4 text-sm font-bold">Pure Edge</th>
                                         <th className="text-left py-4 px-4 text-sm font-bold">Navigation</th>
-                                        <th className="text-left py-4 px-4 text-sm font-bold bg-accent-teal/10 rounded-lg">Project K ✓</th>
+                                        <th className="text-left py-4 px-4 text-sm font-bold bg-accent-teal/10 rounded-lg">Project K</th>
                                     </tr>
                                 </thead>
                                 <tbody>

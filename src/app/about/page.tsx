@@ -1,12 +1,11 @@
 'use client';
 
 import { useState } from 'react';
-import { Users, Target, Mail, Phone, MapPin, Send, ChevronDown } from 'lucide-react';
+import { Users, Target, ChevronDown } from 'lucide-react';
 import { motion } from 'framer-motion';
 
 
 export default function AboutPage() {
-    const [formData, setFormData] = useState({ name: '', email: '', organization: '', message: '' });
     const [openFaq, setOpenFaq] = useState<number | null>(null);
 
 
@@ -107,83 +106,6 @@ export default function AboutPage() {
                         </motion.div>
                     </section>
 
-                    {/* Contact Form */}
-                    <section className="mb-16">
-                        <h2 className="text-3xl font-bold mb-8">Get In Touch</h2>
-                        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-                            <div className="glass-card rounded-2xl p-8">
-                                <h3 className="text-xl font-bold mb-6">Request Pilot Deployment</h3>
-                                <form className="space-y-4">
-                                    <div>
-                                        <label className="block text-sm text-text-secondary mb-2">Name *</label>
-                                        <input
-                                            type="text"
-                                            value={formData.name}
-                                            onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                                            className="w-full glass-card px-4 py-3 rounded-lg bg-transparent border border-white/10 focus:border-accent-teal focus:outline-none transition-colors"
-                                            placeholder="Your name"
-                                        />
-                                    </div>
-                                    <div>
-                                        <label className="block text-sm text-text-secondary mb-2">Email *</label>
-                                        <input
-                                            type="email"
-                                            value={formData.email}
-                                            onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                                            className="w-full glass-card px-4 py-3 rounded-lg bg-transparent border border-white/10 focus:border-accent-teal focus:outline-none transition-colors"
-                                            placeholder="your@email.com"
-                                        />
-                                    </div>
-                                    <div>
-                                        <label className="block text-sm text-text-secondary mb-2">Organization</label>
-                                        <input
-                                            type="text"
-                                            value={formData.organization}
-                                            onChange={(e) => setFormData({ ...formData, organization: e.target.value })}
-                                            className="w-full glass-card px-4 py-3 rounded-lg bg-transparent border border-white/10 focus:border-accent-teal focus:outline-none transition-colors"
-                                            placeholder="City Corporation, State Transport, etc."
-                                        />
-                                    </div>
-                                    <div>
-                                        <label className="block text-sm text-text-secondary mb-2">Message *</label>
-                                        <textarea
-                                            value={formData.message}
-                                            onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-                                            className="w-full glass-card px-4 py-3 rounded-lg bg-transparent border border-white/10 focus:border-accent-teal focus:outline-none transition-colors"
-                                            rows={4}
-                                            placeholder="Tell us about your city and requirements..."
-                                        />
-                                    </div>
-                                    <button
-                                        type="submit"
-                                        className="w-full px-6 py-3 rounded-lg bg-accent-teal text-white font-semibold hover:bg-opacity-90 transition-all shadow-lg hover:shadow-accent-teal/50 interactive flex items-center justify-center gap-2"
-                                    >
-                                        Send Message <Send className="w-4 h-4" />
-                                    </button>
-                                </form>
-                            </div>
-
-                            <div className="space-y-6">
-                                <div className="glass-card rounded-2xl p-6">
-                                    <Mail className="w-8 h-8 text-accent-teal mb-3" />
-                                    <div className="text-sm text-text-secondary mb-1">Email</div>
-                                    <div className="font-medium">pnarainkarti@gmail.com</div>
-                                </div>
-
-                                <div className="glass-card rounded-2xl p-6">
-                                    <Phone className="w-8 h-8 text-accent-orange mb-3" />
-                                    <div className="text-sm text-text-secondary mb-1">Phone</div>
-                                    <div className="font-medium">+91 8015383591</div>
-                                </div>
-
-                                <div className="glass-card rounded-2xl p-6">
-                                    <MapPin className="w-8 h-8 text-accent-purple mb-3" />
-                                    <div className="text-sm text-text-secondary mb-1">Headquarters</div>
-                                    <div className="font-medium">Coming Soon</div>
-                                </div>
-                            </div>
-                        </div>
-                    </section>
 
                     {/* FAQ */}
                     <section>
