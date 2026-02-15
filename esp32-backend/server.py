@@ -298,8 +298,96 @@ async def send_email_alert(alert: AlertRequest):
         timestamp = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
         confidence_pct = f"{alert.confidence * 100:.1f}%"
 
-        # ... (HTML body construction skipped for brevity, keeping same logic) ...
-        # HTML element construction logic remains same, just adding logging around SMTP actions
+        # HTML email template
+        html_body = f"""
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project K Alert</title>
+</head>
+<body style="margin:0;padding:0;background-color:#0a0a0a;font-family:Arial,Helvetica,sans-serif;">
+    <table width="100%" cellpadding="0" cellspacing="0" style="background-color:#0a0a0a;padding:40px 20px;">
+        <tr>
+            <td align="center">
+                <table width="600" cellpadding="0" cellspacing="0" style="background-color:#1a1a1a;border-radius:16px;overflow:hidden;border:1px solid #333333;">
+                    <!-- Header -->
+                    <tr>
+                        <td style="padding:32px;background-color:#111111;border-bottom:1px solid #333333;text-align:center;">
+                            <h1 style="margin:0;color:#ffffff;font-size:24px;letter-spacing:1px;">PROJECT <span style="color:#00e5ff;">K</span></h1>
+                        </td>
+                    </tr>
+                    
+                    <!-- Alert Content -->
+                    <tr>
+                        <td style="padding:40px 32px;text-align:center;">
+                            <div style="display:inline-block;padding:12px 24px;background-color:rgba(239,68,68,0.1);border-radius:9999px;border:1px solid #ef4444;margin-bottom:24px;">
+                                <span style="color:#ef4444;font-weight:bold;letter-spacing:1px;font-size:14px;">CRITICAL ALERT</span>
+                            </div>
+                            
+                            <h2 style="margin:0 0 16px;color:#ffffff;font-size:28px;font-weight:700;">{alert.type.upper()} DETECTED</h2>
+                            <p style="margin:0 0 32px;color:#888888;font-size:16px;line-height:1.5;">
+                                A potential {alert.type} has been detected with high confidence. Immediate attention may be required.
+                            </p>
+                            
+                            <!-- Details Grid -->
+                            <table width="100%" cellpadding="0" cellspacing="0" style="background-color:#111111;border-radius:12px;margin-bottom:32px;">
+                                <tr>
+                                    <td style="padding:20px;border-bottom:1px solid #222222;">
+                                        <p style="margin:0 0 4px;color:#666666;font-size:12px;text-transform:uppercase;">Confidence</p>
+                                        <p style="margin:0;color:#00e5ff;font-size:18px;font-weight:bold;">{confidence_pct}</p>
+                                    </td>
+                                    <td style="padding:20px;border-bottom:1px solid #222222;">
+                                        <p style="margin:0 0 4px;color:#666666;font-size:12px;text-transform:uppercase;">Time</p>
+                                        <p style="margin:0;color:#ffffff;font-size:18px;font-weight:bold;">{timestamp}</p>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="2" style="padding:20px;">
+                                        <p style="margin:0 0 4px;color:#666666;font-size:12px;text-transform:uppercase;">Location</p>
+                                        <p style="margin:0;color:#ffffff;font-size:18px;font-weight:bold;">{alert.location}</p>
+                                    </td>
+                                </tr>
+                            </table>
+                            
+                            <!-- Action Button -->
+                            <a href="#" style="display:inline-block;background-color:#00e5ff;color:#000000;font-weight:bold;text-decoration:none;padding:16px 32px;border-radius:8px;font-size:16px;transition:all 0.2s;">
+                                View Live Feed
+                            </a>
+                        </td>
+                    </tr>
+                    
+                    <!-- Footer -->
+                    <tr>
+                        <td style="padding:24px;background-color:#111111;border-top:1px solid #333333;text-align:center;">
+                            <p style="margin:0;color:#444444;font-size:12px;">
+                                Project K Automated Surveillance System<br>
+                                Reference ID: #{int(current_time)}
+                            </p>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+    </table>
+</body>
+</html>
+"""
+
+        # Plain text fallback
+        text_body = f"""
+PROJECT K ALERT: {alert.type.upper()} DETECTED
+
+Confidence: {confidence_pct}
+Time: {timestamp}
+Location: {alert.location}
+
+Please check the live feed immediately.
+"""
+
+        msg.attach(MIMEText(text_body, 'plain'))
+        msg.attach(MIMEText(html_body, 'html'))
 
         print(f"[*] Connecting to SMTP server {SMTP_SERVER}:{SMTP_PORT} (SSL)...")
         server = smtplib.SMTP_SSL(SMTP_SERVER, SMTP_PORT)
